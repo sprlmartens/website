@@ -17,8 +17,6 @@ export default async function Page() {
           </li>
         ))}
       </ul>
-      <hr />
-      <Link href="/">&larr; Retour à l&apos;accueil</Link>
     </main>
   )
 }
