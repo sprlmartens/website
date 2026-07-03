@@ -169,6 +169,13 @@
         },
         "optional": true
       },
+      "pinned": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "author": {
         "type": "objectAttribute",
         "value": {

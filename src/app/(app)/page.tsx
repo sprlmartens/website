@@ -1,5 +1,6 @@
 import Claims from "@/components/home/Claims"
 import Contact from "@/components/home/Contact"
+import FeaturedArticles from "@/components/home/FeaturedArticles"
 import FinalCta from "@/components/home/FinalCta"
 import Hero from "@/components/home/Hero"
 import Manifesto from "@/components/home/Manifesto"
@@ -18,6 +19,7 @@ export default function Page() {
       <WhyMartens />
       <Claims />
       <Testimonials />
+      <FeaturedArticles />
       <FinalCta />
       <Contact />
     </>

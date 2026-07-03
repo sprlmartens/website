@@ -14,7 +14,7 @@ export function PostCard(props: POSTS_QUERY_RESULT[0]) {
     <Link className="group" href={`/blog/${props.slug!.current}`}>
       <article className="flex items-start gap-4 md:gap-6">
         {mainImage ? (
-          <div className="duotone w-30 h-20 shrink-0 rounded-md">
+          <div className="duotone w-45 h-30 shrink-0 rounded-md">
             <Image
               src={urlFor(mainImage).width(240).height(160).url()}
               width={240}

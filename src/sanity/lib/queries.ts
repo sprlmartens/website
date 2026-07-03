@@ -22,6 +22,28 @@ export const POSTS_QUERY =
   }
 }`)
 
+export const PINNED_POSTS_QUERY =
+  defineQuery(`*[_type == "post" && pinned == true && defined(slug.current)]|order(publishedAt desc)[0...3]{
+  _id,
+  title,
+  slug,
+  body,
+  mainImage,
+  publishedAt,
+  "categories": coalesce(
+    categories[]->{
+      _id,
+      slug,
+      title
+    },
+    []
+  ),
+  author->{
+    name,
+    image
+  }
+}`)
+
 export const POSTS_SLUGS_QUERY =
   defineQuery(`*[_type == "post" && defined(slug.current)]{ 
   "slug": slug.current

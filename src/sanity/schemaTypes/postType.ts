@@ -19,6 +19,14 @@ export const postType = defineType({
       },
     }),
     defineField({
+      name: "pinned",
+      type: "boolean",
+      title: "Épinglé",
+      description:
+        "Afficher cet article dans la section mise en avant de la page d'accueil.",
+      initialValue: false,
+    }),
+    defineField({
       name: "author",
       type: "reference",
       to: { type: "author" },
