@@ -12,33 +12,31 @@ export function PostCard(props: POSTS_QUERY_RESULT[0]) {
 
   return (
     <Link className="group" href={`/blog/${props.slug!.current}`}>
-      <article className="flex flex-col-reverse gap-4 md:grid md:grid-cols-12 md:gap-0">
-        <div className="md:col-span-2 md:pt-1">
+      <article className="flex items-start gap-4 md:gap-6">
+        {mainImage ? (
+          <div className="duotone w-30 h-20 shrink-0 rounded-md">
+            <Image
+              src={urlFor(mainImage).width(240).height(160).url()}
+              width={240}
+              height={160}
+              alt={mainImage.alt || title || ""}
+              className="size-full object-cover"
+            />
+          </div>
+        ) : null}
+        <div className="min-w-0">
           <Categories categories={categories} />
-        </div>
-        <div className="md:col-span-5 md:w-full">
-          <h2 className="text-2xl text-pretty font-semibold text-slate-800 group-hover:text-pink-600 transition-colors relative">
-            <span className="relative z-[1]">{title}</span>
-            <span className="bg-pink-50 z-0 absolute inset-0 rounded-lg opacity-0 transition-all group-hover:opacity-100 group-hover:scale-y-110 group-hover:scale-x-105 scale-75" />
+          <h2 className="mt-1 font-display text-lg font-medium text-pretty text-foreground md:text-xl">
+            <span className="rule-sweep">{title}</span>
           </h2>
-          <div className="flex items-center mt-2 md:mt-6 gap-x-6">
+          <div className="mt-2 flex items-center gap-x-6">
             <Author author={author} />
-            {publishedAt ?? (
-              <p className="text-base text-slate-700">
+            {publishedAt ? (
+              <p className="text-sm text-muted-foreground">
                 {dayjs(publishedAt).format("D MMMM YYYY")}
               </p>
-            )}
+            ) : null}
           </div>
-        </div>
-        <div className="md:col-start-9 md:col-span-4 rounded-lg overflow-hidden flex">
-          {mainImage ? (
-            <Image
-              src={urlFor(mainImage).width(400).height(200).url()}
-              width={400}
-              height={200}
-              alt={mainImage.alt || title || ""}
-            />
-          ) : null}
         </div>
       </article>
     </Link>
