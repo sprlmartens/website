@@ -24,6 +24,10 @@ export default function Page() {
         eyebrow="Services · Placements & Épargne"
         title="Faire fructifier ce que vous avez construit."
         description="Constituer un capital, préparer sa pension, transmettre un patrimoine : nous comparons les solutions du marché pour bâtir une stratégie d'épargne adaptée à votre profil et à votre horizon."
+        image={{
+          src: "https://images.unsplash.com/photo-1633158829875-e5316a358c6f?w=1200&q=80&fm=jpg",
+          alt: "Pièces et jeune pousse, symbole d'une épargne qui grandit",
+        }}
       />
       <div className="container py-16 lg:py-20">
         <ul className="grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:divide-y-0">
