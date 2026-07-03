@@ -17,6 +17,10 @@ export default function Page() {
         eyebrow="Demande de simulation"
         title="Trente minutes suffisent pour y voir clair."
         description="Décrivez-nous votre situation par téléphone ou par e-mail : nous revenons vers vous avec une simulation chiffrée et un avis honnête, sans engagement."
+        image={{
+          src: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80&fm=jpg",
+          alt: "Personne consultant des documents financiers avec une calculatrice",
+        }}
       />
       <div className="container py-16 lg:py-20">
         <div className="flex flex-wrap items-center gap-4">
