@@ -24,6 +24,10 @@ export default function Page() {
         eyebrow="Services · Particuliers & familles"
         title="Protéger ce que vous construisez."
         description="Votre maison, votre voiture, votre famille, votre avenir. Un conseiller unique qui connaît votre dossier et le défend."
+        image={{
+          src: "https://images.unsplash.com/photo-1758598738327-82de3cb31c56?w=1200&q=80&fm=jpg",
+          alt: "Famille dans son salon",
+        }}
       />
       <div className="container py-16 lg:py-20">
         <ul className="grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:divide-y-0">
