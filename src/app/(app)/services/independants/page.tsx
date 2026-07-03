@@ -24,6 +24,10 @@ export default function Page() {
         eyebrow="Services · Indépendants"
         title="Votre activité repose sur vous. Et vous ?"
         description="Quand on est son propre patron, personne ne cotise à votre place. Nous structurons votre protection et votre pension comme un plan, pas comme une pile de polices."
+        image={{
+          src: "https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?w=1200&q=80&fm=jpg",
+          alt: "Indépendant travaillant à son bureau",
+        }}
       />
       <div className="container py-16 lg:py-20">
         <ul className="grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:divide-y-0">
