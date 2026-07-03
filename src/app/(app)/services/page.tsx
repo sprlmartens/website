@@ -35,6 +35,10 @@ export default function Page() {
         eyebrow="Services"
         title="Un conseil pour chaque étape de votre vie."
         description="Que vous protégiez une famille, une activité indépendante ou une épargne, nous comparons le marché et construisons une couverture sur mesure."
+        image={{
+          src: "https://images.unsplash.com/photo-1714974528737-3e6c7e4d11af?w=1200&q=80&fm=jpg",
+          alt: "Conseiller et client examinant des documents ensemble",
+        }}
       />
       <div className="container py-16 lg:py-20">
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-3">
