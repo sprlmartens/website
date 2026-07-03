@@ -1,0 +1,60 @@
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+
+import { PageHeader } from "@/components/PageHeader"
+import { Button } from "@/components/ui/button"
+
+const coverages = [
+  { name: "Auto", note: "du conducteur jeune à la voiture de collection" },
+  { name: "Habitation", note: "incendie, vol, dégâts des eaux" },
+  { name: "Famille", note: "responsabilité civile vie privée" },
+  { name: "Santé", note: "hospitalisation et soins" },
+]
+
+export const metadata = {
+  title: "Assurances Particuliers — Martens Assurances",
+  description:
+    "Auto, habitation, famille, santé : des couvertures comparées et négociées pour protéger ce que vous construisez.",
+}
+
+export default function Page() {
+  return (
+    <main>
+      <PageHeader
+        eyebrow="Services · Particuliers & familles"
+        title="Protéger ce que vous construisez."
+        description="Votre maison, votre voiture, votre famille, votre avenir. Un conseiller unique qui connaît votre dossier et le défend."
+      />
+      <div className="container py-16 lg:py-20">
+        <ul className="grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:divide-y-0">
+          {coverages.map((item, i) => (
+            <li
+              key={item.name}
+              className={`py-6 sm:py-8 ${i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"} ${
+                i < 2 ? "sm:border-b sm:border-border" : ""
+              }`}
+            >
+              <h2 className="font-display text-xl font-medium text-foreground">
+                {item.name}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {item.note}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-12 flex flex-wrap items-center gap-4">
+          <Button size="lg" asChild>
+            <Link href="/simulation">
+              Demander une simulation
+              <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
+            </Link>
+          </Button>
+          <Link href="/contact" className="rule-sweep text-sm font-medium text-primary">
+            Nous rencontrer
+          </Link>
+        </div>
+      </div>
+    </main>
+  )
+}

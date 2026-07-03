@@ -25,8 +25,8 @@ export default function FinalCta() {
             className="bg-accent text-white transition-colors hover:bg-accent-dark"
             asChild
           >
-            <Link href="tel:+3242461363">
-              Prendre rendez-vous
+            <Link href="#contact">
+              Venez nous rencontrer
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>

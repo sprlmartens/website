@@ -63,7 +63,7 @@ export function RelatedPosts({
                 path: `relatedPosts[_key=="${post._key}"]`,
               }).toString()}
             >
-              <Link href={`/posts/${post?.slug?.current}`}>
+              <Link href={`/blog/${post?.slug?.current}`}>
                 {post.mainImage ? (
                   <Image
                     src={urlFor(post.mainImage).width(400).height(200).url()}

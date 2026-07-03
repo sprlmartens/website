@@ -28,15 +28,15 @@ export default function Hero() {
           <div className="rise-3 mt-10 flex flex-wrap items-center gap-6">
             <Button size="lg" asChild>
               <Link href="#contact">
-                Contact
+                Demander une simulation
                 <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
               </Link>
             </Button>
             <Link
-              href="#manifeste"
+              href="#contact"
               className="rule-sweep text-sm font-medium text-primary"
             >
-              Découvrir notre approche
+              Contactez-nous
             </Link>
           </div>
         </div>
