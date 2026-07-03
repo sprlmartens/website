@@ -4,8 +4,8 @@ import { Button } from "../ui/button"
 
 const steps = [
   {
-    title: "Vous nous appelez",
-    text: "Pas de plateforme, pas de file d’attente. Vous parlez à quelqu’un qui connaît votre dossier.",
+    title: "Vous appelez votre assisteur",
+    text: "Le numéro figure sur votre contrat, votre carte verte ou votre certificat d’assistance - disponible 24h/24, sans devoir passer par nous.",
   },
   {
     title: "Nous prenons le relais",
@@ -73,11 +73,8 @@ export default function Claims() {
             size="lg"
             className="inline-flex items-center border border-border/30 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-primary"
           >
-            <Link href="tel:+3242461363">Assistance en cas de sinistre</Link>
+            <Link href="/sinistres">Trouver le numéro de mon assisteur</Link>
           </Button>
-          <p className="text-sm text-white/90">
-            Réponse rapide, suivi personnel.
-          </p>
         </div>
       </div>
     </section>

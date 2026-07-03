@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
-import { Inter, Nunito_Sans } from "next/font/google";
+import { Inter, Nunito_Sans, IBM_Plex_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 const nunitoSansHeading = Nunito_Sans({subsets:['latin'],variable:'--font-heading'});
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+
+const ibmPlexSansDisplay = IBM_Plex_Sans({subsets:['latin'],weight:['400','500','600','700'],variable:'--font-display'});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={cn("font-sans", inter.variable, nunitoSansHeading.variable)}>
+    <html lang="fr" className={cn("font-sans", inter.variable, nunitoSansHeading.variable, ibmPlexSansDisplay.variable)}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   )

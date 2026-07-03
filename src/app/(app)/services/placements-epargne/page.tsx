@@ -1,12 +1,15 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
-import { PageHeader } from "@/components/PageHeader"
+import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
 const coverages = [
   { name: "Épargne-pension", note: "un capital constitué à votre rythme" },
-  { name: "Assurance-placement (branche 21 & 23)", note: "sécurité ou rendement, selon votre profil" },
+  {
+    name: "Assurance-placement (branche 21 & 23)",
+    note: "sécurité ou rendement, selon votre profil",
+  },
   { name: "PLCI & EIP", note: "pension complémentaire des indépendants" },
   { name: "Transmission de patrimoine", note: "préparer demain sereinement" },
 ]
@@ -21,7 +24,7 @@ export default function Page() {
   return (
     <main>
       <PageHeader
-        eyebrow="Services · Placements & Épargne"
+        eyebrow="Placements & Épargne"
         title="Faire fructifier ce que vous avez construit."
         description="Constituer un capital, préparer sa pension, transmettre un patrimoine : nous comparons les solutions du marché pour bâtir une stratégie d'épargne adaptée à votre profil et à votre horizon."
         image={{
@@ -54,7 +57,10 @@ export default function Page() {
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>
-          <Link href="/contact" className="rule-sweep text-sm font-medium text-primary">
+          <Link
+            href="/contact"
+            className="rule-sweep text-sm font-medium text-primary"
+          >
             Nous rencontrer
           </Link>
         </div>

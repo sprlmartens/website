@@ -49,7 +49,7 @@ const assisteurs: Assisteur[] = [
 
 export default function AssisteursList() {
   return (
-    <section className="bg-secondary">
+    <section className="bg-background">
       <div className="container py-16 lg:py-20">
         <h2 className="font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
           Les numéros à connaître

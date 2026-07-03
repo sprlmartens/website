@@ -147,7 +147,7 @@
   --color-stone-800: #33312b;
   --color-stone-900: #23211d;
 
-  --font-display: var(--font-fraunces), "Georgia", serif;
+  --font-display: var(--font-display), "Helvetica Neue", sans-serif;
   --font-sans: var(--font-instrument), "Helvetica Neue", sans-serif;
 
   --default-transition-duration: 300ms;

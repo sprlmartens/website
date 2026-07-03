@@ -1,8 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
-import { PageHeader } from "@/components/PageHeader"
-import ServicesSection from "@/components/home/Services"
+import { PageHeader } from "@/components/page-header"
 
 const categories = [
   {
@@ -42,19 +41,22 @@ export default function Page() {
       />
       <div className="container py-16 lg:py-20">
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {categories.map((category) => (
-            <li key={category.href}>
+          {categories.map((category, i) => (
+            <li key={category.href} className={`reveal rise-${i + 1}`}>
               <Link
                 href={category.href}
-                className="group block h-full rounded-2xl border border-border p-6 transition-colors hover:border-primary"
+                className="group block h-full rounded-2xl border border-border p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-navy-900/5"
               >
-                <h2 className="font-display text-xl font-medium text-foreground">
+                <span className="font-display text-sm text-accent">
+                  0{i + 1}
+                </span>
+                <h2 className="mt-3 font-display text-xl font-medium text-foreground">
                   {category.title}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {category.note}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
                   Découvrir
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
@@ -63,7 +65,6 @@ export default function Page() {
           ))}
         </ul>
       </div>
-      <ServicesSection />
     </main>
   )
 }

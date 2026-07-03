@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Mail, PhoneCall } from "lucide-react"
 
-import { PageHeader } from "@/components/PageHeader"
+import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
 export const metadata = {

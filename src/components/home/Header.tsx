@@ -28,7 +28,7 @@ export default function Header() {
             alt="Martens Assurances &amp; Placements"
             width={300}
             height={100}
-            className="h-18 w-auto"
+            className="h-14 md:h-18 w-auto"
           />
         </Link>
         <nav

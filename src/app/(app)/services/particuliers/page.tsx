@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
-import { PageHeader } from "@/components/PageHeader"
+import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
 const coverages = [
@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <main>
       <PageHeader
-        eyebrow="Services · Particuliers & familles"
+        eyebrow="Particuliers & familles"
         title="Protéger ce que vous construisez."
         description="Votre maison, votre voiture, votre famille, votre avenir. Un conseiller unique qui connaît votre dossier et le défend."
         image={{
@@ -54,7 +54,10 @@ export default function Page() {
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>
-          <Link href="/contact" className="rule-sweep text-sm font-medium text-primary">
+          <Link
+            href="/contact"
+            className="rule-sweep text-sm font-medium text-primary"
+          >
             Nous rencontrer
           </Link>
         </div>

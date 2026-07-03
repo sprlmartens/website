@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { PageHeader } from "@/components/PageHeader"
+import { PageHeader } from "@/components/page-header"
 import AssisteursList from "@/components/sinistres/AssisteursList"
 import { Button } from "@/components/ui/button"
 
@@ -24,9 +24,9 @@ export default function Page() {
         }}
       />
 
-      <section className="bg-background">
+      <section className="bg-secondary">
         <div className="container grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
-          <figure className="duotone relative aspect-[6/4] w-full max-w-md overflow-hidden rounded-2xl lg:col-span-5">
+          <figure className="duotone relative aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl lg:col-span-5">
             <Image
               src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?w=1200&q=80&fm=jpg"
               alt="Intervention d'urgence sur la voie publique"
@@ -64,7 +64,7 @@ export default function Page() {
           <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
             Et après l&rsquo;urgence ?
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/90">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/90">
             Une fois l&rsquo;assisteur prévenu, le plus dur est fait.
             Contactez-nous pour la suite : déclaration, expertise, suivi du
             dossier jusqu&rsquo;à l&rsquo;indemnisation. C&rsquo;est notre
@@ -77,7 +77,7 @@ export default function Page() {
               size="lg"
               className="inline-flex items-center border border-primary-foreground/30 text-sm font-semibold text-primary-foreground transition-colors hover:border-primary-foreground hover:bg-primary-foreground hover:text-primary"
             >
-              <Link href="tel:+3242461363">Nous contacter</Link>
+              <Link href="/contact">Nous contacter</Link>
             </Button>
           </div>
         </div>
