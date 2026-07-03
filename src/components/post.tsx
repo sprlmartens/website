@@ -22,41 +22,46 @@ export function Post(props: NonNullable<POST_QUERY_RESULT>) {
   } = props
 
   return (
-    <article className="grid lg:grid-cols-12 gap-y-12">
-      <header className="lg:col-span-12 flex flex-col gap-4 items-start">
-        <div className="flex gap-4 items-center">
+    <article>
+      {mainImage ? (
+        <div className="duotone aspect-[21/9] max-h-100 w-full overflow-hidden rounded-lg">
+          <Image
+            src={urlFor(mainImage).width(1600).height(686).url()}
+            width={1600}
+            height={686}
+            alt={mainImage.alt || title || ""}
+            className="size-full object-cover"
+            priority
+          />
+        </div>
+      ) : null}
+
+      <header className="mx-auto mt-8 flex max-w-2xl flex-col items-start gap-4">
+        <div className="flex items-center gap-4">
           <Categories categories={categories} />
-          {publishedAt ?? (
-            <p className="text-base text-slate-700">
+          {publishedAt ? (
+            <p className="text-sm text-muted-foreground">
               {dayjs(publishedAt).format("D MMMM YYYY")}
             </p>
-          )}
+          ) : null}
         </div>
-        <h1 className="text-2xl md:text-4xl lg:text-6xl font-semibold text-slate-800 text-pretty max-w-3xl">
+        <h1 className="font-display text-3xl font-medium text-pretty text-foreground md:text-5xl">
           {title}
         </h1>
         <Author author={author} />
       </header>
-      {mainImage ? (
-        <figure className="lg:col-span-4 flex flex-col gap-2 items-start">
-          <Image
-            src={urlFor(mainImage).width(400).height(400).url()}
-            width={400}
-            height={400}
-            alt=""
-          />
-        </figure>
-      ) : null}
+
       {body ? (
-        <div className="lg:col-span-7 lg:col-start-6 prose lg:prose-lg">
+        <div className="prose mx-auto mt-10 max-w-2xl">
           <PortableText value={body} components={components} />
-          <RelatedPosts
-            relatedPosts={relatedPosts}
-            documentId={_id}
-            documentType="post"
-          />
         </div>
       ) : null}
+
+      <RelatedPosts
+        relatedPosts={relatedPosts}
+        documentId={_id}
+        documentType="post"
+      />
     </article>
   )
 }
