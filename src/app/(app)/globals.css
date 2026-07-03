@@ -253,6 +253,16 @@
   }
 }
 
+/* Fine dot-grid texture for page banners: a quiet precision cue */
+@utility page-header-grid {
+  background-image: radial-gradient(
+    var(--color-navy-900) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+  opacity: 0.06;
+}
+
 /* ---- Motion ---- */
 
 @keyframes rise-in {
