@@ -238,7 +238,7 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: -1px;
+    bottom: -1.5px;
     height: 1px;
     width: 100%;
     background: var(--color-accent);

@@ -25,16 +25,16 @@ export default function FinalCta() {
             className="bg-accent text-white transition-colors hover:bg-accent-dark"
             asChild
           >
-            <Link href="tel:+3242630000">
+            <Link href="tel:+3242461363">
               Prendre rendez-vous
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>
           <Link
-            href="tel:+3242630000"
+            href="tel:+3242461363"
             className="rule-sweep text-base font-medium text-white"
           >
-            ou appelez le 04 263 00 00
+            ou appelez le +32 4 246 13 63
           </Link>
         </div>
       </div>

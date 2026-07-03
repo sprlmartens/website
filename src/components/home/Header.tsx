@@ -35,11 +35,11 @@ export default function Header() {
         </nav>
 
         <Link
-          href="tel:+3242630000"
+          href="tel:+3242461363"
           className="text-sm font-medium text-foreground transition-colors hover:text-primary"
         >
           <PhoneCall className="mr-2 inline-block h-4 w-4" />
-          04&nbsp;263&nbsp;00&nbsp;00
+          +32&nbsp;4&nbsp;246&nbsp;13&nbsp;63
         </Link>
       </div>
     </header>

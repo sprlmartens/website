@@ -73,7 +73,7 @@ export default function Claims() {
             size="lg"
             className="inline-flex items-center border border-border/30 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-primary"
           >
-            <Link href="tel:+3242630000">Assistance en cas de sinistre</Link>
+            <Link href="tel:+3242461363">Assistance en cas de sinistre</Link>
           </Button>
           <p className="text-sm text-white/90">
             Réponse rapide, suivi personnel.
