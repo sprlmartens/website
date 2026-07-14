@@ -5,6 +5,7 @@ import dayjs from "dayjs"
 import { Author } from "@/components/author"
 import { Categories } from "@/components/categories"
 import { RelatedPosts } from "@/components/related-posts"
+import { ShareButtons } from "@/components/share-buttons"
 import { components } from "@/sanity/portableTextComponents"
 import { POST_QUERY_RESULT } from "@/sanity/types"
 import { urlFor } from "@/sanity/lib/image"
@@ -13,6 +14,7 @@ export function Post(props: NonNullable<POST_QUERY_RESULT>) {
   const {
     _id,
     title,
+    slug,
     author,
     mainImage,
     body,
@@ -20,6 +22,8 @@ export function Post(props: NonNullable<POST_QUERY_RESULT>) {
     categories,
     relatedPosts,
   } = props
+
+  const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${slug!.current}`
 
   return (
     <article>
@@ -49,6 +53,7 @@ export function Post(props: NonNullable<POST_QUERY_RESULT>) {
           {title}
         </h1>
         <Author author={author} />
+        <ShareButtons url={postUrl} title={title ?? ""} />
       </header>
 
       {body ? (

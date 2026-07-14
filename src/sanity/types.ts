@@ -372,10 +372,11 @@ export type POSTS_SLUGS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{  _id,  title,  body,  mainImage,  publishedAt,  "categories": coalesce(    categories[]->{      _id,      slug,      title    },    []  ),  author->{    name,    image  },  relatedPosts[]{    _key, // required for drag and drop    ...@->{_id, title, slug, mainImage} // get fields from the referenced post  }}
+// Query: *[_type == "post" && slug.current == $slug][0]{  _id,  title,  slug,  body,  mainImage,  publishedAt,  "categories": coalesce(    categories[]->{      _id,      slug,      title    },    []  ),  author->{    name,    image  },  relatedPosts[]{    _key, // required for drag and drop    ...@->{_id, title, slug, mainImage} // get fields from the referenced post  }}
 export type POST_QUERY_RESULT = {
   _id: string;
   title: string | null;
+  slug: Slug | null;
   body: BlockContent | null;
   mainImage: {
     asset?: SanityImageAssetReference;
@@ -426,6 +427,6 @@ declare module "@sanity/client" {
     '*[_type == "post" && defined(slug.current)]|order(publishedAt desc)[0...12]{\n  _id,\n  title,\n  slug,\n  body,\n  mainImage,\n  publishedAt,\n  "categories": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  }\n}': POSTS_QUERY_RESULT;
     '*[_type == "post" && pinned == true && defined(slug.current)]|order(publishedAt desc)[0...3]{\n  _id,\n  title,\n  slug,\n  body,\n  mainImage,\n  publishedAt,\n  "categories": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  }\n}': PINNED_POSTS_QUERY_RESULT;
     '*[_type == "post" && defined(slug.current)]{ \n  "slug": slug.current\n}': POSTS_SLUGS_QUERY_RESULT;
-    '*[_type == "post" && slug.current == $slug][0]{\n  _id,\n  title,\n  body,\n  mainImage,\n  publishedAt,\n  "categories": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  },\n  relatedPosts[]{\n    _key, // required for drag and drop\n    ...@->{_id, title, slug, mainImage} // get fields from the referenced post\n  }\n}': POST_QUERY_RESULT;
+    '*[_type == "post" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  body,\n  mainImage,\n  publishedAt,\n  "categories": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  },\n  relatedPosts[]{\n    _key, // required for drag and drop\n    ...@->{_id, title, slug, mainImage} // get fields from the referenced post\n  }\n}': POST_QUERY_RESULT;
   }
 }
