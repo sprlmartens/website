@@ -4,6 +4,7 @@ import { VisualEditing } from "next-sanity/visual-editing"
 
 import { DisableDraftMode } from "@/components/disable-draft-mode"
 import { SanityLive } from "@/sanity/lib/live"
+import { Toaster } from "@/components/ui/sonner"
 
 import Header from "@/components/home/Header"
 import Footer from "@/components/home/Footer"
@@ -23,6 +24,7 @@ export default async function AppLayout({
       <main>{children}</main>
       <Footer />
       <SanityLive />
+      <Toaster />
       {isDraftMode && (
         <>
           <DisableDraftMode />
