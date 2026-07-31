@@ -49,10 +49,10 @@ const assisteurs: Assisteur[] = [
 
 export default function AssisteursList() {
   return (
-    <section className="bg-background">
+    <section className="bg-secondary">
       <div className="container py-16 lg:py-20">
         <h2 className="font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-          Les numéros à connaître
+          Les numéros des services d’assistance par compagnie
         </h2>
         <dl className="mt-8 max-w-2xl">
           {assisteurs.map((assisteur) => (

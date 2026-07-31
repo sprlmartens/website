@@ -7,8 +7,19 @@ import { Button } from "@/components/ui/button"
 const coverages = [
   { name: "Protection des revenus", note: "en cas d'incapacité de travail" },
   { name: "Responsabilité professionnelle", note: "exercer l'esprit libre" },
-  { name: "Véhicules", note: "utilitaires et déplacements pro" },
+  {
+    name: "Véhicules",
+    note: "automoteur (voiture, camionnette, tracteur, ...)",
+  },
   { name: "Pension complémentaire", note: "PLCI, EIP : optimiser fiscalement" },
+  {
+    name: "Assurance hospitalisation",
+    note: "proteger contre les frais d'hospitalisation",
+  },
+  {
+    name: "Assurance accident du travail",
+    note: "proteger vos collaborateurs contre les accidents survenus au travail, sur le chemin du travail et lors de déplacements professionnels.",
+  },
 ]
 
 export const metadata = {
@@ -35,7 +46,7 @@ export default function Page() {
             <li
               key={item.name}
               className={`py-6 sm:py-8 ${i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"} ${
-                i < 2 ? "sm:border-b sm:border-border" : ""
+                i === coverages.length - 1 ? "" : "sm:border-b sm:border-border"
               }`}
             >
               <h2 className="font-display text-xl font-medium text-foreground">
@@ -50,16 +61,10 @@ export default function Page() {
         <div className="mt-12 flex flex-wrap items-center gap-4">
           <Button size="lg" asChild>
             <Link href="/simulation">
-              Demander une simulation
+              Nous rencontrer
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>
-          <Link
-            href="/contact"
-            className="rule-sweep text-sm font-medium text-primary"
-          >
-            Nous rencontrer
-          </Link>
         </div>
       </div>
     </main>

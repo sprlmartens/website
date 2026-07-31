@@ -24,7 +24,9 @@ export default function Page() {
         }}
       />
 
-      <section className="bg-secondary">
+      <AssisteursList />
+
+      <section className="bg-background">
         <div className="container grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
           <figure className="duotone relative aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl lg:col-span-5">
             <Image
@@ -56,8 +58,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      <AssisteursList />
 
       <section className="bg-primary text-primary-foreground">
         <div className="container py-20">

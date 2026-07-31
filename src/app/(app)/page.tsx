@@ -2,10 +2,10 @@ import Claims from "@/components/home/Claims"
 import Contact from "@/components/home/Contact"
 import FeaturedArticles from "@/components/home/FeaturedArticles"
 import FinalCta from "@/components/home/FinalCta"
+import GoogleReviews from "@/components/home/GoogleReviews"
 import Hero from "@/components/home/Hero"
 import Manifesto from "@/components/home/Manifesto"
 import Services from "@/components/home/Services"
-import Testimonials from "@/components/home/Testimonials"
 import TrustBar from "@/components/home/TrustBar"
 import WhyMartens from "@/components/home/WhyMartens"
 
@@ -18,7 +18,7 @@ export default function Page() {
       <Services />
       <WhyMartens />
       <Claims />
-      <Testimonials />
+      <GoogleReviews />
       <FeaturedArticles />
       <FinalCta />
       <Contact />

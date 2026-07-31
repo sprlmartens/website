@@ -68,10 +68,6 @@ export default function Footer() {
                 <a href="tel:+3242461363">+32 4 246 13 63</a>
               </li>
               <li className="flex items-center gap-2">
-                <Printer className="h-4 w-4 shrink-0 text-primary" />
-                <span>+32 4 246 92 74</span>
-              </li>
-              <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-primary" />
                 <a href="mailto:assurances@sprlmartens.be">
                   assurances@sprlmartens.be
@@ -79,7 +75,7 @@ export default function Footer() {
               </li>
             </ul>
             <a
-              href="https://www.facebook.com"
+              href="https://www.facebook.com/sprlmartens/?ref=bookmarks"
               target="_blank"
               rel="noreferrer"
               aria-label="Martens Assurances sur Facebook"
@@ -102,13 +98,20 @@ export default function Footer() {
                 height={60}
                 className="h-13 w-auto"
               />
-              <Image
-                src="/mybroker-logo.png"
-                alt="My Broker"
-                width={140}
-                height={80}
-                className="h-16 w-auto"
-              />
+              <a
+                href="https://www.courtierenassurances.be/brokers/3975"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="My Broker"
+              >
+                <Image
+                  src="/mybroker-logo.png"
+                  alt="My Broker"
+                  width={140}
+                  height={80}
+                  className="h-16 w-auto"
+                />
+              </a>
             </div>
           </div>
 

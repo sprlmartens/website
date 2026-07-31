@@ -50,6 +50,7 @@ const AXIS_TICKS: {
   { time: "9:00", label: "9h", align: "start" },
   { time: "12:30", label: "12h30", align: "end" },
   { time: "13:00", label: "13h", align: "start" },
+  { time: "16:30", label: "16h30", align: "center" },
   { time: "18:00", label: "18h", align: "end" },
 ]
 
@@ -166,6 +167,12 @@ export default function Contact() {
                       Sur rendez-vous
                     </span>
                   </div>
+
+                  <p className="mt-4 text-sm leading-relaxed text-foreground/70">
+                    En dehors de ces horaires, notre service d&apos;assistance
+                    téléphonique reste joignable et prend en charge vos appels
+                    pour un suivi rapide.
+                  </p>
                 </dd>
               </div>
             </dl>

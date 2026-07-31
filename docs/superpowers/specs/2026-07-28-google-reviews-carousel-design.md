@@ -37,7 +37,13 @@ type GoogleReview = {
 
 ## Mécanique du carrousel
 
-- Ajout du composant shadcn `Carousel` via `npx shadcn@latest add carousel` (installe `embla-carousel-react` et génère `src/components/ui/carousel.tsx`), conformément aux conventions déjà en place dans `src/components/ui/`.
+- Ajout du composant shadcn `Carousel` via `npx shadcn@latest add carousel` (génère `src/components/ui/carousel.tsx`), conformément aux conventions déjà en place dans `src/components/ui/`. `import {
+Carousel,
+CarouselContent,
+CarouselItem,
+CarouselNext,
+CarouselPrevious,
+} from "@/components/ui/carousel"`
 - Chaque avis occupe `basis-full sm:basis-1/2 lg:basis-1/3` (3 visibles sur desktop, dégradation propre sur tablette/mobile).
 - Défilement un avis à la fois (pas par groupe de 3) via `CarouselPrevious` / `CarouselNext`.
 - Pas de boucle infinie : les flèches se désactivent visuellement en début/fin de liste.

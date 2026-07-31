@@ -21,10 +21,10 @@ export default function Hero() {
             <p className="text-primary">bien conseillé.</p>
           </h1>
           <p className="rise-2 mt-8 max-w-md text-lg leading-relaxed text-foreground/70">
-            Martens Assurances accompagne les familles, les indépendants et les
-            entreprises dans leurs décisions de protection et de placement. Un
-            seul interlocuteur, toutes les compagnies, votre intérêt
-            d&rsquo;abord.
+            Le bureau Martens et toute son équipe, accompagne les familles, les
+            indépendants et les entreprises dans leurs décisions de protection
+            et de placement. Un seul interlocuteur, toutes les compagnies, votre
+            intérêt d&rsquo;abord.
           </p>
           <div className="rise-3 mt-10 flex flex-wrap items-center gap-6">
             <Button size="lg" asChild>
