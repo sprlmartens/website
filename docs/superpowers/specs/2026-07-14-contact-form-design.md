@@ -51,15 +51,15 @@ src/app/(app)/contact/page.tsx  # page refondue : 2 colonnes + carte en bas
 
 ## Schéma de validation (`src/features/contact/schema.ts`)
 
-| Champ | Règle |
-|---|---|
-| `firstName` | requis, 2–50 caractères |
-| `lastName` | requis, 2–50 caractères |
-| `email` | requis, format email valide |
-| `phone` | optionnel ; si rempli, format belge basique (`+32` ou `0` suivi de 8-9 chiffres, espaces tolérés) |
-| `intent` | requis, enum `["assurance", "placement", "sinistre", "autre"]` |
-| `message` | requis, 10–2000 caractères |
-| `honeypot` | champ caché (nom anodin, ex. `website`), doit rester vide |
+| Champ       | Règle                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------- |
+| `firstName` | requis, 2–50 caractères                                                                           |
+| `lastName`  | requis, 2–50 caractères                                                                           |
+| `email`     | requis, format email valide                                                                       |
+| `phone`     | optionnel ; si rempli, format belge basique (`+32` ou `0` suivi de 8-9 chiffres, espaces tolérés) |
+| `intent`    | requis, enum `["assurance", "placement", "sinistre", "autre"]`                                    |
+| `message`   | requis, 10–2000 caractères                                                                        |
+| `honeypot`  | champ caché (nom anodin, ex. `website`), doit rester vide                                         |
 
 Le honeypot fait partie du schéma zod (optionnel côté validation utilisateur,
 vérifié séparément côté serveur) et du `<Input>` masqué visuellement
@@ -69,10 +69,6 @@ vérifié séparément côté serveur) et du `<Input>` masqué visuellement
 
 Déjà installés : `Field`, `Label`, `Input`, `Select`, `Button`, `Alert`,
 `Separator`.
-
-À ajouter :
-- `npx shadcn add textarea` — champ message
-- `npx shadcn add sonner` — toasts de feedback succès/erreur
 
 ## Anti-spam (`src/lib/rate-limit.ts`)
 
@@ -120,6 +116,7 @@ CONTACT_EMAIL_TO=assurances@sprlmartens.be
 ```
 
 `submitContactForm` appelle `sendMail` avec :
+
 - `to`: `CONTACT_EMAIL_TO`
 - `subject`: `Nouvelle demande de contact — {intent}`
 - `text`/`html`: reprend tous les champs du formulaire
@@ -133,6 +130,7 @@ Google Maps ajoutée en pleine largeur en dessous :
 
 **Colonne gauche — `ContactInfo`** (étend le contenu actuel de
 `Contact.tsx`) :
+
 - Adresse
 - Téléphone / email
 - Horaires (réutilise la frise horaire existante)
