@@ -36,7 +36,7 @@ export default function Services() {
   return (
     <section aria-label="Nos domaines de conseil">
       {/* ---- Particuliers: editorial list right ---- */}
-      <div id="particuliers" className="container scroll-mt-24 py-24 lg:py-32">
+      <div id="particuliers" className="container scroll-mt-32 py-24 lg:py-32">
         <div className="reveal grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <p className="flex items-baseline gap-4 text-xs font-semibold uppercase tracking-widest text-foreground">
@@ -75,8 +75,8 @@ export default function Services() {
         </div>
       </div>
 
-      {/* ---- Indépendants: reversed composition ---- */}
-      <div id="independants" className="scroll-mt-24 bg-navy-900 text-white">
+      {/* ---- Pro: reversed composition ---- */}
+      <div id="independants" className="scroll-mt-32 bg-navy-900 text-white">
         <div className="container py-24 lg:py-32">
           <div className="reveal grid grid-cols-1 gap-12 lg:grid-cols-12">
             <ul className="order-2 self-center lg:order-1 lg:col-span-6">
@@ -103,7 +103,7 @@ export default function Services() {
             </ul>
             <div className="order-1 lg:order-2 lg:col-span-5 lg:col-start-8">
               <p className="flex items-baseline gap-4 text-xs font-semibold uppercase tracking-widest text-white/80">
-                Indépendants
+                Professionnels
               </p>
               <h2 className="mt-6 font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
                 Votre activité repose
@@ -121,7 +121,7 @@ export default function Services() {
       </div>
 
       {/* ---- Entreprises: wide horizontal composition ---- */}
-      <div id="entreprises" className="container scroll-mt-24 py-24 lg:py-32">
+      <div id="entreprises" className="container scroll-mt-32 py-24 lg:py-32">
         <div className="reveal">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div>

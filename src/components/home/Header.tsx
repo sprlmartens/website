@@ -1,12 +1,14 @@
 import Link from "next/link"
-import { ChevronDown, PhoneCall } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
+import TopBar from "@/components/home/TopBar"
+
 const servicesSubNav = [
   { label: "Particuliers", href: "/services/particuliers" },
-  { label: "Indépendants", href: "/services/independants" },
+  { label: "Professionnels", href: "/services/professionnels" },
   { label: "Placements & Épargne", href: "/services/placements-epargne" },
 ]
 
@@ -21,6 +23,7 @@ const navItems = [
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-white">
+      <TopBar />
       <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
         <Link href="/">
           <Image
@@ -73,9 +76,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-6">
-          <Button asChild>
+          {/* <Button asChild>
             <Link href="/simulation">Demande de simulation</Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </header>

@@ -15,11 +15,11 @@ export default function Page() {
       <Hero />
       <TrustBar />
       <Manifesto />
+      <GoogleReviews />
       <Services />
       <WhyMartens />
       <Claims />
-      <GoogleReviews />
-      <FeaturedArticles />
+      {/* <FeaturedArticles /> */}
       <FinalCta />
       <Contact />
     </>

@@ -33,18 +33,24 @@ const reviews: GoogleReview[] = [
     quote:
       "Je tiens à souligner la qualité exceptionnelle de cette compagnie d’assurance. Dès le premier contact, j’ai été accueillie avec beaucoup de professionnalisme et de sympathie, ce qui met immédiatement en confiance. Le suivi est irréprochable : chaque demande est traitée avec attention et rapidité, et on se sent réellement accompagné à chaque étape. L’équipe fait preuve de grandes compétences et sait apporter des solutions claires et efficaces, même dans des situations plus complexes. Le service est fluide, réactif et parfaitement organisé, ce qui est très appréciable au quotidien. Et pour couronner le tout, les tarifs proposés sont particulièrement compétitifs au vu de la qualité offerte. Une expérience client exemplaire que je recommande sans hésitation !",
   },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
+  {
+    name: "Laurent R.",
+    rating: 5,
+    quote:
+      "Le cabinet d'expertise et de conseil en assurances est remarquable. Sa réactivité et son professionnalisme sont rares de nos jours. J'ai déplacé toutes mes assurances, tant personnelles que professionnelles, vers leur bureau. La responsable, extrêmement réactive, prodigue des conseils judicieux, est bien organisée et structurée. Ses tarifs sont tout à fait raisonnables, offrant un excellent rapport qualité-prix. Bravo pour maintenir cette qualité de service. Vous faites vraiment la différence dans ce marché souvent impitoyable.",
+  },
+  {
+    name: "Patrick H.",
+    rating: 5,
+    quote:
+      "Un suivi sur mesure et une proactivité permanente font de cette agence une référence dans le secteur.",
+  },
+  {
+    name: "Justine S.",
+    rating: 5,
+    quote:
+      "Cela fait maintenant presque 10 ans que toutes mes assurances sont gérées par SPRL Martens. Au-delà d'un service irréprochable, j'apprécie surtout l'aspect humain : on n'a jamais l'impression d'être un numéro, mais bien une personne face à une vraie équipe disponible, à l'écoute et réactive. Le suivi est personnalisé, les conseils sont clairs et on sent qu'il y a une vraie volonté d'aider et de trouver des solutions adaptées. Une qualité de service devenue rare aujourd'hui.",
+  },
 ]
 
 function GoogleLogo() {
@@ -92,7 +98,7 @@ function StarRating({ rating }: { rating: number }) {
 
 export default function GoogleReviews() {
   return (
-    <section aria-label="Avis Google de nos clients">
+    <section aria-label="Avis Google de nos clients" className="bg-secondary">
       <div className="container py-24 lg:py-32">
         <p className="reveal text-xs font-medium uppercase tracking-[0.22em] text-foreground">
           Ils nous font confiance
@@ -111,7 +117,7 @@ export default function GoogleReviews() {
                 <figure className="flex h-full flex-col">
                   <StarRating rating={review.rating} />
                   <blockquote className="mt-4 flex-1">
-                    <p className="line-clamp-6 font-display text-base font-medium leading-snug tracking-tight text-foreground sm:text-xl">
+                    <p className="line-clamp-10 font-display text-base font-medium leading-snug tracking-tight text-foreground sm:text-xl">
                       <span aria-hidden className="mr-1 text-accent">
                         {'"'}
                       </span>

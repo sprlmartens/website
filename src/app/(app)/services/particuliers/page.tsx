@@ -50,7 +50,7 @@ export default function Page() {
         </ul>
         <div className="mt-12 flex flex-wrap items-center gap-4">
           <Button size="lg" asChild>
-            <Link href="/simulation">
+            <Link href="/contact">
               Nous rencontrer
               <ArrowRight className="h-4 w-4 transition-transform group-hover/button:translate-x-1" />
             </Link>

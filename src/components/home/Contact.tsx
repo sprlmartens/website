@@ -2,7 +2,7 @@ import ScheduleTimeline from "@/components/contact/ScheduleTimeline"
 
 export default function Contact() {
   return (
-    <section id="contact" className="scroll-mt-24 bg-secondary text-foreground">
+    <section id="contact" className="scroll-mt-32 bg-secondary text-foreground">
       <div className="container py-24 lg:py-32">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="reveal lg:col-span-5">

@@ -11,14 +11,12 @@ export default function ContactInfo() {
       </h1>
       <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground">
         Un vrai bureau, des visages connus, un café offert. Passez nous voir,
-        appelez-nous, ou laissez-nous un message ci-contre.
+        appelez-nous, ou laissez-nous un message.
       </p>
 
       <dl className="mt-10 space-y-6 text-sm">
         <div>
-          <dt className="font-semibold uppercase tracking-[0.14em]">
-            Adresse
-          </dt>
+          <dt className="font-semibold uppercase tracking-[0.14em]">Adresse</dt>
           <dd className="mt-1 leading-relaxed text-foreground/70">
             Rue François Lefebvre 10/B
             <br />
@@ -26,9 +24,7 @@ export default function ContactInfo() {
           </dd>
         </div>
         <div>
-          <dt className="font-semibold uppercase tracking-[0.14em]">
-            Contact
-          </dt>
+          <dt className="font-semibold uppercase tracking-[0.14em]">Contact</dt>
           <dd className="mt-1 leading-relaxed text-foreground/70">
             <a href="tel:+3242461363">+32 4 246 13 63</a>
             <br />
@@ -43,15 +39,6 @@ export default function ContactInfo() {
           </dt>
           <dd className="mt-3">
             <ScheduleTimeline />
-          </dd>
-        </div>
-        <div>
-          <dt className="font-semibold uppercase tracking-[0.14em]">
-            Fermeture annuelle
-          </dt>
-          <dd className="mt-1 leading-relaxed text-foreground/70">
-            Aucune période de fermeture annuelle : nous sommes disponibles
-            toute l&apos;année.
           </dd>
         </div>
         <div>

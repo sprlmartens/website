@@ -26,10 +26,12 @@
 ### Task 1: Install the shadcn Carousel primitive
 
 **Files:**
+
 - Create (via CLI): `src/components/ui/carousel.tsx`
 - Modify: `package.json`, `package-lock.json` (adds `embla-carousel-react`)
 
 **Interfaces:**
+
 - Produces: `Carousel`, `CarouselContent`, `CarouselItem`, `CarouselNext`, `CarouselPrevious` (all from `@/components/ui/carousel`) — consumed by Task 2.
 
 - [ ] **Step 1: Run the shadcn CLI to add the carousel component**
@@ -62,9 +64,11 @@ git commit -m "Add shadcn carousel primitive"
 ### Task 2: Build the GoogleReviews component
 
 **Files:**
+
 - Create: `src/components/home/GoogleReviews.tsx`
 
 **Interfaces:**
+
 - Consumes: `Carousel`, `CarouselContent`, `CarouselItem`, `CarouselNext`, `CarouselPrevious` from `@/components/ui/carousel` (Task 1); `Star` from `lucide-react`.
 - Produces: default export `GoogleReviews` (React component), consumed by Task 3.
 
@@ -108,18 +112,24 @@ const reviews: GoogleReview[] = [
     quote:
       "Je tiens à souligner la qualité exceptionnelle de cette compagnie d'assurance. Dès le premier contact, j'ai été accueillie avec beaucoup de professionnalisme et de sympathie, ce qui met immédiatement en confiance. Le suivi est irréprochable : chaque demande est traitée avec attention et rapidité, et on se sent réellement accompagné à chaque étape. L'équipe fait preuve de grandes compétences et sait apporter des solutions claires et efficaces, même dans des situations plus complexes. Le service est fluide, réactif et parfaitement organisé, ce qui est très appréciable au quotidien. Et pour couronner le tout, les tarifs proposés sont particulièrement compétitifs au vu de la qualité offerte. Une expérience client exemplaire que je recommande sans hésitation !",
   },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
-  // TODO: remplacer par un avis Google réel
-  { name: "TODO", rating: 5, quote: "TODO — coller un avis Google réel ici" },
+  {
+    name: "Laurent R.",
+    rating: 5,
+    quote:
+      "Le cabinet d'expertise et de conseil en assurances est remarquable. Sa réactivité et son professionnalisme sont rares de nos jours. J'ai déplacé toutes mes assurances, tant personnelles que professionnelles, vers leur bureau. La responsable, extrêmement réactive, prodigue des conseils judicieux, est bien organisée et structurée. Ses tarifs sont tout à fait raisonnables, offrant un excellent rapport qualité-prix. Bravo pour maintenir cette qualité de service. Vous faites vraiment la différence dans ce marché souvent impitoyable.",
+  },
+  {
+    name: "Patrick H.",
+    rating: 5,
+    quote:
+      "Un suivi sur mesure et une proactivité permanente font de cette agence une référence dans le secteur.",
+  },
+  {
+    name: "Justine S.",
+    rating: 5,
+    quote:
+      "Cela fait maintenant presque 10 ans que toutes mes assurances sont gérées par SPRL Martens. Au-delà d'un service irréprochable, j'apprécie surtout l'aspect humain : on n'a jamais l'impression d'être un numéro, mais bien une personne face à une vraie équipe disponible, à l'écoute et réactive. Le suivi est personnalisé, les conseils sont clairs et on sent qu'il y a une vraie volonté d'aider et de trouver des solutions adaptées. Une qualité de service devenue rare aujourd'hui.",
+  },
 ]
 
 function GoogleLogo() {
@@ -248,10 +258,12 @@ git commit -m "Add GoogleReviews carousel component"
 ### Task 3: Swap GoogleReviews into the homepage and remove the old component
 
 **Files:**
+
 - Modify: `src/app/(app)/page.tsx:8` (import), `src/app/(app)/page.tsx:21` (usage)
 - Delete: `src/components/home/Testimonials.tsx`
 
 **Interfaces:**
+
 - Consumes: default export `GoogleReviews` from `@/components/home/GoogleReviews` (Task 2).
 
 - [ ] **Step 1: Update the import**
@@ -273,13 +285,13 @@ import GoogleReviews from "@/components/home/GoogleReviews"
 In the same file, replace:
 
 ```tsx
-      <Testimonials />
+<Testimonials />
 ```
 
 with:
 
 ```tsx
-      <GoogleReviews />
+<GoogleReviews />
 ```
 
 - [ ] **Step 3: Delete the old component**
@@ -304,6 +316,7 @@ Expected: production build succeeds.
 Run: `npm run dev`, open the homepage in a browser.
 
 Check:
+
 - The section renders where "Ils nous font confiance" used to be, showing 3 review cards side by side on desktop.
 - Clicking the right arrow advances one card at a time; the right arrow disables (visually dimmed, unclickable) at the end of the list; the left arrow disables at the start.
 - Resize to mobile width: 1 card visible, swipe gesture scrolls between cards.

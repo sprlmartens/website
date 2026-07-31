@@ -17,7 +17,7 @@ export default function Page() {
       <PageHeader
         eyebrow="En cas de sinistre"
         title="Le bon réflexe, tout de suite."
-        description="Panne, accident, dégât des eaux : n'attendez pas notre feu vert. Contactez directement l'assisteur repris sur votre contrat, disponible 24h/24. Nous reprenons le dossier avec vous juste après."
+        description="Le jour où quelque chose arrive, ayez le bon reflexe, contactez l’assistance de votre compagnie d’assurance joignable 24h/24."
         image={{
           src: "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=1200&q=80&fm=jpg",
           alt: "Conseiller au téléphone, assistance client",

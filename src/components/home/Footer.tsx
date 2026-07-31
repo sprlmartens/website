@@ -7,12 +7,12 @@ const mainNav = [
   { label: "Sinistres", href: "/sinistres" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
-  { label: "Demande de simulation", href: "/simulation" },
+  // { label: "Demande de simulation", href: "/simulation" },
 ]
 
 const services = [
   { label: "Particuliers", href: "/services/particuliers" },
-  { label: "Indépendants", href: "/services/independants" },
+  { label: "Professionnels", href: "/services/professionnels" },
   { label: "Placements & Épargne", href: "/services/placements-epargne" },
 ]
 

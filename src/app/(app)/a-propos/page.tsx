@@ -1,7 +1,5 @@
 import { PageHeader } from "@/components/page-header"
-import Manifesto from "@/components/home/Manifesto"
-import WhyMartens from "@/components/home/WhyMartens"
-import TrustBar from "@/components/home/TrustBar"
+import Team from "@/components/about/Team"
 
 export const metadata = {
   title: "À propos — Martens Assurances",
@@ -21,6 +19,8 @@ export default function Page() {
           alt: "Équipe en discussion dans un bureau",
         }}
       />
+
+      <Team />
     </main>
   )
 }

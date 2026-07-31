@@ -21,7 +21,7 @@ export default function Claims() {
   return (
     <section
       id="sinistre"
-      className="relative scroll-mt-24 overflow-hidden bg-navy-900 text-white"
+      className="relative scroll-mt-32 overflow-hidden bg-navy-900 text-white"
     >
       {/* Documentary backdrop */}
       <div className="duotone absolute inset-0 opacity-35" aria-hidden>

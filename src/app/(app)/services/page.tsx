@@ -10,8 +10,8 @@ const categories = [
     note: "Auto, habitation, famille, santé",
   },
   {
-    title: "Indépendants",
-    href: "/services/independants",
+    title: "Professionnels",
+    href: "/services/professionnels",
     note: "Revenus, responsabilité professionnelle, pension",
   },
   {
