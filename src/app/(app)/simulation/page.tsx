@@ -8,6 +8,10 @@ export const metadata = {
   title: "Demande de simulation — Martens Assurances",
   description:
     "Demandez une simulation gratuite et sans engagement pour vos assurances ou vos placements.",
+  // La page n'est pas encore construite (contenu à faire) : on empêche son
+  // indexation tout en laissant les robots suivre ses liens. À retirer une
+  // fois le contenu en place, et à réintégrer dans app/sitemap.ts.
+  robots: { index: false, follow: true },
 }
 
 export default function Page() {

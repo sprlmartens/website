@@ -59,6 +59,9 @@ const cases = [
   // --- Page conservée (normalisation du slash final uniquement) ---
   { from: "/contact/", to: "/contact", status: 200 },
 
+  // --- Sitemap Yoast connu de Search Console ---
+  { from: "/sitemap_index.xml", to: "/sitemap.xml", status: 200 },
+
   // --- Page d'exemple WordPress : 404 volontaire, ne pas rediriger ---
   { from: "/page-d-exemple/", to: "/page-d-exemple", status: 404, note: "404 attendu" },
 ]

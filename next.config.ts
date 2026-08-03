@@ -32,6 +32,13 @@ const nextConfig: NextConfig = {
       // on renvoie vers l'index du blog.
       { source: "/category/:slug", destination: "/blog", permanent: true },
       { source: "/author/:slug", destination: "/blog", permanent: true },
+      // Sitemap Yoast : URL déclarée dans l'ancien robots.txt et connue de
+      // Search Console.
+      {
+        source: "/sitemap_index.xml",
+        destination: "/sitemap.xml",
+        permanent: true,
+      },
     ]
   },
 }

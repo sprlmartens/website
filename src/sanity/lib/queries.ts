@@ -45,8 +45,15 @@ export const PINNED_POSTS_QUERY =
 }`)
 
 export const POSTS_SLUGS_QUERY =
-  defineQuery(`*[_type == "post" && defined(slug.current)]{ 
+  defineQuery(`*[_type == "post" && defined(slug.current)]{
   "slug": slug.current
+}`)
+
+// Utilisée par app/sitemap.ts : `_updatedAt` alimente le <lastmod>.
+export const POSTS_SITEMAP_QUERY =
+  defineQuery(`*[_type == "post" && defined(slug.current)]|order(publishedAt desc){
+  "slug": slug.current,
+  _updatedAt
 }`)
 
 export const POST_QUERY =
