@@ -4,6 +4,11 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { POSTS_QUERY } from "@/sanity/lib/queries"
 import { PostCard } from "@/components/post-card"
 
+// Rendu dynamique : sanityFetch met ses requêtes en cache avec
+// `revalidate: false`, donc une page prérendue au build garderait
+// indéfiniment la liste d'articles figée à la date du déploiement.
+export const dynamic = "force-dynamic"
+
 export default async function Page() {
   const { data: posts } = await sanityFetch({ query: POSTS_QUERY })
 

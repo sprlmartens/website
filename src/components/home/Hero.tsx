@@ -66,7 +66,7 @@ export default function Hero() {
           </figure>
           <div className="absolute -left-2 bottom-6 z-10 max-w-[16rem] rounded-lg bg-white p-6 shadow-xl lg:bottom-16">
             <p className="text-foreground font-medium text-xl">
-              L'exigence au service de vos projets
+              L&apos;exigence au service de vos projets
             </p>
             <p className="mt-2 text-4xl tracking-tight font-semibold text-primary">
               +20 ans

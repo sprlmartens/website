@@ -1,6 +1,5 @@
 import Claims from "@/components/home/Claims"
 import Contact from "@/components/home/Contact"
-import FeaturedArticles from "@/components/home/FeaturedArticles"
 import FinalCta from "@/components/home/FinalCta"
 import GoogleReviews from "@/components/home/GoogleReviews"
 import Hero from "@/components/home/Hero"
