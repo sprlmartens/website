@@ -4,6 +4,9 @@ import { ArrowRight } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 const coverages = [
   { name: "Protection des revenus", note: "en cas d'incapacité de travail" },
   { name: "Responsabilité professionnelle", note: "exercer l'esprit libre" },
@@ -26,11 +29,13 @@ export const metadata = {
   title: "Assurances Professionnels — Martens Assurances",
   description:
     "Protection des revenus, responsabilité professionnelle, véhicules et pension complémentaire pour les indépendants.",
+  alternates: { canonical: "/services/professionnels" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }, { name: "Professionnels", path: "/services/professionnels" }])} />
       <PageHeader
         eyebrow="Professionnels"
         title="Votre activité repose sur vous. Et vous ?"

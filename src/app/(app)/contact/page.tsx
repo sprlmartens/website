@@ -1,15 +1,20 @@
 import ContactForm from "@/components/contact/ContactForm"
 import ContactInfo from "@/components/contact/ContactInfo"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 export const metadata = {
   title: "Contact — Martens Assurances",
   description:
     "Retrouvez Martens Assurances à Rocourt (Liège) : adresse, téléphone, e-mail, horaires d'ouverture et formulaire de contact.",
+  alternates: { canonical: "/contact" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Contact", path: "/contact" }])} />
       <section className="bg-secondary text-foreground">
         <div className="container py-24 lg:py-32">
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">

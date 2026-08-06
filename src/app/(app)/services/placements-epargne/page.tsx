@@ -4,6 +4,9 @@ import { ArrowRight } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 const coverages = [
   { name: "Épargne-pension", note: "un capital constitué à votre rythme" },
   {
@@ -25,11 +28,13 @@ export const metadata = {
   title: "Placements & Épargne — Martens Assurances",
   description:
     "Épargne-pension, assurance-placement, PLCI, EIP : une expertise épargne et investissement intégrée à votre conseil en assurances.",
+  alternates: { canonical: "/services/placements-epargne" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }, { name: "Placements & Épargne", path: "/services/placements-epargne" }])} />
       <PageHeader
         eyebrow="Placements & Épargne"
         title="Faire fructifier ce que vous avez construit."

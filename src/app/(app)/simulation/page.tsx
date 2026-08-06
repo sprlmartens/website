@@ -12,6 +12,7 @@ export const metadata = {
   // indexation tout en laissant les robots suivre ses liens. À retirer une
   // fois le contenu en place, et à réintégrer dans app/sitemap.ts.
   robots: { index: false, follow: true },
+  alternates: { canonical: "/simulation" },
 }
 
 export default function Page() {

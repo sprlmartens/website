@@ -5,15 +5,20 @@ import { PageHeader } from "@/components/page-header"
 import AssisteursList from "@/components/sinistres/AssisteursList"
 import { Button } from "@/components/ui/button"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 export const metadata = {
   title: "Sinistres — Martens Assurances",
   description:
     "En cas de sinistre, contactez directement votre assisteur : les numéros de tous les assisteurs, disponibles 24h/24.",
+  alternates: { canonical: "/sinistres" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Sinistres", path: "/sinistres" }])} />
       <PageHeader
         eyebrow="En cas de sinistre"
         title="Le bon réflexe, tout de suite."

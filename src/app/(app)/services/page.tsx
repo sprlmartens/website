@@ -3,6 +3,9 @@ import { ArrowRight } from "lucide-react"
 
 import { PageHeader } from "@/components/page-header"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 const categories = [
   {
     title: "Particuliers",
@@ -25,11 +28,13 @@ export const metadata = {
   title: "Services — Martens Assurances",
   description:
     "Assurances et placements pour les particuliers, les indépendants et les entreprises : un conseil indépendant, adapté à votre situation.",
+  alternates: { canonical: "/services" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }])} />
       <PageHeader
         eyebrow="Services"
         title="Un conseil pour chaque étape de votre vie."

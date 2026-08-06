@@ -64,6 +64,7 @@ export const POST_QUERY =
   body,
   mainImage,
   publishedAt,
+  _updatedAt,
   "categories": coalesce(
     categories[]->{
       _id,

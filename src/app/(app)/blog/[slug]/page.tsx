@@ -6,6 +6,8 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { urlFor } from "@/sanity/lib/image"
 import { POST_QUERY } from "@/sanity/lib/queries"
 import { Post } from "@/components/post"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { articleSchema, breadcrumbSchema } from "@/lib/structured-data"
 
 export async function generateMetadata({
   params,
@@ -54,8 +56,29 @@ export default async function Page({
     notFound()
   }
 
+  const slug = post.slug!.current
+
   return (
     <main className="container py-12 md:py-16">
+      <JsonLd
+        data={articleSchema({
+          title: post.title ?? "",
+          description: portableTextToPlainText(post.body),
+          slug,
+          publishedAt: post.publishedAt,
+          updatedAt: post._updatedAt,
+          imageUrl: post.mainImage
+            ? urlFor(post.mainImage).width(1200).height(630).url()
+            : null,
+          authorName: post.author?.name,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Blog", path: "/blog" },
+          { name: post.title ?? slug, path: `/blog/${slug}` },
+        ])}
+      />
       <Post {...post} />
     </main>
   )

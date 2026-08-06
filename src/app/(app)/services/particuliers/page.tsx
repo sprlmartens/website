@@ -4,6 +4,9 @@ import { ArrowRight } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
 const coverages = [
   { name: "Auto / moto", note: "assurer vos véhicules" },
   { name: "Habitation", note: "incendie, vol, dégâts des eaux" },
@@ -16,11 +19,13 @@ export const metadata = {
   title: "Assurances Particuliers — Martens Assurances",
   description:
     "Auto, habitation, famille, santé : des couvertures comparées et négociées pour protéger ce que vous construisez.",
+  alternates: { canonical: "/services/particuliers" },
 }
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }, { name: "Particuliers", path: "/services/particuliers" }])} />
       <PageHeader
         eyebrow="Particuliers & familles"
         title="Protéger ce que vous construisez."

@@ -3,6 +3,15 @@ import Link from "next/link"
 import { sanityFetch } from "@/sanity/lib/live"
 import { POSTS_QUERY } from "@/sanity/lib/queries"
 import { PostCard } from "@/components/post-card"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbSchema } from "@/lib/structured-data"
+
+export const metadata = {
+  title: "Conseils & actualités assurance — Martens Assurances",
+  description:
+    "Conseils et actualités d'un courtier liégeois : assurances, épargne-pension, fiscalité et sinistres, expliqués simplement.",
+  alternates: { canonical: "/blog" },
+}
 
 // Rendu dynamique : sanityFetch met ses requêtes en cache avec
 // `revalidate: false`, donc une page prérendue au build garderait
@@ -14,6 +23,7 @@ export default async function Page() {
 
   return (
     <main className="container py-12 md:py-16">
+      <JsonLd data={breadcrumbSchema([{ name: "Blog", path: "/blog" }])} />
       <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
         Blog
       </p>
