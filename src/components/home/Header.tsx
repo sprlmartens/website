@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-white">
       <TopBar />
-      <div className="container flex h-12 items-center gap-16 md:h-20">
+      <div className="container flex h-16 items-center gap-12 md:h-20">
         <Link href="/">
           <Image
             src="/martens-assurances-logo.png"
