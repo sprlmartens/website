@@ -11,7 +11,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
 
-import { getFieldError } from "./TextField"
+import { getFieldError } from "./field-utils"
 
 export type Option = {
   value: string
@@ -49,6 +49,8 @@ export function OptionCardGroup({
             <RadioGroup
               value={field.value ?? ""}
               onValueChange={field.onChange}
+              aria-label={label}
+              aria-invalid={!!error}
               className={cn(
                 columns === 2 && "sm:grid-cols-2",
                 columns === 3 && "sm:grid-cols-3",
@@ -72,7 +74,6 @@ export function OptionCardGroup({
                     <RadioGroupItem
                       id={id}
                       value={option.value}
-                      aria-invalid={!!error}
                       className="mt-0.5"
                     />
                     <span className="min-w-0">

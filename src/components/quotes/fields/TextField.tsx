@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+import { getFieldError } from "./field-utils"
+
 type TextFieldProps = {
   name: string
   label: string
@@ -57,26 +59,4 @@ export function TextField({
       </FieldContent>
     </Field>
   )
-}
-
-/**
- * Lit une erreur au chemin pointé, par exemple « holder.city ».
- *
- * `errors` est typé `unknown` : `FieldErrors<T>` de react-hook-form est un
- * type mappé qui ne s'assigne pas à `Record<string, unknown>`.
- */
-export function getFieldError(
-  errors: unknown,
-  name: string
-): { message?: string } | undefined {
-  const found = name.split(".").reduce<unknown>((current, key) => {
-    if (current && typeof current === "object") {
-      return (current as Record<string, unknown>)[key]
-    }
-    return undefined
-  }, errors)
-
-  return found && typeof found === "object" && "message" in found
-    ? (found as { message?: string })
-    : undefined
 }

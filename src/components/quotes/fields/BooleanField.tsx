@@ -9,9 +9,10 @@ import {
   FieldError,
   FieldLabel,
 } from "@/components/ui/field"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
 
-import { getFieldError } from "./TextField"
+import { getFieldError } from "./field-utils"
 
 type BooleanFieldProps = {
   name: string
@@ -21,10 +22,12 @@ type BooleanFieldProps = {
   onChanged?: (value: boolean) => void
 }
 
+// `RadioGroup` ne connaît que des valeurs textuelles : on convertit le
+// booléen en « true »/« false » à la frontière du composant.
 const choices = [
-  { value: true, label: "Oui" },
-  { value: false, label: "Non" },
-]
+  { value: "true", label: "Oui" },
+  { value: "false", label: "Non" },
+] as const
 
 export function BooleanField({
   name,
@@ -47,36 +50,44 @@ export function BooleanField({
           control={control}
           name={name}
           render={({ field }) => (
-            <div
-              role="radiogroup"
+            <RadioGroup
+              value={
+                field.value === true
+                  ? "true"
+                  : field.value === false
+                    ? "false"
+                    : ""
+              }
+              onValueChange={(value) => {
+                const boolValue = value === "true"
+                field.onChange(boolValue)
+                onChanged?.(boolValue)
+              }}
               aria-label={label}
+              aria-invalid={!!error}
               className="flex w-full max-w-xs gap-2"
             >
               {choices.map((choice) => {
-                const isSelected = field.value === choice.value
+                const id = `${name}-${choice.value}`
+                const isSelected = field.value === (choice.value === "true")
 
                 return (
-                  <button
-                    key={choice.label}
-                    type="button"
-                    role="radio"
-                    aria-checked={isSelected}
-                    onClick={() => {
-                      field.onChange(choice.value)
-                      onChanged?.(choice.value)
-                    }}
+                  <label
+                    key={choice.value}
+                    htmlFor={id}
                     className={cn(
-                      "flex-1 rounded-xl border px-4 py-2.5 text-sm font-medium transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30",
+                      "flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-colors",
                       isSelected
                         ? "border-primary/40 bg-primary/5 text-primary"
                         : "border-border text-foreground hover:bg-muted",
                     )}
                   >
+                    <RadioGroupItem id={id} value={choice.value} />
                     {choice.label}
-                  </button>
+                  </label>
                 )
               })}
-            </div>
+            </RadioGroup>
           )}
         />
         <FieldError errors={[error]} />

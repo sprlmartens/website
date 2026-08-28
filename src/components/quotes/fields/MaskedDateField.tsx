@@ -11,18 +11,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-import { getFieldError } from "./TextField"
-
-/**
- * Insère les « / » au fil de la saisie et ignore tout caractère non
- * numérique. La suppression fonctionne naturellement : on repart toujours des
- * seuls chiffres saisis.
- */
-function maskDate(raw: string): string {
-  const digits = raw.replace(/\D/g, "").slice(0, 8)
-  const parts = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)]
-  return parts.filter(Boolean).join("/")
-}
+import { getFieldError, maskDate } from "./field-utils"
 
 type MaskedDateFieldProps = {
   name: string
@@ -60,7 +49,14 @@ export function MaskedDateField({
               aria-invalid={!!error}
               value={field.value ?? ""}
               onBlur={field.onBlur}
-              onChange={(event) => field.onChange(maskDate(event.target.value))}
+              onChange={(event) => {
+                const nextValue = maskDate(event.target.value, {
+                  previous: field.value ?? "",
+                  caret:
+                    event.target.selectionStart ?? event.target.value.length,
+                })
+                field.onChange(nextValue)
+              }}
             />
           )}
         />
