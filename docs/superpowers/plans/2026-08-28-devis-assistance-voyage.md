@@ -25,6 +25,31 @@
 
 ---
 
+## Corrections apportées pendant l'exécution
+
+Les revues de tâches ont trouvé plusieurs défauts dans le code prescrit
+ci-dessous. **Pour ces points, le code livré fait foi, pas ce document.**
+Ils sont listés ici pour que personne ne recopie une version fautive en
+ajoutant un futur produit.
+
+| Tâche | Défaut du plan | Correction livrée |
+|---|---|---|
+| 5 | `isQuoteSlug` utilisait `value in quoteFormsMeta` ; `in` parcourt la chaîne de prototypes, donc `isQuoteSlug("toString")` renvoyait `true` et faisait planter la Server Action publique | `Object.hasOwn(quoteFormsMeta, value)`, plus `core/meta.test.ts` |
+| 7 | `OptionCardGroup` n'avait aucun nom accessible : `FieldLabel` sans `htmlFor`, groupe sans `aria-label` | `aria-label={label}` sur le `RadioGroup` |
+| 7 | `BooleanField` annonçait `role="radio"` sans implémenter le motif ARIA (ni tabindex mobile, ni flèches) et n'exposait jamais `aria-invalid` | Reconstruit sur `RadioGroup`/`RadioGroupItem` |
+| 7 | `getFieldError` acceptait un nœud intermédiaire contenant un enfant nommé `message` et renvoyait un objet que `FieldError` faisait planter | Exige un `message` de type `string` ou absent ; rejette les tableaux |
+| 7 | `maskDate` avalait le retour arrière sur le séparateur | Variante consciente du curseur via `selectionStart` |
+| 7 | `getFieldError` et `maskDate` vivaient dans un fichier de composant, non testés | Extraits vers `fields/field-utils.ts` + `field-utils.test.ts` |
+| 8 | `readDraft` ne validait pas `stepIndex` | Validation ajoutée |
+| 8 | `clearSavedDraft` laissait l'abonnement d'écriture actif | Neutralise aussi l'écriture |
+
+Leçon transversale : les défauts se sont concentrés sur les fonctions pures
+non testées (`getFieldError`, `maskDate`) et sur les surfaces d'accessibilité
+écrites à la main. La spec avait écarté les tests de composants ; elle n'aurait
+pas dû laisser cette exclusion couvrir aussi des fonctions pures.
+
+---
+
 ## Structure des fichiers
 
 **Créés :**
