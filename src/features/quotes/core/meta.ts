@@ -29,5 +29,8 @@ export type QuoteSlug = keyof typeof quoteFormsMeta
 export const quoteFormSlugs = Object.keys(quoteFormsMeta) as QuoteSlug[]
 
 export function isQuoteSlug(value: string): value is QuoteSlug {
-  return value in quoteFormsMeta
+  // `Object.hasOwn` et non l'opérateur `in` : ce dernier parcourt la chaîne de
+  // prototypes, donc "toString" ou "constructor" passeraient le garde-fou
+  // alors qu'ils ne sont pas des slugs. Ne pas « simplifier » ce choix.
+  return Object.hasOwn(quoteFormsMeta, value)
 }
