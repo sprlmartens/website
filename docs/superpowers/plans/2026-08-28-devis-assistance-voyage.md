@@ -21,6 +21,7 @@
 - **Formulaires** : suivre le style de `src/components/contact/ContactForm.tsx` — `Field` / `FieldContent` / `FieldLabel` / `FieldError`, `noValidate`, `useTransition`, toasts `sonner` pour les erreurs.
 - **Aucune dépendance nouvelle** hors `vitest` (dev). `radix-ui` fournit déjà `Checkbox`, `RadioGroup` et `Progress` — vérifié.
 - **Commits** : un commit par tâche, message en anglais à l'impératif, conforme aux commits existants du dépôt.
+- **L'arbre de travail contient des modifications en cours sans rapport avec ce plan** (pages partenaires, avis Google, logos, `Team.tsx`, `Hero.tsx`, `TrustBar.tsx`, `globals.css`…). N'utilisez **jamais** `git add -A`, `git add .` ni un chemin de répertoire large : n'indexez que les fichiers explicitement listés dans la commande de commit de votre tâche. Ne committez, ne restaurez et ne modifiez aucun fichier absent de votre tâche.
 
 ---
 
@@ -3653,7 +3654,12 @@ formulaire entièrement et l'envoyer. Vérifier :
 - [ ] **Step 10: Commit**
 
 ```bash
-git add src/app src/components next.config.ts
+git add "src/app/(app)/services/particuliers/page.tsx" \
+  src/components/home/Header.tsx \
+  src/components/home/Footer.tsx \
+  src/app/sitemap.ts \
+  src/app/robots.ts \
+  next.config.ts
 git commit -m "Wire /devis into navigation, sitemap and redirects"
 ```
 
