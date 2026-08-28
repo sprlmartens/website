@@ -341,10 +341,15 @@ export const assistanceVoyageSchema = z.object({
   email:   z.email({ error: "Adresse e-mail invalide." }),
   phone:   z.union([z.literal(""), z.string().trim().regex(belgianPhone, { error: "Numéro de téléphone invalide." })]).optional(),
   message: z.string().trim().max(1000).optional(),
-  consent: z.literal(true, { error: "Veuillez accepter le traitement de vos données." }),
+  consent: z.boolean().refine((v) => v, { error: "Veuillez accepter le traitement de vos données." }),
   honeypot: z.string().optional(),
-}).superRefine((values, ctx) => { /* règles conditionnelles, cf. 3.3 */ })
+}).check((ctx) => { /* règles conditionnelles, cf. 3.3 */ })
 ```
+
+**Consentement.** `z.boolean().refine(...)` plutôt que `z.literal(true)` : le
+type inféré reste `boolean`, ce qui autorise une valeur par défaut `false`
+côté formulaire. Avec `z.literal(true)`, le type ne vaut que `true` et aucune
+valeur par défaut décochée ne compile.
 
 **Montants.** `euroAmount()` est un champ texte, pas un `z.number()` : un
 `<input>` vide converti en nombre donne `NaN`, et les utilisateurs belges
@@ -355,8 +360,11 @@ récapitulatif et l'e-mail.
 
 ### 3.3 Règles conditionnelles
 
-Portées par `superRefine`, avec un `path` explicite pour que l'erreur s'affiche
-sur le bon champ :
+Portées par `.check()` — `superRefine` existe toujours mais est déprécié en
+zod v4 — avec un `path` explicite pour que l'erreur s'affiche sur le bon champ.
+Vérifié sur les versions installées (zod 4.4.3, @hookform/resolvers 5.4) :
+`ctx.issues.push({ code: "custom", message, path, input })` produit bien une
+erreur rattachée au champ visé après passage par `zodResolver`.
 
 1. `coverageDuration === "period"` → `periodStart` requis, valide, non passé ;
    `periodEnd` requis, valide, strictement postérieur à `periodStart`.
@@ -373,7 +381,7 @@ sur le bon champ :
 
 « Suivant » appelle `await trigger(step.fields, { shouldFocus: true })` et
 n'avance qu'en cas de succès. `zodResolver` valide le schéma entier puis filtre
-les erreurs sur les champs demandés : les erreurs issues de `superRefine`
+les erreurs sur les champs demandés : les erreurs issues de `.check()`
 portant un `path` sont donc bien rattrapées par l'étape concernée, et une erreur
 visant un champ d'une étape ultérieure ne bloque pas l'étape courante — c'est le
 comportement voulu.
@@ -463,7 +471,7 @@ valeur de régression.
 - `src/lib/validation.test.ts` — `parseFrenchDate` (formats invalides, 31/02,
   années bissextiles), `belgianPhone`, `parseEuroAmount`.
 - `src/features/quotes/assistance-voyage/schema.test.ts` — chaque règle de
-  `superRefine` dans ses deux sens, le code postal, la borne des 4 assurés
+  `.check()` dans ses deux sens, le code postal, la borne des 4 assurés
   supplémentaires, le rejet d'une date de naissance future.
 - `src/features/quotes/assistance-voyage/summary.test.ts` — un dossier complet
   produit les sections attendues ; les champs conditionnels absents ne
