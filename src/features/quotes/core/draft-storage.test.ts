@@ -65,6 +65,26 @@ describe("writeDraft / readDraft", () => {
     expect(readDraft("assistance-voyage")).toBeNull()
   })
 
+  it("ignore un brouillon avec un stepIndex manquant", () => {
+    window.localStorage.setItem(
+      draftKey("assistance-voyage"),
+      JSON.stringify({ values: { email: "a@b.be" }, savedAt: 1_000 })
+    )
+    expect(readDraft("assistance-voyage", 1_000)).toBeNull()
+  })
+
+  it("ignore un brouillon avec un stepIndex non numérique", () => {
+    window.localStorage.setItem(
+      draftKey("assistance-voyage"),
+      JSON.stringify({
+        values: { email: "a@b.be" },
+        stepIndex: "2",
+        savedAt: 1_000,
+      })
+    )
+    expect(readDraft("assistance-voyage", 1_000)).toBeNull()
+  })
+
   it("ne lève pas quand le stockage est indisponible", () => {
     vi.stubGlobal("window", {
       localStorage: {

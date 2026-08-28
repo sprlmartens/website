@@ -19,9 +19,12 @@ export function useQuoteDraft<T extends FieldValues>(
 ) {
   const [pendingDraft, setPendingDraft] = useState<QuoteDraft | null>(null)
   const [isDecided, setIsDecided] = useState(false)
+  const [isSuppressed, setIsSuppressed] = useState(false)
   const stepIndexRef = useRef(stepIndex)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // Mise à jour du ref à chaque rendu pour que le ref reflète toujours l'étape actuelle.
+  // Cette mutation est intentionnelle : elle ne déclenche pas de re-rendu.
   // eslint-disable-next-line react-hooks/refs
   stepIndexRef.current = stepIndex
 
@@ -29,6 +32,9 @@ export function useQuoteDraft<T extends FieldValues>(
   useEffect(() => {
     const draft = readDraft(slug)
     if (draft) {
+      // Initialisation unique d'après un effet asynchrone (stockage local) : pas de
+      // cascade de re-rendus. L'effet dépend uniquement de `slug` et ne s'exécute que
+      // à mount ou lors du changement de `slug`.
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setPendingDraft(draft)
     } else {
@@ -38,8 +44,9 @@ export function useQuoteDraft<T extends FieldValues>(
 
   // On n'écrit qu'une fois le bandeau traité : sans cela, le formulaire vide
   // écraserait le brouillon avant que l'utilisateur ait pu le reprendre.
+  // `isSuppressed` permet d'arrêter les écritures après clearSavedDraft().
   useEffect(() => {
-    if (!isDecided) {
+    if (!isDecided || isSuppressed) {
       return
     }
 
@@ -60,7 +67,7 @@ export function useQuoteDraft<T extends FieldValues>(
         clearTimeout(timerRef.current)
       }
     }
-  }, [form, slug, isDecided])
+  }, [form, slug, isDecided, isSuppressed])
 
   const restoreDraft = useCallback(() => {
     if (!pendingDraft) {
@@ -91,6 +98,7 @@ export function useQuoteDraft<T extends FieldValues>(
       clearTimeout(timerRef.current)
     }
     clearDraft(slug)
+    setIsSuppressed(true)
   }, [slug])
 
   return { pendingDraft, restoreDraft, discardDraft, clearSavedDraft }

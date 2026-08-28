@@ -45,6 +45,7 @@ export function readDraft(slug: string, now = Date.now()): QuoteDraft | null {
       typeof parsed !== "object" ||
       parsed === null ||
       typeof (parsed as QuoteDraft).savedAt !== "number" ||
+      typeof (parsed as QuoteDraft).stepIndex !== "number" ||
       typeof (parsed as QuoteDraft).values !== "object" ||
       (parsed as QuoteDraft).values === null
     ) {
