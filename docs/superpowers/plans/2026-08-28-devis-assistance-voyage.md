@@ -1344,8 +1344,13 @@ export type QuoteSlug = keyof typeof quoteFormsMeta
 
 export const quoteFormSlugs = Object.keys(quoteFormsMeta) as QuoteSlug[]
 
+/**
+ * `Object.hasOwn` et non `value in quoteFormsMeta` : `in` parcourt la chaîne
+ * de prototypes, donc « toString » ou « constructor » passeraient le garde et
+ * feraient planter la Server Action, qui est un point d'entrée public.
+ */
 export function isQuoteSlug(value: string): value is QuoteSlug {
-  return value in quoteFormsMeta
+  return Object.hasOwn(quoteFormsMeta, value)
 }
 ```
 
@@ -3586,8 +3591,8 @@ Dans `src/components/home/Footer.tsx`, remplacer la ligne commentée
 Dans `src/app/sitemap.ts`, ajouter `"/devis"` et `"/devis/assistance-voyage"`
 à `staticRoutes`, après `"/contact"`.
 
-Puis remplacer les six premières lignes du commentaire de tête — de
-`* Pages statiques indexables.` à la ligne `/studio` incluse — par :
+Puis remplacer les lignes du commentaire de tête allant de
+`* Pages statiques indexables.` à la ligne `/studio` incluse par :
 
 ```
  * Pages statiques indexables.
