@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers"
 
+import { escapeHtml } from "@/lib/html"
 import { sendMail } from "@/lib/mailer"
 import { checkRateLimit } from "@/lib/rate-limit"
 import {
@@ -13,15 +14,6 @@ import {
 export type ContactActionResult =
   | { success: true }
   | { success: false; error: string }
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-}
 
 export async function submitContactForm(
   values: ContactFormValues

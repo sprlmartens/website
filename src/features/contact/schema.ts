@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { belgianPhone } from "@/lib/validation"
+
 export const contactIntents = [
   "assurance",
   "placement",
@@ -15,8 +17,6 @@ export const contactIntentLabels: Record<ContactIntent, string> = {
   sinistre: "Sinistre",
   autre: "Autre",
 }
-
-const belgianPhone = /^(\+32|0)[1-9](\s?\d){7,8}$/
 
 export const contactSchema = z.object({
   firstName: z
