@@ -13,6 +13,7 @@
 ## Global Constraints
 
 - **Langue** : tout texte affiché à l'utilisateur et tout commentaire de code est en **français**. Les identifiants (variables, fonctions, types, fichiers) sont en **anglais**.
+- **Apostrophes dans le JSX** : tout texte français placé dans un nœud JSX utilise l'apostrophe typographique « ’ » (U+2019), jamais l'ASCII « ' ». La règle `react/no-unescaped-entities` fait de l'ASCII une **erreur** de lint, et tout le dépôt existant utilise déjà « ’ ». Les blocs de code de ce plan contiennent des apostrophes ASCII : les convertir en les transcrivant.
 - **Messages zod** : syntaxe zod v4, `{ error: "..." }` — jamais `{ message: "..." }`.
 - **Raffinements zod** : utiliser `.check((ctx) => ctx.issues.push({ code: "custom", input, path, message }))`. `superRefine` fonctionne encore mais est déprécié en zod v4.
 - **Typage du schéma dans les génériques** : `schema: z.ZodType<T, T>` — et non `z.ZodType<T>`, dont le type d'entrée `unknown` fait échouer `zodResolver`. Vérifié à l'écriture de ce plan.
