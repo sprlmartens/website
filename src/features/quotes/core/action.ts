@@ -10,7 +10,7 @@ import { renderSummaryHtml, renderSummaryText } from "./email"
 import { isQuoteSlug, quoteFormsMeta } from "./meta"
 
 export type QuoteActionResult =
-  | { success: true }
+  | { success: true; acknowledgementSent: boolean }
   | { success: false; error: string }
 
 const GENERIC_ERROR =
@@ -37,8 +37,9 @@ export async function submitQuoteRequest(
   const data = parsed.data
 
   // Piège à robots : on feint le succès plutôt que de signaler la détection.
+  // Aucun e-mail n'est envoyé sur ce chemin, donc pas d'accusé de réception.
   if (data.honeypot) {
-    return { success: true }
+    return { success: true, acknowledgementSent: false }
   }
 
   const headersList = await headers()
@@ -88,7 +89,10 @@ export async function submitQuoteRequest(
   }
 
   // L'accusé de réception ne doit jamais faire échouer la demande : l'agence
-  // l'a reçue, inviter le prospect à recommencer créerait un doublon.
+  // l'a reçue, inviter le prospect à recommencer créerait un doublon. Son
+  // succès est néanmoins remonté à l'appelant pour que l'écran de
+  // confirmation n'affirme pas un envoi qui a échoué.
+  let acknowledgementSent = true
   try {
     const meta = quoteFormsMeta[slug]
     await sendMail({
@@ -115,7 +119,8 @@ export async function submitQuoteRequest(
     })
   } catch (error) {
     console.error("Failed to send quote acknowledgement email", error)
+    acknowledgementSent = false
   }
 
-  return { success: true }
+  return { success: true, acknowledgementSent }
 }

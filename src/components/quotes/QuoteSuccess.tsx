@@ -3,7 +3,13 @@ import { CheckIcon, PhoneCall } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
-export function QuoteSuccess({ email }: { email: string }) {
+export function QuoteSuccess({
+  email,
+  acknowledgementSent,
+}: {
+  email: string
+  acknowledgementSent: boolean
+}) {
   return (
     <div className="mx-auto max-w-xl text-center">
       <span
@@ -16,8 +22,19 @@ export function QuoteSuccess({ email }: { email: string }) {
         Votre demande est bien partie.
       </h2>
       <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-        Un récapitulatif vient d’être envoyé à {email}. Un conseiller vous
-        recontacte sous deux jours ouvrables avec une proposition adaptée.
+        {acknowledgementSent ? (
+          <>
+            Un récapitulatif vient d’être envoyé à {email}. Un conseiller
+            vous recontacte sous deux jours ouvrables avec une proposition
+            adaptée.
+          </>
+        ) : (
+          <>
+            Votre demande a bien été reçue par notre équipe. Un conseiller
+            vous recontacte sous deux jours ouvrables avec une proposition
+            adaptée.
+          </>
+        )}
       </p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
         <Button asChild size="lg">

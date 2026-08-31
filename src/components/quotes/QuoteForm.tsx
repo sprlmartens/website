@@ -69,6 +69,7 @@ export function QuoteForm<T extends FieldValues>({
 }: QuoteFormProps<T>) {
   const [stepIndex, setStepIndex] = useState(0)
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null)
+  const [acknowledgementSent, setAcknowledgementSent] = useState(false)
   const [isPending, startTransition] = useTransition()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -125,6 +126,7 @@ export function QuoteForm<T extends FieldValues>({
 
         if (result.success) {
           clearSavedDraft()
+          setAcknowledgementSent(result.acknowledgementSent)
           setSubmittedEmail(definition.recipientEmail(values))
         } else {
           toast.error(result.error)
@@ -158,7 +160,12 @@ export function QuoteForm<T extends FieldValues>({
   }
 
   if (submittedEmail) {
-    return <QuoteSuccess email={submittedEmail} />
+    return (
+      <QuoteSuccess
+        email={submittedEmail}
+        acknowledgementSent={acknowledgementSent}
+      />
+    )
   }
 
   const StepComponent = isReview ? null : steps[stepIndex].Component
