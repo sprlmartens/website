@@ -1,5 +1,12 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import {
+  ArrowRight,
+  Car,
+  HeartPulse,
+  House,
+  LifeBuoy,
+  Users,
+} from "lucide-react"
 
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
@@ -8,11 +15,17 @@ import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbSchema } from "@/lib/structured-data"
 
 const coverages = [
-  { name: "Auto / moto", note: "assurer vos véhicules" },
-  { name: "Habitation", note: "incendie, vol, dégâts des eaux" },
-  { name: "Famille", note: "responsabilité civile vie privée" },
-  { name: "Santé", note: "hospitalisation et soins" },
-  { name: "Assistance", note: "voyage, véhicule, rappatriement" },
+  { icon: Car, name: "Auto / moto", note: "assurer vos véhicules" },
+  { icon: House, name: "Habitation", note: "incendie, vol, dégâts des eaux" },
+  { icon: Users, name: "Famille", note: "responsabilité civile vie privée" },
+  { icon: HeartPulse, name: "Santé", note: "hospitalisation et soins" },
+  {
+    icon: LifeBuoy,
+    name: "Assistance",
+    note: "voyage, rapatriement",
+    // Les autres couvertures recevront ce champ quand leur formulaire existera.
+    quote: { href: "/devis/assistance-voyage", label: "Demander un devis" },
+  },
 ]
 
 export const metadata = {
@@ -25,7 +38,12 @@ export const metadata = {
 export default function Page() {
   return (
     <main>
-      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }, { name: "Particuliers", path: "/services/particuliers" }])} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Services", path: "/services" },
+          { name: "Particuliers", path: "/services/particuliers" },
+        ])}
+      />
       <PageHeader
         eyebrow="Particuliers & familles"
         title="Protéger ce que vous construisez."
@@ -40,16 +58,35 @@ export default function Page() {
           {coverages.map((item, i) => (
             <li
               key={item.name}
-              className={`py-6 sm:py-8 ${i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"} ${
+              className={`flex items-start gap-4 py-6 sm:py-8 ${
+                i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"
+              } ${
                 i === coverages.length - 1 ? "" : "sm:border-b sm:border-border"
               }`}
             >
-              <h2 className="font-display text-xl font-medium text-foreground">
-                {item.name}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {item.note}
-              </p>
+              <span
+                aria-hidden
+                className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/5"
+              >
+                <item.icon className="size-5 text-primary" />
+              </span>
+              <div className="min-w-0">
+                <h2 className="font-display text-xl font-medium text-foreground">
+                  {item.name}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.note}
+                </p>
+                {item.quote ? (
+                  <Link
+                    href={item.quote.href}
+                    className="group/quote mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    {item.quote.label}
+                    <ArrowRight className="size-3.5 transition-transform group-hover/quote:translate-x-0.5" />
+                  </Link>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>

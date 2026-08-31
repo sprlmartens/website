@@ -7,9 +7,8 @@ import { POSTS_SITEMAP_QUERY } from "@/sanity/lib/queries"
 /**
  * Pages statiques indexables.
  *
- * Volontairement exclus :
- * - /simulation : en `noindex` tant que la page n'est pas construite
- * - /studio     : interface d'administration Sanity
+ * Volontairement exclu :
+ * - /studio : interface d'administration Sanity
  *
  * Aucun `lastModified` n'est fourni pour ces pages : une date inventée
  * pousse Google à ignorer complètement le <lastmod> du sitemap.
@@ -26,9 +25,12 @@ const staticRoutes = [
   "/services/particuliers",
   "/services/professionnels",
   "/services/placements-epargne",
+  "/partenaires",
   "/sinistres",
   "/blog",
   "/contact",
+  "/devis",
+  "/devis/assistance-voyage",
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

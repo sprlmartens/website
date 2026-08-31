@@ -4,10 +4,11 @@ import { Mail, MapPin, PhoneCall, Printer } from "lucide-react"
 
 const mainNav = [
   { label: "À propos", href: "/a-propos" },
+  { label: "Partenaires", href: "/partenaires" },
   { label: "Sinistres", href: "/sinistres" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
-  // { label: "Demande de simulation", href: "/simulation" },
+  { label: "Demande de devis", href: "/devis" },
 ]
 
 const services = [

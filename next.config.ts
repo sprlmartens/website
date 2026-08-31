@@ -39,6 +39,9 @@ const nextConfig: NextConfig = {
         destination: "/sitemap.xml",
         permanent: true,
       },
+      // L'ancienne page de simulation a été remplacée par /devis ; l'URL a pu
+      // être partagée avant sa suppression.
+      { source: "/simulation", destination: "/devis", permanent: true },
     ]
   },
 }

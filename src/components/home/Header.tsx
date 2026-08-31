@@ -15,6 +15,7 @@ const servicesSubNav = [
 const navItems = [
   { label: "À propos", href: "/a-propos" },
   { label: "Services", href: "/services", children: servicesSubNav },
+  { label: "Partenaires", href: "/partenaires" },
   { label: "Sinistres", href: "/sinistres" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -75,11 +76,11 @@ export default function Header() {
           )}
         </nav>
 
-        {/* <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6">
           <Button asChild>
-            <Link href="/simulation">Demande de simulation</Link>
+            <Link href="/devis">Demander un devis</Link>
           </Button>
-        </div> */}
+        </div>
       </div>
     </header>
   )

@@ -15,11 +15,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       // /studio : interface d'administration Sanity, sans intérêt public.
       // /api/   : routes techniques (draft mode).
-      //
-      // /simulation n'est PAS listée ici volontairement : elle est en
-      // `noindex` via ses metadata, et bloquer son exploration empêcherait
-      // Google de lire cette directive — l'URL pourrait alors rester
-      // indexée sans son contenu.
       disallow: ["/studio", "/api/"],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
