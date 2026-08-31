@@ -1,7 +1,12 @@
 "use client"
 
 import { useCallback, useRef, useState, useTransition } from "react"
-import { FormProvider, useForm, type FieldValues } from "react-hook-form"
+import {
+  FormProvider,
+  useForm,
+  type FieldErrors,
+  type FieldValues,
+} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import { ArrowLeft, ArrowRight, Send } from "lucide-react"
@@ -18,9 +23,44 @@ import { QuoteSuccess } from "./QuoteSuccess"
 
 const REVIEW_TITLE = "Récapitulatif"
 
+// Message générique en cas d'échec réseau de la Server Action elle-même,
+// distinct des échecs métier déjà couverts par `{ success: false }` (voir
+// `GENERIC_ERROR` dans `core/action.ts`, non exporté car ce fichier est
+// serveur uniquement).
+const SUBMIT_NETWORK_ERROR =
+  "L'envoi a échoué. Veuillez réessayer ou nous appeler directement."
+
 type QuoteFormProps<T extends FieldValues> = {
   definition: QuoteFormDefinition<T>
   steps: QuoteStep<T>[]
+}
+
+/**
+ * Un nœud d'erreurs react-hook-form contient-il un message, à sa racine ou
+ * chez un descendant (champ imbriqué ou tableau) ? Sert à savoir si une
+ * étape « possède » au moins une erreur après une validation complète.
+ */
+function hasErrorMessage(node: unknown): boolean {
+  if (!node || typeof node !== "object") {
+    return false
+  }
+  if (
+    "message" in node &&
+    typeof (node as { message?: unknown }).message === "string"
+  ) {
+    return true
+  }
+  return Object.values(node as Record<string, unknown>).some(hasErrorMessage)
+}
+
+/** Descend dans l'arbre d'erreurs le long d'un chemin en pointillés. */
+function getErrorNode(errors: unknown, path: string): unknown {
+  return path.split(".").reduce<unknown>((current, key) => {
+    if (current && typeof current === "object") {
+      return (current as Record<string, unknown>)[key]
+    }
+    return undefined
+  }, errors)
 }
 
 export function QuoteForm<T extends FieldValues>({
@@ -48,9 +88,15 @@ export function QuoteForm<T extends FieldValues>({
 
   const goToStep = useCallback(
     (index: number) => {
-      // Borne défensive : un brouillon restauré peut porter un `stepIndex`
-      // hérité d'une version du formulaire ayant un nombre d'étapes différent.
-      const clamped = Math.min(Math.max(index, 0), steps.length)
+      // Un brouillon restauré vient du stockage local : `readDraft` ne
+      // vérifie que `typeof stepIndex === "number"`, ce qui laisse passer
+      // NaN, 2.5 ou Infinity en cas de valeur corrompue ou falsifiée. On
+      // replie sur l'étape 0 plutôt que de planter sur `steps[stepIndex]`.
+      const safeIndex = Number.isInteger(index) ? index : 0
+      // Borne défensive : un brouillon restauré peut aussi porter un
+      // `stepIndex` hérité d'une version du formulaire ayant un nombre
+      // d'étapes différent.
+      const clamped = Math.min(Math.max(safeIndex, 0), steps.length)
       setStepIndex(clamped)
       containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
       // Le focus sur le titre fait annoncer le nouveau contexte aux lecteurs
@@ -72,18 +118,44 @@ export function QuoteForm<T extends FieldValues>({
     }
   }, [form, goToStep, stepIndex, steps])
 
-  const onSubmit = form.handleSubmit((values) => {
+  const handleValidSubmit = (values: T) => {
     startTransition(async () => {
-      const result = await submitQuoteRequest(definition.slug, values)
+      try {
+        const result = await submitQuoteRequest(definition.slug, values)
 
-      if (result.success) {
-        clearSavedDraft()
-        setSubmittedEmail(definition.recipientEmail(values))
-      } else {
-        toast.error(result.error)
+        if (result.success) {
+          clearSavedDraft()
+          setSubmittedEmail(definition.recipientEmail(values))
+        } else {
+          toast.error(result.error)
+        }
+      } catch (error) {
+        // Distinct des échecs métier ci-dessus : ici, l'appel réseau vers
+        // la Server Action lui-même a échoué (perte de connexion, etc.).
+        console.error("Failed to call submitQuoteRequest", error)
+        toast.error(SUBMIT_NETWORK_ERROR)
       }
     })
-  })
+  }
+
+  // Route vers la première étape propriétaire d'un champ en erreur quand la
+  // validation complète du récapitulatif échoue. `QuoteReview` n'affiche
+  // aucune erreur de champ : sans ce filet, un rejet du schéma sur un
+  // chemin qu'aucune étape ne couvrirait laisserait le bouton « Envoyer »
+  // sans aucun effet visible.
+  const handleInvalidSubmit = (errors: FieldErrors<T>) => {
+    const ownerIndex = steps.findIndex((step) =>
+      step.fields.some((field) => hasErrorMessage(getErrorNode(errors, field)))
+    )
+
+    if (ownerIndex >= 0) {
+      goToStep(ownerIndex)
+    }
+
+    toast.error(
+      "Certains champs sont invalides. Veuillez vérifier vos réponses."
+    )
+  }
 
   if (submittedEmail) {
     return <QuoteSuccess email={submittedEmail} />
@@ -116,7 +188,15 @@ export function QuoteForm<T extends FieldValues>({
 
         <FormProvider {...form}>
           <form
-            onSubmit={onSubmit}
+            onSubmit={(event) => {
+              // Composé ici, dans le gestionnaire d'événement, plutôt qu'en
+              // haut du composant : `handleInvalidSubmit` lit des refs via
+              // `goToStep`, et les passer à `form.handleSubmit(...)` pendant
+              // le rendu déclencherait la règle `react-hooks/refs`. Au sein
+              // d'un gestionnaire d'événement, cette lecture est sûre —
+              // comme pour tous les autres appels à `goToStep` ci-dessous.
+              void form.handleSubmit(handleValidSubmit, handleInvalidSubmit)(event)
+            }}
             onKeyDown={(event) => {
               // Entrée fait avancer d'une étape plutôt que soumettre, sauf
               // dans un champ multiligne et sauf sur le récapitulatif. Les
