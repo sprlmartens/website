@@ -49,6 +49,32 @@ function TripStep() {
   const coverageDuration = useWatch({ control, name: "coverageDuration" })
   const insureVehicle = useWatch({ control, name: "insureVehicle" })
 
+  // Ancre le dernier `coverageDuration` connu pour ne détecter qu'un
+  // changement réel. Initialisée à la valeur courante : le premier passage
+  // de l'effet ci-dessous ne trouve donc jamais de différence, que ce
+  // premier passage suive le montage initial ou le remontage de cette étape
+  // après un aller-retour dans le stepper. Un brouillon restauré repeuple ce
+  // champ via `form.reset`, qui déclenche aussi ce watch — mais la valeur
+  // "avant" que l'effet compare reste celle d'avant la restauration, jamais
+  // "period" dans ce cas précis (la valeur par défaut est une chaîne vide),
+  // donc la restauration ne déclenche jamais le nettoyage ci-dessous. Vider
+  // les dates d'un brouillon restauré écraserait des réponses que
+  // l'utilisateur a explicitement enregistrées — un bug pire que celui que
+  // ce correctif résout.
+  const previousCoverageDuration = useRef(coverageDuration)
+
+  useEffect(() => {
+    const previous = previousCoverageDuration.current
+    previousCoverageDuration.current = coverageDuration
+
+    if (previous === "period" && coverageDuration !== "period") {
+      // Un aller-retour sur "Une période" laisserait sinon les dates dans
+      // les valeurs du formulaire, invisibles mais toujours présentes.
+      setValue("periodStart", "")
+      setValue("periodEnd", "")
+    }
+  }, [coverageDuration, setValue])
+
   return (
     <div className="flex flex-col gap-8">
       <OptionCardGroup
@@ -274,6 +300,7 @@ function ContactStep() {
     formState: { errors },
   } = useFormContext<AssistanceVoyageValues>()
   const consentError = getFieldError(errors, "consent")
+  const messageError = getFieldError(errors, "message")
 
   return (
     <div className="flex flex-col gap-8">
@@ -294,12 +321,18 @@ function ContactStep() {
         />
       </div>
 
-      <Field>
+      <Field data-invalid={!!messageError}>
         <FieldLabel htmlFor="message">
           Une précision à nous transmettre ? (facultatif)
         </FieldLabel>
         <FieldContent>
-          <Textarea id="message" rows={4} {...register("message")} />
+          <Textarea
+            id="message"
+            rows={4}
+            aria-invalid={!!messageError}
+            {...register("message")}
+          />
+          <FieldError errors={[messageError]} />
         </FieldContent>
       </Field>
 
