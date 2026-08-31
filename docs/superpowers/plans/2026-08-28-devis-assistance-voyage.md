@@ -1840,7 +1840,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-import { getFieldError } from "./TextField"
+import { getFieldError } from "./field-utils"
 
 /**
  * Insère les « / » au fil de la saisie et ignore tout caractère non
@@ -1917,7 +1917,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
 
-import { getFieldError } from "./TextField"
+import { getFieldError } from "./field-utils"
 
 export type Option = {
   value: string
@@ -2020,7 +2020,7 @@ import {
 } from "@/components/ui/field"
 import { cn } from "@/lib/utils"
 
-import { getFieldError } from "./TextField"
+import { getFieldError } from "./field-utils"
 
 type BooleanFieldProps = {
   name: string
@@ -2969,7 +2969,8 @@ import { BooleanField } from "@/components/quotes/fields/BooleanField"
 import { MaskedDateField } from "@/components/quotes/fields/MaskedDateField"
 import { OptionCardGroup } from "@/components/quotes/fields/OptionCardGroup"
 import { PersonFields } from "@/components/quotes/fields/PersonFields"
-import { TextField, getFieldError } from "@/components/quotes/fields/TextField"
+import { TextField } from "@/components/quotes/fields/TextField"
+import { getFieldError } from "@/components/quotes/fields/field-utils"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
