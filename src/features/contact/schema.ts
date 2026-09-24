@@ -31,14 +31,10 @@ export const contactSchema = z.object({
     .max(50, { error: "Le nom est trop long." }),
   email: z.email({ error: "Adresse e-mail invalide." }),
   phone: z
-    .union([
-      z.literal(""),
-      z
-        .string()
-        .trim()
-        .regex(belgianPhone, { error: "Numéro de téléphone invalide." }),
-    ])
-    .optional(),
+    .string()
+    .trim()
+    .min(1, { error: "Le numéro de téléphone est requis." })
+    .regex(belgianPhone, { error: "Numéro de téléphone invalide." }),
   intent: z.enum(contactIntents, {
     error: "Veuillez sélectionner un motif de contact.",
   }),

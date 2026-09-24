@@ -13,7 +13,10 @@ import { ArrowLeft, ArrowRight, Send } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { submitQuoteRequest } from "@/features/quotes/core/action"
-import type { QuoteFormDefinition, QuoteStep } from "@/features/quotes/core/types"
+import type {
+  QuoteFormDefinition,
+  QuoteStep,
+} from "@/features/quotes/core/types"
 
 import { QuoteReview } from "./QuoteReview"
 import { QuoteStepper } from "./QuoteStepper"
@@ -82,16 +85,13 @@ export function QuoteForm<T extends FieldValues>({
   const isReview = stepIndex === steps.length
   const stepTitles = [...steps.map((step) => step.title), REVIEW_TITLE]
 
-  const goToStep = useCallback(
-    (index: number) => {
-      setStepIndex(index)
-      containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-      // Le focus sur le titre fait annoncer le nouveau contexte aux lecteurs
-      // d'écran ; `preventScroll` laisse le défilement doux se dérouler.
-      headingRef.current?.focus({ preventScroll: true })
-    },
-    []
-  )
+  const goToStep = useCallback((index: number) => {
+    setStepIndex(index)
+    containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    // Le focus sur le titre fait annoncer le nouveau contexte aux lecteurs
+    // d'écran ; `preventScroll` laisse le défilement doux se dérouler.
+    headingRef.current?.focus({ preventScroll: true })
+  }, [])
 
   const handleNext = useCallback(async () => {
     const step = steps[stepIndex]
@@ -132,7 +132,7 @@ export function QuoteForm<T extends FieldValues>({
   // sans aucun effet visible.
   const handleInvalidSubmit = (errors: FieldErrors<T>) => {
     const ownerIndex = steps.findIndex((step) =>
-      step.fields.some((field) => hasErrorMessage(getErrorNode(errors, field)))
+      step.fields.some((field) => hasErrorMessage(getErrorNode(errors, field))),
     )
 
     if (ownerIndex >= 0) {
@@ -140,7 +140,7 @@ export function QuoteForm<T extends FieldValues>({
     }
 
     toast.error(
-      "Certains champs sont invalides. Veuillez vérifier vos réponses."
+      "Certains champs sont invalides. Veuillez vérifier vos réponses.",
     )
   }
 
@@ -158,9 +158,16 @@ export function QuoteForm<T extends FieldValues>({
   const currentDescription = isReview ? undefined : steps[stepIndex].description
 
   return (
-    <div ref={containerRef} className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+    // La marge de défilement dégage l'en-tête collant (105 px en mobile,
+    // 121 px dès `md`) : à chaque changement d'étape, le haut du formulaire
+    // s'arrête juste en dessous au lieu d'être masqué. Le stepper se colle
+    // à la même hauteur, pour rester aligné sur le titre de l'étape.
+    <div
+      ref={containerRef}
+      className="grid scroll-mt-32 gap-10 md:scroll-mt-36 lg:grid-cols-12 lg:gap-12"
+    >
       <div className="lg:col-span-4">
-        <div className="lg:sticky lg:top-28">
+        <div className="lg:sticky lg:top-36">
           <QuoteStepper
             titles={stepTitles}
             currentIndex={stepIndex}
@@ -179,7 +186,10 @@ export function QuoteForm<T extends FieldValues>({
               // le rendu déclencherait la règle `react-hooks/refs`. Au sein
               // d'un gestionnaire d'événement, cette lecture est sûre —
               // comme pour tous les autres appels à `goToStep` ci-dessous.
-              void form.handleSubmit(handleValidSubmit, handleInvalidSubmit)(event)
+              void form.handleSubmit(
+                handleValidSubmit,
+                handleInvalidSubmit,
+              )(event)
             }}
             onKeyDown={(event) => {
               // Entrée fait avancer d'une étape plutôt que soumettre, sauf
@@ -244,12 +254,17 @@ export function QuoteForm<T extends FieldValues>({
               ) : null}
 
               {isReview ? (
-                <Button type="submit" size="lg" disabled={isPending}>
+                <Button
+                  key="submit"
+                  type="submit"
+                  size="lg"
+                  disabled={isPending}
+                >
                   {isPending ? "Envoi en cours…" : "Envoyer ma demande"}
                   {isPending ? null : <Send className="size-4" />}
                 </Button>
               ) : (
-                <Button type="button" size="lg" onClick={handleNext}>
+                <Button key="next" type="button" size="lg" onClick={handleNext}>
                   Continuer
                   <ArrowRight className="size-4" />
                 </Button>

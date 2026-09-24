@@ -69,7 +69,7 @@ export async function submitContactForm(
         `Prénom : ${firstName}`,
         `Nom : ${lastName}`,
         `Email : ${email}`,
-        `Téléphone : ${phone || "Non renseigné"}`,
+        `Téléphone : ${phone}`,
         `Motif : ${contactIntentLabels[intent]}`,
         "",
         "Message :",
@@ -79,7 +79,7 @@ export async function submitContactForm(
         <p><strong>Prénom :</strong> ${escapeHtml(firstName)}</p>
         <p><strong>Nom :</strong> ${escapeHtml(lastName)}</p>
         <p><strong>Email :</strong> ${escapeHtml(email)}</p>
-        <p><strong>Téléphone :</strong> ${escapeHtml(phone || "Non renseigné")}</p>
+        <p><strong>Téléphone :</strong> ${escapeHtml(phone)}</p>
         <p><strong>Motif :</strong> ${escapeHtml(contactIntentLabels[intent])}</p>
         <p><strong>Message :</strong></p>
         <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>

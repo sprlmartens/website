@@ -156,7 +156,9 @@ export default function ContactForm() {
         </Field>
 
         <Field data-invalid={!!errors.message}>
-          <FieldLabel htmlFor="message">Message</FieldLabel>
+          <FieldLabel htmlFor="message">
+            Message (Expliquez en quelques mots le motif de votre demande)
+          </FieldLabel>
           <FieldContent>
             <Textarea
               id="message"

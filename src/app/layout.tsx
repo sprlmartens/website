@@ -37,7 +37,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={cn("font-sans", inter.variable, nunitoSansHeading.variable, ibmPlexSansDisplay.variable)}>
+    // `data-scroll-behavior` : depuis Next.js 16, sans cet attribut, le
+    // `scroll-behavior: smooth` global reste actif pendant les changements de
+    // page. Le retour en haut devient alors animé, Next.js le croit inachevé
+    // et aligne le haut du contenu sous l'en-tête collant, qui masque le
+    // début de la page.
+    <html lang="fr" data-scroll-behavior="smooth" className={cn("font-sans", inter.variable, nunitoSansHeading.variable, ibmPlexSansDisplay.variable)}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   )
