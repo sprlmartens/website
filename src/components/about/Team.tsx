@@ -22,7 +22,7 @@ const groups = [
 export default function Team() {
   return (
     <section id="equipe" className="bg-secondary">
-      <div className="container py-24 lg:py-32">
+      <div className="container py-16 lg:py-20">
         <h2 className="reveal max-w-3xl font-display text-4xl font-medium leading-tight tracking-tight text-foreground sm:text-5xl">
           L&rsquo;équipe
         </h2>

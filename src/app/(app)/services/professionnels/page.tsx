@@ -1,5 +1,13 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import {
+  ArrowRight,
+  HardHat,
+  PiggyBank,
+  Scale,
+  Stethoscope,
+  Truck,
+  Wallet,
+} from "lucide-react"
 
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
@@ -8,18 +16,33 @@ import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbSchema } from "@/lib/structured-data"
 
 const coverages = [
-  { name: "Protection des revenus", note: "en cas d'incapacité de travail" },
-  { name: "Responsabilité professionnelle", note: "exercer l'esprit libre" },
   {
+    icon: Wallet,
+    name: "Protection des revenus",
+    note: "en cas d'incapacité de travail",
+  },
+  {
+    icon: Scale,
+    name: "Responsabilité professionnelle",
+    note: "exercer l'esprit libre",
+  },
+  {
+    icon: Truck,
     name: "Véhicules",
     note: "automoteur (voiture, camionnette, tracteur, ...)",
   },
-  { name: "Pension complémentaire", note: "PLCI, EIP : optimiser fiscalement" },
   {
+    icon: PiggyBank,
+    name: "Pension complémentaire",
+    note: "PLCI, EIP : optimiser fiscalement",
+  },
+  {
+    icon: Stethoscope,
     name: "Assurance hospitalisation",
     note: "proteger contre les frais d'hospitalisation",
   },
   {
+    icon: HardHat,
     name: "Assurance accident du travail",
     note: "proteger vos collaborateurs contre les accidents survenus au travail, sur le chemin du travail et lors de déplacements professionnels.",
   },
@@ -35,7 +58,12 @@ export const metadata = {
 export default function Page() {
   return (
     <main>
-      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }, { name: "Professionnels", path: "/services/professionnels" }])} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Services", path: "/services" },
+          { name: "Professionnels", path: "/services/professionnels" },
+        ])}
+      />
       <PageHeader
         eyebrow="Professionnels"
         title="Votre activité repose sur vous. Et vous ?"
@@ -50,16 +78,26 @@ export default function Page() {
           {coverages.map((item, i) => (
             <li
               key={item.name}
-              className={`py-6 sm:py-8 ${i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"} ${
+              className={`flex items-start gap-4 py-6 sm:py-8 ${
+                i % 2 === 1 ? "sm:pl-8" : "sm:pr-8"
+              } ${
                 i === coverages.length - 1 ? "" : "sm:border-b sm:border-border"
               }`}
             >
-              <h2 className="font-display text-xl font-medium text-foreground">
-                {item.name}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {item.note}
-              </p>
+              <span
+                aria-hidden
+                className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/5"
+              >
+                <item.icon className="size-5 text-primary" />
+              </span>
+              <div className="min-w-0">
+                <h2 className="font-display text-xl font-medium text-foreground">
+                  {item.name}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.note}
+                </p>
+              </div>
             </li>
           ))}
         </ul>

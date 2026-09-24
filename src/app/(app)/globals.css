@@ -222,6 +222,31 @@
   }
 }
 
+/* Variante douce du duotone, pour les portraits de l'équipe.
+   Le traitement navy complet (grayscale + multiply) fige les visages et vide
+   la photo de sa chaleur — exactement ce qu'un portrait doit transmettre.
+   On garde donc les couleurs et on se limite à une teinte navy très légère,
+   suffisante pour rester cohérent avec le reste de la photographie du site. */
+@utility duotone-soft {
+  position: relative;
+  overflow: hidden;
+
+  & img {
+    filter: saturate(0.92) contrast(1.03);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-navy-800);
+    mix-blend-mode: multiply;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
 /* Red pen-stroke underline on a key word */
 @utility pen-underline {
   background-image: linear-gradient(var(--color-accent), var(--color-accent));

@@ -1,3 +1,4 @@
+import { GOOGLE_REVIEWS } from "@/lib/google-reviews"
 import { siteUrl } from "@/lib/site-url"
 
 /**
@@ -93,6 +94,23 @@ export const organizationSchema = {
     name: "Liège",
   },
   openingHoursSpecification: openingHours,
+  // Note Google agrégée. Source unique : GOOGLE_REVIEWS (lib/google-reviews).
+  //
+  // À ne pas attendre : des étoiles dans les liens bleus de Google. Les
+  // « review rich results » sont restreints quand la note est auto-hébergée
+  // par l'entreprise elle-même, et la note du Business Profile s'affiche
+  // déjà nativement dans le pack local.
+  // Le gain réel est ailleurs : les moteurs de réponse (AI Overviews,
+  // ChatGPT, Perplexity) s'appuient fortement sur les données structurées
+  // pour répondre à « quel courtier en assurances à Liège » — sans ce bloc,
+  // ils n'ont aucune information sur la réputation du bureau.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: GOOGLE_REVIEWS.rating,
+    reviewCount: GOOGLE_REVIEWS.count,
+    bestRating: 5,
+    worstRating: 1,
+  },
   sameAs: [
     "https://www.facebook.com/sprlmartens/",
     "https://www.courtierenassurances.be/brokers/3975",

@@ -26,7 +26,7 @@ export default function Page() {
       <JsonLd data={organizationSchema} />
       <JsonLd data={websiteSchema} />
       <Hero />
-      <TrustBar />
+      {/* <TrustBar /> */}
       <Manifesto />
       <GoogleReviews />
       <Services />
