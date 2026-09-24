@@ -36,6 +36,7 @@ const staticRoutes = [
   "/devis/assistance-voyage",
   "/devis/sante-hospitalisation",
   "/devis/epargne-pension",
+  "/devis/solde-restant-du",
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

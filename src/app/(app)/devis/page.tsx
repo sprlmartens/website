@@ -6,6 +6,7 @@ import {
   House,
   LifeBuoy,
   PiggyBank,
+  ShieldCheck,
   Users,
   type LucideIcon,
 } from "lucide-react"
@@ -30,6 +31,7 @@ const icons = {
   "assistance-voyage": LifeBuoy,
   "sante-hospitalisation": HeartPulse,
   "epargne-pension": PiggyBank,
+  "solde-restant-du": ShieldCheck,
 } satisfies Record<QuoteSlug, LucideIcon>
 
 // Même ordre et mêmes libellés que `/services`. Une rubrique sans produit

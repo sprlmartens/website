@@ -36,6 +36,7 @@ describe("quoteFormSlugs", () => {
       "assistance-voyage",
       "sante-hospitalisation",
       "epargne-pension",
+      "solde-restant-du",
     ])
   })
 })

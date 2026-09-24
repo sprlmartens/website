@@ -9,6 +9,7 @@ import { EpargnePensionForm } from "@/features/quotes/epargne-pension/EpargnePen
 import { FamilialeForm } from "@/features/quotes/familiale/FamilialeForm"
 import { HabitationForm } from "@/features/quotes/habitation/HabitationForm"
 import { SanteHospitalisationForm } from "@/features/quotes/sante-hospitalisation/SanteHospitalisationForm"
+import { SoldeRestantDuForm } from "@/features/quotes/solde-restant-du/SoldeRestantDuForm"
 
 /**
  * Registre client : une définition ne franchit pas la frontière RSC, la page
@@ -22,6 +23,7 @@ const quoteFormComponents: Record<QuoteSlug, ComponentType> = {
   "assistance-voyage": AssistanceVoyageForm,
   "sante-hospitalisation": SanteHospitalisationForm,
   "epargne-pension": EpargnePensionForm,
+  "solde-restant-du": SoldeRestantDuForm,
 }
 
 export function QuoteFormBySlug({ slug }: { slug: QuoteSlug }) {

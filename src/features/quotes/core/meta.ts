@@ -104,6 +104,22 @@ export const quoteFormsMeta = {
       alt: "Pièces et jeune pousse, symbole d'une épargne qui grandit",
     },
   },
+  "solde-restant-du": {
+    slug: "solde-restant-du",
+    category: "placements-epargne",
+    eyebrow: "Solde restant dû",
+    note: "Votre crédit remboursé en cas de décès",
+    title: "Votre projet immobilier, en toute sérénité.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les assurances solde restant dû de nos partenaires, pour vous et votre co-emprunteur, sans engagement.",
+    metaTitle: "Devis assurance solde restant dû — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'assurance solde restant dû : le remboursement de votre crédit hypothécaire garanti en cas de décès, pour vous et votre co-emprunteur.",
+    image: {
+      src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80&fm=jpg",
+      alt: "Remise des clés d'une maison",
+    },
+  },
 } as const satisfies Record<string, QuoteFormMeta>
 
 export type QuoteSlug = keyof typeof quoteFormsMeta

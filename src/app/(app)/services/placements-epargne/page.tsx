@@ -35,6 +35,7 @@ const coverages = [
     icon: ShieldCheck,
     name: "Solde restant dû",
     note: "assurer le remboursement de votre crédit en cas d'incapacité de travail ou de décès",
+    quote: { href: "/devis/solde-restant-du", label: "Demander un devis" },
   },
   {
     icon: HandCoins,

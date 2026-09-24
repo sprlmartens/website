@@ -5,6 +5,7 @@ import { epargnePensionDefinition } from "@/features/quotes/epargne-pension/defi
 import { familialeDefinition } from "@/features/quotes/familiale/definition"
 import { habitationDefinition } from "@/features/quotes/habitation/definition"
 import { santeHospitalisationDefinition } from "@/features/quotes/sante-hospitalisation/definition"
+import { soldeRestantDuDefinition } from "@/features/quotes/solde-restant-du/definition"
 
 import type { QuoteSlug } from "./meta"
 import type { QuoteFormDefinition } from "./types"
@@ -22,4 +23,5 @@ export const quoteDefinitions: Record<QuoteSlug, QuoteFormDefinition<any>> = {
   "assistance-voyage": assistanceVoyageDefinition,
   "sante-hospitalisation": santeHospitalisationDefinition,
   "epargne-pension": epargnePensionDefinition,
+  "solde-restant-du": soldeRestantDuDefinition,
 }
