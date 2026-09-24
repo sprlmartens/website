@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, type ReactNode } from "react"
 import {
   Controller,
   useFieldArray,
@@ -153,12 +153,17 @@ export function InsuredStep({
   )
 }
 
-export function HolderStep() {
+/**
+ * `children` complète le bloc « Identité » avec les questions propres à un
+ * produit, par exemple l'état civil pour l'épargne-pension.
+ */
+export function HolderStep({ children }: { children?: ReactNode }) {
   return (
     <div className="flex flex-col gap-10">
       <FieldSet>
         <FieldLegend>Identité</FieldLegend>
         <PersonFields prefix="holder" autoCompleteScope />
+        {children}
       </FieldSet>
 
       <FieldSet>
@@ -214,7 +219,7 @@ export function ContactStep() {
         />
         <TextField
           name="phone"
-          label="Téléphone (facultatif)"
+          label="Téléphone"
           type="tel"
           inputMode="tel"
           autoComplete="tel"

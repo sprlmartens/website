@@ -4,6 +4,7 @@ import type { ComponentType } from "react"
 
 import type { QuoteSlug } from "@/features/quotes/core/meta"
 import { AssistanceVoyageForm } from "@/features/quotes/assistance-voyage/AssistanceVoyageForm"
+import { EpargnePensionForm } from "@/features/quotes/epargne-pension/EpargnePensionForm"
 import { SanteHospitalisationForm } from "@/features/quotes/sante-hospitalisation/SanteHospitalisationForm"
 
 /**
@@ -14,6 +15,7 @@ import { SanteHospitalisationForm } from "@/features/quotes/sante-hospitalisatio
 const quoteFormComponents: Record<QuoteSlug, ComponentType> = {
   "assistance-voyage": AssistanceVoyageForm,
   "sante-hospitalisation": SanteHospitalisationForm,
+  "epargne-pension": EpargnePensionForm,
 }
 
 export function QuoteFormBySlug({ slug }: { slug: QuoteSlug }) {

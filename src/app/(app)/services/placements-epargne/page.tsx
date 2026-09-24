@@ -19,6 +19,7 @@ const coverages = [
     icon: PiggyBank,
     name: "Épargne-pension",
     note: "un capital constitué à votre rythme",
+    quote: { href: "/devis/epargne-pension", label: "Demander un devis" },
   },
   {
     icon: TrendingUp,
@@ -94,6 +95,15 @@ export default function Page() {
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {item.note}
                 </p>
+                {item.quote ? (
+                  <Link
+                    href={item.quote.href}
+                    className="group/quote mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    {item.quote.label}
+                    <ArrowRight className="size-3.5 transition-transform group-hover/quote:translate-x-0.5" />
+                  </Link>
+                ) : null}
               </div>
             </li>
           ))}

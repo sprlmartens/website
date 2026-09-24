@@ -1,4 +1,4 @@
-import type { SummarySection } from "@/features/quotes/core/types"
+import type { SummaryRow, SummarySection } from "@/features/quotes/core/types"
 
 import { genderLabels, type SharedQuoteValues } from "./schema"
 
@@ -11,7 +11,11 @@ export function yesNo(value: boolean): string {
   return value ? "Oui" : "Non"
 }
 
-export function holderSection(values: SharedQuoteValues): SummarySection {
+/** `identityRows` s'insère après le genre, avant l'adresse. */
+export function holderSection(
+  values: Pick<SharedQuoteValues, "holder">,
+  identityRows: SummaryRow[] = []
+): SummarySection {
   return {
     title: "Le preneur d'assurance",
     stepId: "holder",
@@ -20,6 +24,7 @@ export function holderSection(values: SharedQuoteValues): SummarySection {
       { label: "Prénom", value: values.holder.firstName },
       { label: "Date de naissance", value: values.holder.birthDate },
       { label: "Genre", value: genderLabels[values.holder.gender] },
+      ...identityRows,
       {
         label: "Adresse",
         value: `${values.holder.street} ${values.holder.streetNumber}`,
@@ -50,13 +55,15 @@ export function insuredSection(values: SharedQuoteValues): SummarySection {
   }
 }
 
-export function contactSection(values: SharedQuoteValues): SummarySection {
+export function contactSection(
+  values: Pick<SharedQuoteValues, "email" | "phone" | "message">
+): SummarySection {
   return {
     title: "Vos coordonnées",
     stepId: "contact",
     rows: [
       { label: "E-mail", value: values.email },
-      { label: "Téléphone", value: values.phone || "Non renseigné" },
+      { label: "Téléphone", value: values.phone },
       ...(values.message ? [{ label: "Message", value: values.message }] : []),
     ],
   }

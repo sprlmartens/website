@@ -154,9 +154,9 @@ describe("assistanceVoyageSchema", () => {
     expect(errorPaths(values)).toContain("holder.birthDate")
   })
 
-  it("accepte un téléphone vide", () => {
+  it("exige un numéro de téléphone", () => {
     const values = { ...validValues(), phone: "" }
-    expect(assistanceVoyageSchema.safeParse(values).success).toBe(true)
+    expect(errorPaths(values)).toContain("phone")
   })
 
   it("exige le consentement", () => {

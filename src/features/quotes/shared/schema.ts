@@ -65,14 +65,10 @@ export const insuredFields = {
 export const contactFields = {
   email: z.email({ error: "Adresse e-mail invalide." }),
   phone: z
-    .union([
-      z.literal(""),
-      z
-        .string()
-        .trim()
-        .regex(belgianPhone, { error: "Numéro de téléphone invalide." }),
-    ])
-    .optional(),
+    .string()
+    .trim()
+    .min(1, { error: "Veuillez indiquer votre numéro de téléphone." })
+    .regex(belgianPhone, { error: "Numéro de téléphone invalide." }),
   message: z
     .string()
     .trim()

@@ -26,7 +26,7 @@ function validValues(): AssistanceVoyageValues {
       city: "Liège",
     },
     email: "camille@example.be",
-    phone: "",
+    phone: "0475123456",
     message: "",
     consent: true,
     honeypot: "",
@@ -126,10 +126,6 @@ describe("assistanceVoyageSummary", () => {
         "— Genre: Masculin",
       ])
     )
-  })
-
-  it("indique un téléphone non renseigné plutôt qu'une ligne vide", () => {
-    expect(flatten(validValues())).toContain("Téléphone: Non renseigné")
   })
 
   it("omet le message quand il est vide", () => {

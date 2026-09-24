@@ -36,6 +36,20 @@ export const quoteFormsMeta = {
       alt: "Médecin souriante échangeant avec une patiente en consultation",
     },
   },
+  "epargne-pension": {
+    slug: "epargne-pension",
+    eyebrow: "Épargne-pension",
+    title: "Préparez votre pension, à votre rythme.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les contrats d'épargne-pension de nos partenaires, avec leur avantage fiscal, sans engagement.",
+    metaTitle: "Devis épargne-pension — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'épargne-pension : constituez un capital pour votre retraite avec avantage fiscal, et une protection décès si vous le souhaitez.",
+    image: {
+      src: "https://images.unsplash.com/photo-1633158829875-e5316a358c6f?w=1200&q=80&fm=jpg",
+      alt: "Pièces et jeune pousse, symbole d'une épargne qui grandit",
+    },
+  },
 } as const satisfies Record<string, QuoteFormMeta>
 
 export type QuoteSlug = keyof typeof quoteFormsMeta

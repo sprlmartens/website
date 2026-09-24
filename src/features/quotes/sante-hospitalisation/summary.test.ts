@@ -22,7 +22,7 @@ function validValues(): SanteHospitalisationValues {
       city: "Liège",
     },
     email: "camille@example.be",
-    phone: "",
+    phone: "0475123456",
     message: "",
     consent: true,
     honeypot: "",
