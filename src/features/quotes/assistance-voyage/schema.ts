@@ -64,12 +64,16 @@ export const assistanceVoyageSchema = z
     periodStart: z.string().trim().optional(),
     periodEnd: z.string().trim().optional(),
     tripValue: euroAmount(),
-    insureVehicle: z.boolean(),
+    insureVehicle: z.boolean({
+      error: "Veuillez répondre « Oui » ou « Non ».",
+    }),
     vehicleFirstRegistration: z.string().trim().optional(),
 
     // Étape 2 — les assurés
-    insureHolder: z.boolean(),
-    hasAdditionalInsured: z.boolean(),
+    insureHolder: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
+    hasAdditionalInsured: z.boolean({
+      error: "Veuillez répondre « Oui » ou « Non ».",
+    }),
     additionalInsured: z.array(personSchema).max(MAX_ADDITIONAL_INSURED, {
       error: `Vous pouvez assurer ${MAX_ADDITIONAL_INSURED} personnes supplémentaires au maximum.`,
     }),
@@ -89,7 +93,9 @@ export const assistanceVoyageSchema = z
       postalCode: z
         .string()
         .trim()
-        .regex(/^\d{4}$/, { error: "Code postal belge invalide (4 chiffres)." }),
+        .regex(/^\d{4}$/, {
+          error: "Code postal belge invalide (4 chiffres).",
+        }),
       city: z
         .string()
         .trim()
@@ -111,7 +117,9 @@ export const assistanceVoyageSchema = z
     message: z
       .string()
       .trim()
-      .max(1000, { error: "Le message est trop long (1000 caractères maximum)." })
+      .max(1000, {
+        error: "Le message est trop long (1000 caractères maximum).",
+      })
       .optional(),
     // `z.boolean().refine(...)` plutôt que `z.literal(true)` : le type reste
     // `boolean`, ce qui permet une valeur par défaut `false` côté formulaire.
@@ -163,7 +171,7 @@ export const assistanceVoyageSchema = z
         })
       }
     },
-    { when: whenFieldsValid("coverageDuration", "periodStart", "periodEnd") }
+    { when: whenFieldsValid("coverageDuration", "periodStart", "periodEnd") },
   )
   .superRefine(
     (values, ctx) => {
@@ -185,11 +193,12 @@ export const assistanceVoyageSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["vehicleFirstRegistration"],
-          message: "La date de mise en circulation ne peut pas être dans le futur.",
+          message:
+            "La date de mise en circulation ne peut pas être dans le futur.",
         })
       }
     },
-    { when: whenFieldsValid("insureVehicle", "vehicleFirstRegistration") }
+    { when: whenFieldsValid("insureVehicle", "vehicleFirstRegistration") },
   )
   .superRefine(
     (values, ctx) => {
@@ -217,27 +226,23 @@ export const assistanceVoyageSchema = z
       when: whenFieldsValid(
         "insureHolder",
         "hasAdditionalInsured",
-        "additionalInsured"
+        "additionalInsured",
       ),
-    }
+    },
   )
 
 export type AssistanceVoyageValues = z.infer<typeof assistanceVoyageSchema>
 
-/**
- * Les énumérations n'ont pas d'état « non répondu » : on part d'une chaîne
- * vide castée, comme le fait déjà `ContactForm` pour son champ `intent`.
- */
 export const assistanceVoyageDefaultValues: AssistanceVoyageValues = {
   destination: "" as Destination,
   coverageDuration: "" as CoverageDuration,
   periodStart: "",
   periodEnd: "",
   tripValue: "",
-  insureVehicle: false,
+  insureVehicle: null as unknown as boolean,
   vehicleFirstRegistration: "",
-  insureHolder: true,
-  hasAdditionalInsured: false,
+  insureHolder: null as unknown as boolean,
+  hasAdditionalInsured: null as unknown as boolean,
   additionalInsured: [],
   holder: {
     firstName: "",

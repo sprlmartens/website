@@ -179,9 +179,21 @@ describe("validation étape par étape", () => {
       destination: "europe",
       coverageDuration: "annual",
       tripValue: "2500",
+      insureVehicle: false,
       ...overrides,
     }
   }
+
+  it("ne présélectionne aucune réponse aux questions Oui/Non", () => {
+    const paths = errorPaths(assistanceVoyageDefaultValues)
+    expect(paths).toEqual(
+      expect.arrayContaining([
+        "insureVehicle",
+        "insureHolder",
+        "hasAdditionalInsured",
+      ])
+    )
+  })
 
   it("exige les dates de période dès l'étape du voyage", () => {
     const values = tripOnly({ coverageDuration: "period" })
@@ -214,12 +226,15 @@ describe("validation étape par étape", () => {
   })
 
   it("exige au moins une personne assurée dès l'étape des assurés", () => {
-    const values = tripOnly({ insureHolder: false })
+    const values = tripOnly({
+      insureHolder: false,
+      hasAdditionalInsured: false,
+    })
     expect(errorPaths(values)).toContain("insureHolder")
   })
 
   it("exige une personne annoncée dès l'étape des assurés", () => {
-    const values = tripOnly({ hasAdditionalInsured: true })
+    const values = tripOnly({ insureHolder: true, hasAdditionalInsured: true })
     expect(errorPaths(values)).toContain("additionalInsured")
   })
 
