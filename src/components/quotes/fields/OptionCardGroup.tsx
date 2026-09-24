@@ -24,6 +24,8 @@ type OptionCardGroupProps = {
   label: string
   options: Option[]
   columns?: 1 | 2 | 3
+  /** Appelé après le changement, pour vider les champs devenus inutiles. */
+  onChanged?: (value: string) => void
 }
 
 export function OptionCardGroup({
@@ -31,6 +33,7 @@ export function OptionCardGroup({
   label,
   options,
   columns = 1,
+  onChanged,
 }: OptionCardGroupProps) {
   const {
     control,
@@ -50,6 +53,7 @@ export function OptionCardGroup({
               value={field.value ?? ""}
               onValueChange={(value) => {
                 field.onChange(value)
+                onChanged?.(value)
                 field.onBlur()
               }}
               aria-label={label}

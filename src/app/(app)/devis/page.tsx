@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Car,
   HeartPulse,
+  House,
   LifeBuoy,
   PiggyBank,
   type LucideIcon,
@@ -23,6 +24,7 @@ import { breadcrumbSchema } from "@/lib/structured-data"
 // nouveau produit.
 const icons = {
   "auto-moto": Car,
+  habitation: House,
   "assistance-voyage": LifeBuoy,
   "sante-hospitalisation": HeartPulse,
   "epargne-pension": PiggyBank,

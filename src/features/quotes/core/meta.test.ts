@@ -31,6 +31,7 @@ describe("quoteFormSlugs", () => {
     expect(quoteFormSlugs).toEqual(Object.keys(quoteFormsMeta))
     expect(quoteFormSlugs).toEqual([
       "auto-moto",
+      "habitation",
       "assistance-voyage",
       "sante-hospitalisation",
       "epargne-pension",

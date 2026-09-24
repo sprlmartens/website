@@ -14,6 +14,7 @@ import { BooleanField } from "@/components/quotes/fields/BooleanField"
 import { PersonFields } from "@/components/quotes/fields/PersonFields"
 import { SelectField } from "@/components/quotes/fields/SelectField"
 import { TextField } from "@/components/quotes/fields/TextField"
+import { TextareaField } from "@/components/quotes/fields/TextareaField"
 import { getFieldError } from "@/components/quotes/fields/field-utils"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -25,7 +26,6 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field"
-import { Textarea } from "@/components/ui/textarea"
 
 import {
   CLAIMS_HISTORY_YEARS,
@@ -167,7 +167,6 @@ export function ContactStep() {
     formState: { errors },
   } = useFormContext<SharedQuoteValues>()
   const consentError = getFieldError(errors, "consent")
-  const messageError = getFieldError(errors, "message")
 
   return (
     <div className="flex flex-col gap-8">
@@ -188,20 +187,10 @@ export function ContactStep() {
         />
       </div>
 
-      <Field data-invalid={!!messageError}>
-        <FieldLabel htmlFor="message">
-          Une précision à nous transmettre ? (facultatif)
-        </FieldLabel>
-        <FieldContent>
-          <Textarea
-            id="message"
-            rows={4}
-            aria-invalid={!!messageError}
-            {...register("message")}
-          />
-          <FieldError errors={[messageError]} />
-        </FieldContent>
-      </Field>
+      <TextareaField
+        name="message"
+        label="Une précision à nous transmettre ? (facultatif)"
+      />
 
       <Field orientation="horizontal" data-invalid={!!consentError}>
         <Controller

@@ -21,7 +21,12 @@ const coverages = [
     note: "assurer vos véhicules",
     quote: { href: "/devis/auto-moto", label: "Demander un devis" },
   },
-  { icon: House, name: "Habitation", note: "incendie, vol, dégâts des eaux" },
+  {
+    icon: House,
+    name: "Habitation",
+    note: "assurance incendie, bâtiment et contenu",
+    quote: { href: "/devis/habitation", label: "Demander un devis" },
+  },
   { icon: Users, name: "Famille", note: "responsabilité civile vie privée" },
   {
     icon: HeartPulse,

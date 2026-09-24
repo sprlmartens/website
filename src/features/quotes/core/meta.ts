@@ -24,6 +24,22 @@ export const quoteFormsMeta = {
       alt: "Conducteur au volant de sa voiture, en ville au crépuscule",
     },
   },
+  habitation: {
+    slug: "habitation",
+    category: "particuliers",
+    eyebrow: "Habitation",
+    note: "Incendie, dégâts des eaux, tempête, bris de vitrage",
+    title: "Votre logement, à l'abri des imprévus.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les assurances incendie de nos partenaires, pour le bâtiment comme pour son contenu, sans engagement.",
+    metaTitle: "Devis assurance habitation (incendie) — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'assurance habitation : incendie, dégâts des eaux, tempête et bris de vitrage, pour le bâtiment et son contenu, que vous soyez propriétaire ou locataire.",
+    image: {
+      src: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80&fm=jpg",
+      alt: "Maison éclairée de l'intérieur à la tombée de la nuit",
+    },
+  },
   "assistance-voyage": {
     slug: "assistance-voyage",
     category: "particuliers",

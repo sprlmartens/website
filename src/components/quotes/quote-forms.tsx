@@ -6,6 +6,7 @@ import type { QuoteSlug } from "@/features/quotes/core/meta"
 import { AutoMotoForm } from "@/features/quotes/auto-moto/AutoMotoForm"
 import { AssistanceVoyageForm } from "@/features/quotes/assistance-voyage/AssistanceVoyageForm"
 import { EpargnePensionForm } from "@/features/quotes/epargne-pension/EpargnePensionForm"
+import { HabitationForm } from "@/features/quotes/habitation/HabitationForm"
 import { SanteHospitalisationForm } from "@/features/quotes/sante-hospitalisation/SanteHospitalisationForm"
 
 /**
@@ -15,6 +16,7 @@ import { SanteHospitalisationForm } from "@/features/quotes/sante-hospitalisatio
  */
 const quoteFormComponents: Record<QuoteSlug, ComponentType> = {
   "auto-moto": AutoMotoForm,
+  habitation: HabitationForm,
   "assistance-voyage": AssistanceVoyageForm,
   "sante-hospitalisation": SanteHospitalisationForm,
   "epargne-pension": EpargnePensionForm,
