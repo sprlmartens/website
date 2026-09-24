@@ -25,11 +25,32 @@ type Partner = {
  */
 const partners: Partner[] = [
   {
+    name: "Aedes",
+    src: "/aedes-logo.svg",
+    width: 279,
+    height: 123,
+    size: "h-14",
+  },
+  {
     name: "Assudis",
     src: "/assudis-logo.png",
     width: 279,
     height: 123,
     size: "h-12",
+  },
+  {
+    name: "Athora",
+    src: "/athora-logo.svg",
+    width: 279,
+    height: 123,
+    size: "h-11",
+  },
+  {
+    name: "Allianz",
+    src: "/allianz-logo.svg",
+    width: 279,
+    height: 123,
+    size: "h-11",
   },
   { name: "AXA", src: "/axa-logo.svg", width: 80, height: 80, size: "h-14" },
   {

@@ -6,25 +6,25 @@ const members = [
     name: "Didier Develeer",
     role: "Administrateur",
     email: "didier.develeer@sprlmartens.be",
-    photo: "/team/didier-develeer.webp",
+    photo: "/team/didier-develeer.png",
   },
   {
     name: "Cécile Martens",
     role: "Administratrice",
     email: "cecile.martens@sprlmartens.be",
-    photo: "/team/cecile-martens.webp",
+    photo: "/team/cecile-martens.jpg",
   },
   {
     name: "Caroline Pirongs",
     role: "Gestionnaire",
     email: "assurances@sprlmartens.be",
-    photo: "/team/caroline-pirongs.webp",
+    photo: "/team/caroline-pirongs.jpg",
   },
   {
     name: "Antonella Spinelli",
     role: "Gestionnaire",
     email: "assurances@sprlmartens.be",
-    photo: "/team/antonella-spinelli.webp",
+    photo: "/team/antonella-spinelli.png",
   },
 ]
 
@@ -46,9 +46,9 @@ export default function Team() {
               <Image
                 src={member.photo}
                 alt={`${member.name}, ${member.role.toLowerCase()} chez Martens Assurances`}
-                width={96}
-                height={96}
-                className="size-24 shrink-0 rounded-full object-cover object-top shadow-md"
+                width={120}
+                height={120}
+                className="size-30 shrink-0 rounded-full object-cover object-top shadow-md"
               />
               <div className="min-w-0">
                 <p className="font-display text-base font-medium text-foreground">

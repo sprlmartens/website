@@ -75,22 +75,51 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-            <a
-              href="https://www.facebook.com/sprlmartens/?ref=bookmarks"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Martens Assurances sur Facebook"
-              className="mt-6 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-primary transition-colors hover:border-primary"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                className="size-6"
+            <div className="mt-6 flex items-center gap-4">
+              <a
+                href="https://www.instagram.com/assurances.martens/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Martens Assurances sur Instagram"
+                className="transition-opacity hover:opacity-80"
               >
-                <path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.87.24-1.46 1.49-1.46H16.5V4.36C16.24 4.32 15.36 4.25 14.33 4.25c-2.15 0-3.63 1.31-3.63 3.72V10.5H8.19v3h2.51V21h2.8Z" />
-              </svg>
-            </a>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#E4405F"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="size-10"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="0.6"
+                    fill="#E4405F"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.facebook.com/sprlmartens/?ref=bookmarks"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Martens Assurances sur Facebook"
+                className="transition-opacity hover:opacity-80"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="size-10">
+                  <circle cx="12" cy="12" r="11" fill="#1877F2" />
+                  <path
+                    fill="#fff"
+                    d="M13.3 22v-8h2.6l.4-3.1h-3V9c0-.9.3-1.5 1.6-1.5h1.6V4.7c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H7.7V14h2.6v8h3Z"
+                  />
+                </svg>
+              </a>
+            </div>
             <div className="mt-6 flex items-center gap-6">
               <Image
                 src="/feprabel-logo.svg"

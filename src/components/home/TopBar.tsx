@@ -1,4 +1,4 @@
-import { Mail, MapPin, PhoneCall } from "lucide-react"
+import { Mail, MapPin, MessageCircle, PhoneCall } from "lucide-react"
 
 export default function TopBar() {
   return (
@@ -11,6 +11,15 @@ export default function TopBar() {
           >
             <PhoneCall className="h-3.5 w-3.5 shrink-0" />
             +32 4 246 13 63
+          </a>
+          <a
+            href="https://wa.me/32470231036"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 transition-colors hover:text-navy-200"
+          >
+            <MessageCircle className="h-3.5 w-3.5 shrink-0" />
+            WhatsApp 0470 23 10 36
           </a>
           <a
             href="mailto:assurances@sprlmartens.be"
