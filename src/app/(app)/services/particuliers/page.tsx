@@ -27,7 +27,12 @@ const coverages = [
     note: "assurance incendie, bâtiment et contenu",
     quote: { href: "/devis/habitation", label: "Demander un devis" },
   },
-  { icon: Users, name: "Famille", note: "responsabilité civile vie privée" },
+  {
+    icon: Users,
+    name: "Famille",
+    note: "responsabilité civile vie privée",
+    quote: { href: "/devis/familiale", label: "Demander un devis" },
+  },
   {
     icon: HeartPulse,
     name: "Santé",
@@ -41,7 +46,6 @@ const coverages = [
     icon: LifeBuoy,
     name: "Assistance",
     note: "voyage, rapatriement",
-    // Les autres couvertures recevront ce champ quand leur formulaire existera.
     quote: { href: "/devis/assistance-voyage", label: "Demander un devis" },
   },
 ]

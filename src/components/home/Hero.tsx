@@ -63,7 +63,7 @@ export default function Hero() {
         <div className="rise-2 relative self-center">
           <figure className="duotone-soft relative ml-auto aspect-4/3 w-full overflow-hidden rounded-2xl">
             <Image
-              src="/Gerants-Martens-Assurances.png"
+              src="/team/hero-martens.jpg"
               alt="Didier Develeer et Cécile Martens, administrateurs de Martens Assurances"
               fill
               priority
@@ -71,10 +71,8 @@ export default function Hero() {
               className="object-cover"
             />
           </figure>
-          {/* Cet encart occupe l'emplacement le plus visible du hero : il
-              porte donc une preuve externe, et non une auto-déclaration.
-              Le « +20 ans » reste énoncé par l'exergue et la TrustBar. */}
-          <div className="absolute -bottom-8 -left-8 z-10 hidden max-w-64 rounded-lg bg-white p-5 shadow-xl lg:block">
+
+          <div className="absolute -bottom-12 -left-12 z-10 hidden max-w-64 rounded-lg bg-white p-5 shadow-xl lg:block">
             <div className="flex items-center gap-2">
               <GoogleLogo />
               <StarRating rating={5} />

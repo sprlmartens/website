@@ -26,6 +26,8 @@ type SelectFieldProps = {
   options: Omit<Option, "description">[]
   description?: string
   placeholder?: string
+  /** Appelé après le changement, pour vider les champs devenus inutiles. */
+  onChanged?: (value: string) => void
 }
 
 /** Liste déroulante, pour les choix trop nombreux pour des cartes d'option. */
@@ -35,6 +37,7 @@ export function SelectField({
   options,
   description,
   placeholder = "Sélectionnez une option",
+  onChanged,
 }: SelectFieldProps) {
   const {
     control,
@@ -56,6 +59,7 @@ export function SelectField({
                 // Même comportement que les cartes d'option : le choix
                 // valide aussitôt le champ, sans attendre la perte de focus.
                 field.onChange(value)
+                onChanged?.(value)
                 field.onBlur()
               }}
             >

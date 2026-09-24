@@ -2,6 +2,7 @@
 import { autoMotoDefinition } from "@/features/quotes/auto-moto/definition"
 import { assistanceVoyageDefinition } from "@/features/quotes/assistance-voyage/definition"
 import { epargnePensionDefinition } from "@/features/quotes/epargne-pension/definition"
+import { familialeDefinition } from "@/features/quotes/familiale/definition"
 import { habitationDefinition } from "@/features/quotes/habitation/definition"
 import { santeHospitalisationDefinition } from "@/features/quotes/sante-hospitalisation/definition"
 
@@ -17,6 +18,7 @@ import type { QuoteFormDefinition } from "./types"
 export const quoteDefinitions: Record<QuoteSlug, QuoteFormDefinition<any>> = {
   "auto-moto": autoMotoDefinition,
   habitation: habitationDefinition,
+  familiale: familialeDefinition,
   "assistance-voyage": assistanceVoyageDefinition,
   "sante-hospitalisation": santeHospitalisationDefinition,
   "epargne-pension": epargnePensionDefinition,

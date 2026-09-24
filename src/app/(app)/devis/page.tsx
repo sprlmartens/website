@@ -6,6 +6,7 @@ import {
   House,
   LifeBuoy,
   PiggyBank,
+  Users,
   type LucideIcon,
 } from "lucide-react"
 
@@ -25,6 +26,7 @@ import { breadcrumbSchema } from "@/lib/structured-data"
 const icons = {
   "auto-moto": Car,
   habitation: House,
+  familiale: Users,
   "assistance-voyage": LifeBuoy,
   "sante-hospitalisation": HeartPulse,
   "epargne-pension": PiggyBank,

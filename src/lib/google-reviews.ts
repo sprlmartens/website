@@ -21,6 +21,6 @@ export const GOOGLE_REVIEWS = {
   rating: 4.9,
   /** Même note, formatée à la belge (virgule décimale) pour l'affichage. */
   ratingLabel: "4,9",
-  count: 93,
+  count: 95,
   url: "https://www.google.com/maps?cid=14258516955292374392&hl=fr-BE",
 } as const

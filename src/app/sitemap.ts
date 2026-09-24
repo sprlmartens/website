@@ -32,6 +32,7 @@ const staticRoutes = [
   "/devis",
   "/devis/auto-moto",
   "/devis/habitation",
+  "/devis/familiale",
   "/devis/assistance-voyage",
   "/devis/sante-hospitalisation",
   "/devis/epargne-pension",

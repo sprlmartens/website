@@ -179,6 +179,22 @@ export const contactDefaultValues: Pick<
   honeypot: "",
 }
 
+/**
+ * Entier saisi en texte, comme la puissance d'un véhicule : un champ vide ne
+ * devient pas `NaN`.
+ */
+export function isIntegerBetween(
+  value: string | undefined,
+  min: number,
+  max: number,
+) {
+  if (!value || !/^\d{1,3}$/.test(value)) {
+    return false
+  }
+  const number = Number(value)
+  return number >= min && number <= max
+}
+
 /*
  * Reprise d'un contrat existant : compagnie actuelle et dernière prime,
  * demandées dès que le prospect est déjà assuré ailleurs.

@@ -9,6 +9,7 @@ import {
   contactFields,
   holderDefaultValues,
   holderSchema,
+  isIntegerBetween,
   refineClaims,
   refineTakeover,
   takeoverDefaultValues,
@@ -96,18 +97,6 @@ export const claimTypeLabels: Record<ClaimType, string> = {
   "natural-disaster": "Catastrophe naturelle",
   liability: "Responsabilité civile",
   other: "Autre",
-}
-
-/**
- * Entier saisi en texte, comme la puissance d'un véhicule : un champ vide ne
- * devient pas `NaN`.
- */
-function isIntegerBetween(value: string | undefined, min: number, max: number) {
-  if (!value || !/^\d{1,3}$/.test(value)) {
-    return false
-  }
-  const number = Number(value)
-  return number >= min && number <= max
 }
 
 export const habitationSchema = z

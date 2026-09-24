@@ -46,7 +46,7 @@ export default function ContactInfo() {
             Accessibilité
           </dt>
           <dd className="mt-1 leading-relaxed text-foreground/70">
-            Place de parking réservée à nos clients devant le bureau.
+            Place de parking réservée à nos clients à l'arrière du bureau.
           </dd>
         </div>
       </dl>

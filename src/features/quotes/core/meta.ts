@@ -40,6 +40,22 @@ export const quoteFormsMeta = {
       alt: "Maison éclairée de l'intérieur à la tombée de la nuit",
     },
   },
+  familiale: {
+    slug: "familiale",
+    category: "particuliers",
+    eyebrow: "Familiale",
+    note: "Responsabilité civile vie privée",
+    title: "Les petits accidents du quotidien, couverts.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les assurances familiales de nos partenaires, pour vous et tout votre foyer, sans engagement.",
+    metaTitle: "Devis assurance familiale (RC vie privée) — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'assurance familiale : la responsabilité civile vie privée qui couvre les dommages causés à autrui par vous, vos enfants ou vos animaux.",
+    image: {
+      src: "https://images.unsplash.com/photo-1758598738327-82de3cb31c56?w=1200&q=80&fm=jpg",
+      alt: "Famille dans son salon",
+    },
+  },
   "assistance-voyage": {
     slug: "assistance-voyage",
     category: "particuliers",
