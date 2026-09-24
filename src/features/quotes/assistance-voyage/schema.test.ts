@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  assistanceVoyageDefaultValues,
   assistanceVoyageSchema,
   type AssistanceVoyageValues,
 } from "@/features/quotes/assistance-voyage/schema"
@@ -160,5 +161,78 @@ describe("assistanceVoyageSchema", () => {
   it("exige le consentement", () => {
     const values = { ...validValues(), consent: false }
     expect(errorPaths(values)).toContain("consent")
+  })
+})
+
+/**
+ * Chaque étape est validée seule, les suivantes gardant leurs valeurs par
+ * défaut (énumérations vides comprises) : les règles croisées d'une étape ne
+ * doivent pas attendre que tout le formulaire soit valide pour se déclencher.
+ */
+describe("validation étape par étape", () => {
+  /** Étape 1 remplie, les étapes suivantes encore vierges. */
+  function tripOnly(
+    overrides: Partial<AssistanceVoyageValues> = {}
+  ): AssistanceVoyageValues {
+    return {
+      ...structuredClone(assistanceVoyageDefaultValues),
+      destination: "europe",
+      coverageDuration: "annual",
+      tripValue: "2500",
+      ...overrides,
+    }
+  }
+
+  it("exige les dates de période dès l'étape du voyage", () => {
+    const values = tripOnly({ coverageDuration: "period" })
+    expect(errorPaths(values)).toEqual(
+      expect.arrayContaining(["periodStart", "periodEnd"])
+    )
+  })
+
+  it("refuse une date de départ passée dès l'étape du voyage", () => {
+    const values = tripOnly({
+      coverageDuration: "period",
+      periodStart: "01/01/2020",
+      periodEnd: "15/01/2020",
+    })
+    expect(errorPaths(values)).toContain("periodStart")
+  })
+
+  it("refuse un retour antérieur au départ dès l'étape du voyage", () => {
+    const values = tripOnly({
+      coverageDuration: "period",
+      periodStart: "15/07/2099",
+      periodEnd: "01/07/2099",
+    })
+    expect(errorPaths(values)).toContain("periodEnd")
+  })
+
+  it("exige la mise en circulation dès l'étape du voyage", () => {
+    const values = tripOnly({ insureVehicle: true })
+    expect(errorPaths(values)).toContain("vehicleFirstRegistration")
+  })
+
+  it("exige au moins une personne assurée dès l'étape des assurés", () => {
+    const values = tripOnly({ insureHolder: false })
+    expect(errorPaths(values)).toContain("insureHolder")
+  })
+
+  it("exige une personne annoncée dès l'étape des assurés", () => {
+    const values = tripOnly({ hasAdditionalInsured: true })
+    expect(errorPaths(values)).toContain("additionalInsured")
+  })
+
+  it("n'exécute pas les règles croisées sur une charge utile mal typée", () => {
+    const values = {
+      ...validValues(),
+      coverageDuration: 42,
+      insureVehicle: "oui",
+      additionalInsured: "x",
+    }
+    const paths = errorPaths(values)
+    expect(paths).not.toContain("periodStart")
+    expect(paths).not.toContain("vehicleFirstRegistration")
+    expect(paths).not.toContain("insureHolder")
   })
 })

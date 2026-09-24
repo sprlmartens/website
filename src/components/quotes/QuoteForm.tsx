@@ -14,9 +14,7 @@ import { ArrowLeft, ArrowRight, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { submitQuoteRequest } from "@/features/quotes/core/action"
 import type { QuoteFormDefinition, QuoteStep } from "@/features/quotes/core/types"
-import { useQuoteDraft } from "@/features/quotes/core/useQuoteDraft"
 
-import { QuoteDraftBanner } from "./QuoteDraftBanner"
 import { QuoteReview } from "./QuoteReview"
 import { QuoteStepper } from "./QuoteStepper"
 import { QuoteSuccess } from "./QuoteSuccess"
@@ -80,31 +78,19 @@ export function QuoteForm<T extends FieldValues>({
     mode: "onTouched",
   })
 
-  const { pendingDraft, restoreDraft, discardDraft, clearSavedDraft } =
-    useQuoteDraft(definition.slug, form, stepIndex)
-
   // Le récapitulatif est fourni par le moteur, pas par le produit.
   const isReview = stepIndex === steps.length
   const stepTitles = [...steps.map((step) => step.title), REVIEW_TITLE]
 
   const goToStep = useCallback(
     (index: number) => {
-      // Un brouillon restauré vient du stockage local : `readDraft` ne
-      // vérifie que `typeof stepIndex === "number"`, ce qui laisse passer
-      // NaN, 2.5 ou Infinity en cas de valeur corrompue ou falsifiée. On
-      // replie sur l'étape 0 plutôt que de planter sur `steps[stepIndex]`.
-      const safeIndex = Number.isInteger(index) ? index : 0
-      // Borne défensive : un brouillon restauré peut aussi porter un
-      // `stepIndex` hérité d'une version du formulaire ayant un nombre
-      // d'étapes différent.
-      const clamped = Math.min(Math.max(safeIndex, 0), steps.length)
-      setStepIndex(clamped)
+      setStepIndex(index)
       containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
       // Le focus sur le titre fait annoncer le nouveau contexte aux lecteurs
       // d'écran ; `preventScroll` laisse le défilement doux se dérouler.
       headingRef.current?.focus({ preventScroll: true })
     },
-    [steps.length]
+    []
   )
 
   const handleNext = useCallback(async () => {
@@ -125,7 +111,6 @@ export function QuoteForm<T extends FieldValues>({
         const result = await submitQuoteRequest(definition.slug, values)
 
         if (result.success) {
-          clearSavedDraft()
           setAcknowledgementSent(result.acknowledgementSent)
           setSubmittedEmail(definition.recipientEmail(values))
         } else {
@@ -185,14 +170,6 @@ export function QuoteForm<T extends FieldValues>({
       </div>
 
       <div className="lg:col-span-8">
-        {pendingDraft ? (
-          <QuoteDraftBanner
-            savedAt={pendingDraft.savedAt}
-            onRestore={() => goToStep(restoreDraft())}
-            onDiscard={discardDraft}
-          />
-        ) : null}
-
         <FormProvider {...form}>
           <form
             onSubmit={(event) => {

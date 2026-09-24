@@ -5,6 +5,7 @@ import {
   formatEuroAmount,
   parseEuroAmount,
   parseFrenchDate,
+  whenFieldsValid,
 } from "@/lib/validation"
 
 describe("parseFrenchDate", () => {
@@ -70,5 +71,21 @@ describe("formatEuroAmount", () => {
 
   it("renvoie la valeur brute si elle n'est pas un montant", () => {
     expect(formatEuroAmount("abc")).toBe("abc")
+  })
+})
+
+describe("whenFieldsValid", () => {
+  const when = whenFieldsValid("periodStart", "periodEnd")
+
+  it("autorise la règle sans aucune erreur", () => {
+    expect(when({ issues: [] })).toBe(true)
+  })
+
+  it("bloque la règle si un champ lu est en erreur", () => {
+    expect(when({ issues: [{ path: ["periodEnd"] }] })).toBe(false)
+  })
+
+  it("ignore les erreurs des autres champs", () => {
+    expect(when({ issues: [{ path: ["holder", "gender"] }] })).toBe(true)
   })
 })

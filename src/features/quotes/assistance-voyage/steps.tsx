@@ -53,14 +53,7 @@ function TripStep() {
   // changement réel. Initialisée à la valeur courante : le premier passage
   // de l'effet ci-dessous ne trouve donc jamais de différence, que ce
   // premier passage suive le montage initial ou le remontage de cette étape
-  // après un aller-retour dans le stepper. Un brouillon restauré repeuple ce
-  // champ via `form.reset`, qui déclenche aussi ce watch — mais la valeur
-  // "avant" que l'effet compare reste celle d'avant la restauration, jamais
-  // "period" dans ce cas précis (la valeur par défaut est une chaîne vide),
-  // donc la restauration ne déclenche jamais le nettoyage ci-dessous. Vider
-  // les dates d'un brouillon restauré écraserait des réponses que
-  // l'utilisateur a explicitement enregistrées — un bug pire que celui que
-  // ce correctif résout.
+  // après un aller-retour dans le stepper.
   const previousCoverageDuration = useRef(coverageDuration)
 
   useEffect(() => {

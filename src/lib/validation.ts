@@ -42,8 +42,13 @@ export function parseFrenchDate(value: string): Date | null {
 export function todayUtc(): Date {
   const now = new Date()
   return new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
   )
+}
+
+export function whenFieldsValid(...keys: string[]) {
+  return (payload: { issues: ReadonlyArray<{ path?: PropertyKey[] }> }) =>
+    payload.issues.every((issue) => !keys.includes(String(issue.path?.[0])))
 }
 
 /** Champ texte « JJ/MM/AAAA ». */
@@ -62,21 +67,24 @@ export function birthDate(error = "Date de naissance invalide (JJ/MM/AAAA).") {
   return z
     .string()
     .trim()
-    .refine((value) => {
-      const date = parseFrenchDate(value)
-      if (!date) {
-        return false
-      }
+    .refine(
+      (value) => {
+        const date = parseFrenchDate(value)
+        if (!date) {
+          return false
+        }
 
-      const today = todayUtc()
-      if (date > today) {
-        return false
-      }
+        const today = todayUtc()
+        if (date > today) {
+          return false
+        }
 
-      const oldest = new Date(today)
-      oldest.setUTCFullYear(oldest.getUTCFullYear() - MAX_AGE_YEARS)
-      return date >= oldest
-    }, { error })
+        const oldest = new Date(today)
+        oldest.setUTCFullYear(oldest.getUTCFullYear() - MAX_AGE_YEARS)
+        return date >= oldest
+      },
+      { error },
+    )
 }
 
 /**
@@ -92,9 +100,7 @@ export function parseEuroAmount(value: string): number | null {
 }
 
 /** Champ texte représentant un montant en euros. */
-export function euroAmount(
-  error = "Montant invalide (par exemple 2500 ou 2500,50)."
-) {
+export function euroAmount(error = "Montant invalide") {
   return z
     .string()
     .trim()

@@ -6,6 +6,7 @@ import {
   euroAmount,
   parseFrenchDate,
   todayUtc,
+  whenFieldsValid,
 } from "@/lib/validation"
 
 export const genders = ["M", "F"] as const
@@ -119,92 +120,107 @@ export const assistanceVoyageSchema = z
     }),
     honeypot: z.string().optional(),
   })
-  .check((ctx) => {
-    const values = ctx.value
+  // Règles croisées, une par préoccupation. Chacune est gardée par
+  // `whenFieldsValid` sur les seuls champs qu'elle lit : elle se déclenche
+  // ainsi dès la validation de son étape, même si les étapes suivantes sont
+  // encore vierges (voir `whenFieldsValid`).
+  .superRefine(
+    (values, ctx) => {
+      if (values.coverageDuration !== "period") {
+        return
+      }
 
-    if (values.coverageDuration === "period") {
       const start = values.periodStart
         ? parseFrenchDate(values.periodStart)
         : null
       const end = values.periodEnd ? parseFrenchDate(values.periodEnd) : null
 
       if (!start) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["periodStart"],
           message: "Date de départ requise (JJ/MM/AAAA).",
         })
       } else if (start < todayUtc()) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["periodStart"],
           message: "La date de départ ne peut pas être dans le passé.",
         })
       }
 
       if (!end) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["periodEnd"],
           message: "Date de retour requise (JJ/MM/AAAA).",
         })
       } else if (start && end <= start) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["periodEnd"],
           message: "La date de retour doit suivre la date de départ.",
         })
       }
-    }
+    },
+    { when: whenFieldsValid("coverageDuration", "periodStart", "periodEnd") }
+  )
+  .superRefine(
+    (values, ctx) => {
+      if (!values.insureVehicle) {
+        return
+      }
 
-    if (values.insureVehicle) {
       const registration = values.vehicleFirstRegistration
         ? parseFrenchDate(values.vehicleFirstRegistration)
         : null
 
       if (!registration) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["vehicleFirstRegistration"],
           message: "Date de mise en circulation requise (JJ/MM/AAAA).",
         })
       } else if (registration > todayUtc()) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
-          input: values,
           path: ["vehicleFirstRegistration"],
           message: "La date de mise en circulation ne peut pas être dans le futur.",
         })
       }
-    }
+    },
+    { when: whenFieldsValid("insureVehicle", "vehicleFirstRegistration") }
+  )
+  .superRefine(
+    (values, ctx) => {
+      // Une carte d'assuré invalide saute cette règle : sans conséquence,
+      // le nombre d'assurés est alors d'au moins un.
+      const insuredCount = values.additionalInsured.length
 
-    // `?.` défensif : ce bloc peut s'exécuter sur une charge utile forgée à la
-    // main, la Server Action étant une frontière réseau.
-    const insuredCount = values.additionalInsured?.length ?? 0
+      if (values.hasAdditionalInsured && insuredCount === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["additionalInsured"],
+          message: "Ajoutez au moins une personne, ou répondez « Non ».",
+        })
+      }
 
-    if (values.hasAdditionalInsured && insuredCount === 0) {
-      ctx.issues.push({
-        code: "custom",
-        input: values,
-        path: ["additionalInsured"],
-        message: "Ajoutez au moins une personne, ou répondez « Non ».",
-      })
+      if (!values.insureHolder && insuredCount === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["insureHolder"],
+          message: "Il faut au moins une personne assurée.",
+        })
+      }
+    },
+    {
+      when: whenFieldsValid(
+        "insureHolder",
+        "hasAdditionalInsured",
+        "additionalInsured"
+      ),
     }
-
-    if (!values.insureHolder && insuredCount === 0) {
-      ctx.issues.push({
-        code: "custom",
-        input: values,
-        path: ["insureHolder"],
-        message: "Il faut au moins une personne assurée.",
-      })
-    }
-  })
+  )
 
 export type AssistanceVoyageValues = z.infer<typeof assistanceVoyageSchema>
 

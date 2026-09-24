@@ -113,7 +113,7 @@ export default function ContactForm() {
         </Field>
 
         <Field data-invalid={!!errors.phone}>
-          <FieldLabel htmlFor="phone">Téléphone (facultatif)</FieldLabel>
+          <FieldLabel htmlFor="phone">Téléphone</FieldLabel>
           <FieldContent>
             <Input
               id="phone"
