@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { belgianPhone, birthDate } from "@/lib/validation"
+import { belgianPhone, birthDate, parseEuroAmount } from "@/lib/validation"
 
 export const genders = ["M", "F"] as const
 export type Gender = (typeof genders)[number]
@@ -28,7 +28,8 @@ export const personSchema = z.object({
 
 export type Person = z.infer<typeof personSchema>
 
-export const holderSchema = personSchema.extend({
+/** Champs d'une adresse belge, lus par `AddressFields`. */
+export const addressFields = {
   street: z
     .string()
     .trim()
@@ -50,7 +51,13 @@ export const holderSchema = personSchema.extend({
     .trim()
     .min(2, { error: "Veuillez indiquer la localité." })
     .max(80, { error: "Le nom de localité est trop long." }),
-})
+}
+
+export const addressSchema = z.object(addressFields)
+
+export type Address = z.infer<typeof addressSchema>
+
+export const holderSchema = personSchema.extend(addressFields)
 
 export const insuredFields = {
   insureHolder: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
@@ -149,12 +156,16 @@ export const insuredDefaultValues: InsuredValues = {
   additionalInsured: [],
 }
 
-export const holderDefaultValues: SharedQuoteValues["holder"] = {
-  ...emptyPerson,
+export const emptyAddress: Address = {
   street: "",
   streetNumber: "",
   postalCode: "",
   city: "",
+}
+
+export const holderDefaultValues: SharedQuoteValues["holder"] = {
+  ...emptyPerson,
+  ...emptyAddress,
 }
 
 export const contactDefaultValues: Pick<
@@ -166,4 +177,146 @@ export const contactDefaultValues: Pick<
   message: "",
   consent: false,
   honeypot: "",
+}
+
+/*
+ * Reprise d'un contrat existant : compagnie actuelle et dernière prime,
+ * demandées dès que le prospect est déjà assuré ailleurs.
+ */
+
+export const takeoverFields = {
+  isTakeover: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
+  currentInsurer: z
+    .string()
+    .trim()
+    .max(80, { error: "Le nom de la compagnie est trop long." })
+    .optional(),
+  lastAnnualPremium: z.string().trim().optional(),
+}
+
+type TakeoverValues = {
+  isTakeover: boolean
+  currentInsurer?: string
+  lastAnnualPremium?: string
+}
+
+/** Champs lus par `refineTakeover`, à passer à `whenFieldsValid`. */
+export const takeoverRuleKeys = [
+  "isTakeover",
+  "currentInsurer",
+  "lastAnnualPremium",
+] as const
+
+/** En cas de reprise, compagnie et prime deviennent obligatoires. */
+export function refineTakeover<T extends TakeoverValues>(
+  values: T,
+  ctx: z.core.$RefinementCtx<T>,
+) {
+  if (!values.isTakeover) {
+    return
+  }
+
+  if (!values.currentInsurer) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["currentInsurer"],
+      message: "Veuillez indiquer votre compagnie actuelle.",
+    })
+  }
+
+  if (
+    !values.lastAnnualPremium ||
+    parseEuroAmount(values.lastAnnualPremium) === null
+  ) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["lastAnnualPremium"],
+      message: "Veuillez indiquer votre dernière prime annuelle.",
+    })
+  }
+}
+
+export const takeoverDefaultValues: TakeoverValues = {
+  isTakeover: null as unknown as boolean,
+  currentInsurer: "",
+  lastAnnualPremium: "",
+}
+
+/*
+ * Historique de sinistres. Chaque produit fournit ses propres types de
+ * sinistre ; l'année et les règles de liste sont communes.
+ */
+
+export const MAX_CLAIMS = 10
+
+/** Profondeur de l'historique de sinistres demandé par les assureurs. */
+export const CLAIMS_HISTORY_YEARS = 5
+
+/**
+ * Année d'un sinistre, parmi les dernières années. Saisie en texte : un champ
+ * vide ne devient pas `NaN`. L'année courante est lue à la validation, pas au
+ * chargement.
+ */
+export function claimYear() {
+  return z
+    .string()
+    .trim()
+    .refine(
+      (value) => {
+        if (!/^\d{4}$/.test(value)) {
+          return false
+        }
+        const year = Number(value)
+        const currentYear = new Date().getUTCFullYear()
+        return year >= currentYear - CLAIMS_HISTORY_YEARS && year <= currentYear
+      },
+      {
+        error: `Indiquez une année parmi les ${CLAIMS_HISTORY_YEARS} dernières.`,
+      },
+    )
+}
+
+export function createClaimSchema<
+  const Types extends readonly [string, ...string[]],
+>(types: Types) {
+  return z.object({
+    year: claimYear(),
+    type: z.enum(types, { error: "Veuillez choisir un type de sinistre." }),
+  })
+}
+
+/** Champs `hasClaims` et `claims`, pour les types de sinistre du produit. */
+export function claimsFields<
+  const Types extends readonly [string, ...string[]],
+>(types: Types) {
+  return {
+    hasClaims: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
+    claims: z.array(createClaimSchema(types)).max(MAX_CLAIMS, {
+      error: `Vous pouvez déclarer ${MAX_CLAIMS} sinistres au maximum.`,
+    }),
+  }
+}
+
+type ClaimsValues = { hasClaims: boolean; claims: readonly unknown[] }
+
+/** Champs lus par `refineClaims`, à passer à `whenFieldsValid`. */
+export const claimsRuleKeys = ["hasClaims", "claims"] as const
+
+/** Un historique annoncé doit compter au moins un sinistre. */
+export function refineClaims<T extends ClaimsValues>(
+  values: T,
+  ctx: z.core.$RefinementCtx<T>,
+) {
+  if (values.hasClaims && values.claims.length === 0) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["claims"],
+      message: "Ajoutez au moins un sinistre, ou répondez « Non ».",
+    })
+  }
+}
+
+export const claimsDefaultValues = {
+  hasClaims: null as unknown as boolean,
+  claims: [],
 }

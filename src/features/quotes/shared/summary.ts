@@ -1,6 +1,12 @@
 import type { SummaryRow, SummarySection } from "@/features/quotes/core/types"
+import { formatEuroAmount } from "@/lib/validation"
 
-import { genderLabels, type SharedQuoteValues } from "./schema"
+import {
+  CLAIMS_HISTORY_YEARS,
+  genderLabels,
+  type Address,
+  type SharedQuoteValues,
+} from "./schema"
 
 /**
  * Sections de récapitulatif communes à tous les devis. Chaque produit les
@@ -29,11 +35,6 @@ export function holderSection(
     ],
   }
 }
-
-type Address = Pick<
-  SharedQuoteValues["holder"],
-  "street" | "streetNumber" | "postalCode" | "city"
->
 
 export function addressRows(address: Address): SummaryRow[] {
   return [
@@ -75,4 +76,41 @@ export function contactSection(
       ...(values.message ? [{ label: "Message", value: values.message }] : []),
     ],
   }
+}
+
+export function takeoverRows(values: {
+  isTakeover: boolean
+  currentInsurer?: string
+  lastAnnualPremium?: string
+}): SummaryRow[] {
+  return [
+    { label: "Reprise d'un contrat existant", value: yesNo(values.isTakeover) },
+    ...(values.isTakeover
+      ? [
+          { label: "Compagnie actuelle", value: values.currentInsurer ?? "" },
+          {
+            label: "Dernière prime annuelle",
+            value: formatEuroAmount(values.lastAnnualPremium ?? ""),
+          },
+        ]
+      : []),
+  ]
+}
+
+export function claimsRows<Type extends string>(
+  values: { hasClaims: boolean; claims: { year: string; type: Type }[] },
+  typeLabels: Record<Type, string>
+): SummaryRow[] {
+  return [
+    {
+      label: `Sinistres ces ${CLAIMS_HISTORY_YEARS} dernières années`,
+      value: yesNo(values.hasClaims),
+    },
+    ...(values.hasClaims
+      ? values.claims.map((claim, index) => ({
+          label: `Sinistre ${index + 1}`,
+          value: `${claim.year} — ${typeLabels[claim.type]}`,
+        }))
+      : []),
+  ]
 }

@@ -1,25 +1,23 @@
 import { z } from "zod"
 
 import {
+  claimsDefaultValues,
+  claimsFields,
+  claimsRuleKeys,
   contactDefaultValues,
   contactFields,
   holderDefaultValues,
   holderSchema,
+  refineClaims,
+  refineTakeover,
+  takeoverDefaultValues,
+  takeoverFields,
+  takeoverRuleKeys,
 } from "@/features/quotes/shared/schema"
-import {
-  euroAmount,
-  parseEuroAmount,
-  pastDate,
-  whenFieldsValid,
-} from "@/lib/validation"
+import { euroAmount, pastDate, whenFieldsValid } from "@/lib/validation"
 
 export const MIN_POWER_KW = 1
 export const MAX_POWER_KW = 1000
-
-export const MAX_CLAIMS = 10
-
-/** Profondeur de l'historique de sinistres demandé par les assureurs. */
-export const CLAIMS_HISTORY_YEARS = 5
 
 export const vehicleTypes = ["car", "motorbike"] as const
 export type VehicleType = (typeof vehicleTypes)[number]
@@ -86,29 +84,6 @@ export const claimTypeLabels: Record<ClaimType, string> = {
   other: "Autre",
 }
 
-const claimSchema = z.object({
-  // Saisie en texte, comme l'âge de la pension : un champ vide ne devient
-  // pas `NaN`. L'année courante est lue à la validation, pas au chargement.
-  year: z
-    .string()
-    .trim()
-    .refine(
-      (value) => {
-        if (!/^\d{4}$/.test(value)) {
-          return false
-        }
-        const year = Number(value)
-        const currentYear = new Date().getUTCFullYear()
-        return year >= currentYear - CLAIMS_HISTORY_YEARS && year <= currentYear
-      },
-      {
-        error: `Indiquez une année parmi les ${CLAIMS_HISTORY_YEARS} dernières.`,
-      },
-    ),
-  type: z.enum(claimTypes, { error: "Veuillez choisir un type de sinistre." }),
-})
-
-export type Claim = z.infer<typeof claimSchema>
 
 const mainDriverSchema = holderSchema.extend({
   relationship: z.enum(relationships, {
@@ -165,13 +140,7 @@ export const autoMotoSchema = z
     driverInsurance: z.boolean({
       error: "Veuillez répondre « Oui » ou « Non ».",
     }),
-    isTakeover: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
-    currentInsurer: z
-      .string()
-      .trim()
-      .max(80, { error: "Le nom de la compagnie est trop long." })
-      .optional(),
-    lastAnnualPremium: z.string().trim().optional(),
+    ...takeoverFields,
 
     // Étape 3 — le conducteur principal, `null` quand c'est le preneur
     holderIsMainDriver: z.boolean({
@@ -179,10 +148,7 @@ export const autoMotoSchema = z
     }),
     mainDriver: mainDriverSchema.nullable(),
     licenceDate: pastDate("Date d’obtention du permis invalide (JJ/MM/AAAA)."),
-    hasClaims: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
-    claims: z.array(claimSchema).max(MAX_CLAIMS, {
-      error: `Vous pouvez déclarer ${MAX_CLAIMS} sinistres au maximum.`,
-    }),
+    ...claimsFields(claimTypes),
 
     // Étapes 4 et 5 — preneur et coordonnées, communs aux devis
     holder: holderSchema,
@@ -191,39 +157,9 @@ export const autoMotoSchema = z
   // Règles croisées, une par préoccupation, gardées par `whenFieldsValid`
   // comme pour les autres devis : chacune se déclenche dès la validation de
   // son étape.
-  .superRefine(
-    (values, ctx) => {
-      if (!values.isTakeover) {
-        return
-      }
-
-      if (!values.currentInsurer) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["currentInsurer"],
-          message: "Veuillez indiquer votre compagnie actuelle.",
-        })
-      }
-
-      if (
-        !values.lastAnnualPremium ||
-        parseEuroAmount(values.lastAnnualPremium) === null
-      ) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["lastAnnualPremium"],
-          message: "Veuillez indiquer votre dernière prime annuelle.",
-        })
-      }
-    },
-    {
-      when: whenFieldsValid(
-        "isTakeover",
-        "currentInsurer",
-        "lastAnnualPremium",
-      ),
-    },
-  )
+  .superRefine(refineTakeover, {
+    when: whenFieldsValid(...takeoverRuleKeys),
+  })
   .superRefine(
     (values, ctx) => {
       // Répondre « Non » ouvre une fiche vide : ce cas ne se présente donc
@@ -238,27 +174,11 @@ export const autoMotoSchema = z
     },
     { when: whenFieldsValid("holderIsMainDriver", "mainDriver") },
   )
-  .superRefine(
-    (values, ctx) => {
-      if (values.hasClaims && values.claims.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["claims"],
-          message: "Ajoutez au moins un sinistre, ou répondez « Non ».",
-        })
-      }
-    },
-    { when: whenFieldsValid("hasClaims", "claims") },
-  )
+  .superRefine(refineClaims, { when: whenFieldsValid(...claimsRuleKeys) })
 
 export type AutoMotoValues = z.infer<typeof autoMotoSchema>
 
 // Aucune réponse présélectionnée, comme pour les autres devis.
-export const emptyClaim: Claim = {
-  year: "",
-  type: "" as ClaimType,
-}
-
 export const emptyMainDriver: MainDriver = {
   ...holderDefaultValues,
   relationship: "" as Relationship,
@@ -275,14 +195,11 @@ export const autoMotoDefaultValues: AutoMotoValues = {
   formula: "" as Formula,
   legalProtection: "" as LegalProtection,
   driverInsurance: null as unknown as boolean,
-  isTakeover: null as unknown as boolean,
-  currentInsurer: "",
-  lastAnnualPremium: "",
+  ...takeoverDefaultValues,
   holderIsMainDriver: null as unknown as boolean,
   mainDriver: null,
   licenceDate: "",
-  hasClaims: null as unknown as boolean,
-  claims: [],
+  ...claimsDefaultValues,
   holder: holderDefaultValues,
   ...contactDefaultValues,
 }

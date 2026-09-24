@@ -2,14 +2,15 @@ import type { SummaryRow, SummarySection } from "@/features/quotes/core/types"
 import { genderLabels } from "@/features/quotes/shared/schema"
 import {
   addressRows,
+  claimsRows,
   contactSection,
   holderSection,
+  takeoverRows,
   yesNo,
 } from "@/features/quotes/shared/summary"
 import { formatEuroAmount } from "@/lib/validation"
 
 import {
-  CLAIMS_HISTORY_YEARS,
   claimTypeLabels,
   formulaLabels,
   fuelTypeLabels,
@@ -58,16 +59,7 @@ export function autoMotoSummary(values: AutoMotoValues): SummarySection[] {
           ? mainDriverRows(values.mainDriver)
           : []),
         { label: "Date d'obtention du permis", value: values.licenceDate },
-        {
-          label: `Sinistres ces ${CLAIMS_HISTORY_YEARS} dernières années`,
-          value: yesNo(values.hasClaims),
-        },
-        ...(values.hasClaims
-          ? values.claims.map((claim, index) => ({
-              label: `Sinistre ${index + 1}`,
-              value: `${claim.year} — ${claimTypeLabels[claim.type]}`,
-            }))
-          : []),
+        ...claimsRows(values, claimTypeLabels),
       ],
     },
     {
@@ -98,19 +90,7 @@ export function autoMotoSummary(values: AutoMotoValues): SummarySection[] {
           value: legalProtectionLabels[values.legalProtection],
         },
         { label: "Assurance conducteur", value: yesNo(values.driverInsurance) },
-        {
-          label: "Reprise d'un contrat existant",
-          value: yesNo(values.isTakeover),
-        },
-        ...(values.isTakeover
-          ? [
-              { label: "Compagnie actuelle", value: values.currentInsurer ?? "" },
-              {
-                label: "Dernière prime annuelle",
-                value: formatEuroAmount(values.lastAnnualPremium ?? ""),
-              },
-            ]
-          : []),
+        ...takeoverRows(values),
       ],
     },
     contactSection(values),

@@ -1,7 +1,6 @@
 "use client"
 
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form"
-import { Plus, Trash2 } from "lucide-react"
+import { useFormContext, useWatch } from "react-hook-form"
 
 import { AddressFields } from "@/components/quotes/fields/AddressFields"
 import { BooleanField } from "@/components/quotes/fields/BooleanField"
@@ -10,19 +9,18 @@ import { OptionCardGroup } from "@/components/quotes/fields/OptionCardGroup"
 import { PersonFields } from "@/components/quotes/fields/PersonFields"
 import { SelectField } from "@/components/quotes/fields/SelectField"
 import { TextField } from "@/components/quotes/fields/TextField"
-import { getFieldError } from "@/components/quotes/fields/field-utils"
-import { Button } from "@/components/ui/button"
-import { FieldError, FieldLegend, FieldSet } from "@/components/ui/field"
+import { FieldLegend, FieldSet } from "@/components/ui/field"
 import type { QuoteStep } from "@/features/quotes/core/types"
-import { ContactStep, HolderStep } from "@/features/quotes/shared/steps"
-import { useListFocus } from "@/features/quotes/shared/use-list-focus"
+import {
+  ClaimsFields,
+  ContactStep,
+  HolderStep,
+  TakeoverFields,
+} from "@/features/quotes/shared/steps"
 
 import {
-  CLAIMS_HISTORY_YEARS,
-  MAX_CLAIMS,
   claimTypeLabels,
   claimTypes,
-  emptyClaim,
   emptyMainDriver,
   formulaLabels,
   formulas,
@@ -99,9 +97,6 @@ function VehicleStep() {
 }
 
 function CoverageStep() {
-  const { control, setValue } = useFormContext<AutoMotoValues>()
-  const isTakeover = useWatch({ control, name: "isTakeover" })
-
   return (
     <div className="flex flex-col gap-8">
       <OptionCardGroup
@@ -131,56 +126,14 @@ function CoverageStep() {
         description="Couvre les blessures du conducteur en tort, que ni la RC ni l’omnium ne prennent en charge."
       />
 
-      <BooleanField
-        name="isTakeover"
-        label="S’agit-il de la reprise d’un contrat existant ?"
-        onChanged={(value) => {
-          if (!value) {
-            setValue("currentInsurer", "")
-            setValue("lastAnnualPremium", "")
-          }
-        }}
-      />
-
-      {isTakeover ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <TextField name="currentInsurer" label="Compagnie actuelle" />
-          <TextField
-            name="lastAnnualPremium"
-            label="Dernière prime annuelle (€)"
-            placeholder="650"
-            inputMode="numeric"
-          />
-        </div>
-      ) : null}
+      <TakeoverFields label="S’agit-il de la reprise d’un contrat existant ?" />
     </div>
   )
 }
 
 function DriverStep() {
-  const {
-    control,
-    setValue,
-    formState: { errors },
-  } = useFormContext<AutoMotoValues>()
-  const { fields, append, remove } = useFieldArray({ control, name: "claims" })
+  const { control, setValue } = useFormContext<AutoMotoValues>()
   const holderIsMainDriver = useWatch({ control, name: "holderIsMainDriver" })
-  const hasClaims = useWatch({ control, name: "hasClaims" })
-  const listError = getFieldError(errors, "claims")
-  const canAddClaim = fields.length < MAX_CLAIMS
-
-  const { cardRefs, addButtonRef, focusCardNext, focusAddButtonNext } =
-    useListFocus(fields)
-
-  function handleAppend() {
-    focusCardNext(fields.length)
-    append(emptyClaim)
-  }
-
-  function handleRemove(index: number) {
-    focusAddButtonNext()
-    remove(index)
-  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -216,74 +169,11 @@ function DriverStep() {
         description="Celle du conducteur principal."
       />
 
-      <BooleanField
-        name="hasClaims"
-        label={`Des sinistres ces ${CLAIMS_HISTORY_YEARS} dernières années ?`}
+      <ClaimsFields
+        claimTypes={claimTypes}
+        claimTypeLabels={claimTypeLabels}
         description="Tous les sinistres du conducteur principal, en tort ou non."
-        onChanged={(value) => {
-          setValue("claims", value ? [emptyClaim] : [])
-        }}
       />
-
-      {hasClaims ? (
-        <div className="flex flex-col gap-6">
-          {fields.map((field, index) => (
-            <FieldSet
-              key={field.id}
-              ref={(el) => {
-                cardRefs.current[index] = el
-              }}
-              className="rounded-xl border border-border p-5"
-            >
-              <div className="flex items-baseline justify-between gap-4">
-                <FieldLegend className="mb-0">Sinistre {index + 1}</FieldLegend>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  aria-label={`Retirer le sinistre ${index + 1}`}
-                  onClick={() => handleRemove(index)}
-                >
-                  <Trash2 className="size-4" />
-                  Retirer
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_2fr]">
-                <TextField
-                  name={`claims.${index}.year`}
-                  label="Année"
-                  placeholder={String(new Date().getFullYear())}
-                  inputMode="numeric"
-                />
-                <SelectField
-                  name={`claims.${index}.type`}
-                  label="Type de sinistre"
-                  placeholder="Sélectionnez un type"
-                  options={claimTypes.map((value) => ({
-                    value,
-                    label: claimTypeLabels[value],
-                  }))}
-                />
-              </div>
-            </FieldSet>
-          ))}
-
-          <div>
-            {canAddClaim ? (
-              <Button
-                type="button"
-                variant="outline"
-                ref={addButtonRef}
-                onClick={handleAppend}
-              >
-                <Plus className="size-4" />
-                Ajouter un sinistre
-              </Button>
-            ) : null}
-            <FieldError errors={[listError]} className="mt-2" />
-          </div>
-        </div>
-      ) : null}
     </div>
   )
 }
