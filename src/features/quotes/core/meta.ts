@@ -22,6 +22,20 @@ export const quoteFormsMeta = {
       alt: "Avion de ligne au-dessus des nuages",
     },
   },
+  "sante-hospitalisation": {
+    slug: "sante-hospitalisation",
+    eyebrow: "Santé & hospitalisation",
+    title: "Votre santé, sans mauvaise surprise.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les couvertures hospitalisation, soins courants et dentaires de nos partenaires, sans engagement.",
+    metaTitle: "Devis assurance santé et hospitalisation — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'assurance santé : hospitalisation, frais médicaux courants et soins dentaires, pour vous et vos proches.",
+    image: {
+      src: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1200&q=80&fm=jpg",
+      alt: "Médecin souriante échangeant avec une patiente en consultation",
+    },
+  },
 } as const satisfies Record<string, QuoteFormMeta>
 
 export type QuoteSlug = keyof typeof quoteFormsMeta

@@ -48,7 +48,10 @@ export function OptionCardGroup({
           render={({ field }) => (
             <RadioGroup
               value={field.value ?? ""}
-              onValueChange={field.onChange}
+              onValueChange={(value) => {
+                field.onChange(value)
+                field.onBlur()
+              }}
               aria-label={label}
               aria-invalid={!!error}
               className={cn(

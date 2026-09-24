@@ -1,20 +1,21 @@
 import { z } from "zod"
 
 import {
-  belgianPhone,
-  birthDate,
+  contactDefaultValues,
+  contactFields,
+  holderDefaultValues,
+  holderSchema,
+  insuredDefaultValues,
+  insuredFields,
+  insuredRuleKeys,
+  refineInsured,
+} from "@/features/quotes/shared/schema"
+import {
   euroAmount,
   parseFrenchDate,
   todayUtc,
   whenFieldsValid,
 } from "@/lib/validation"
-
-export const genders = ["M", "F"] as const
-export type Gender = (typeof genders)[number]
-export const genderLabels: Record<Gender, string> = {
-  M: "Masculin",
-  F: "Féminin",
-}
 
 export const destinations = [
   "europe",
@@ -35,23 +36,6 @@ export const coverageDurationLabels: Record<CoverageDuration, string> = {
   period: "Une période déterminée",
 }
 
-export const MAX_ADDITIONAL_INSURED = 4
-
-const personSchema = z.object({
-  firstName: z
-    .string()
-    .trim()
-    .min(2, { error: "Le prénom doit contenir au moins 2 caractères." })
-    .max(50, { error: "Le prénom est trop long." }),
-  lastName: z
-    .string()
-    .trim()
-    .min(2, { error: "Le nom doit contenir au moins 2 caractères." })
-    .max(50, { error: "Le nom est trop long." }),
-  birthDate: birthDate(),
-  gender: z.enum(genders, { error: "Veuillez sélectionner un genre." }),
-})
-
 export const assistanceVoyageSchema = z
   .object({
     // Étape 1 — le voyage
@@ -69,64 +53,10 @@ export const assistanceVoyageSchema = z
     }),
     vehicleFirstRegistration: z.string().trim().optional(),
 
-    // Étape 2 — les assurés
-    insureHolder: z.boolean({ error: "Veuillez répondre « Oui » ou « Non »." }),
-    hasAdditionalInsured: z.boolean({
-      error: "Veuillez répondre « Oui » ou « Non ».",
-    }),
-    additionalInsured: z.array(personSchema).max(MAX_ADDITIONAL_INSURED, {
-      error: `Vous pouvez assurer ${MAX_ADDITIONAL_INSURED} personnes supplémentaires au maximum.`,
-    }),
-
-    // Étape 3 — le preneur
-    holder: personSchema.extend({
-      street: z
-        .string()
-        .trim()
-        .min(2, { error: "Veuillez indiquer la rue." })
-        .max(100, { error: "Le nom de rue est trop long." }),
-      streetNumber: z
-        .string()
-        .trim()
-        .min(1, { error: "Veuillez indiquer le numéro." })
-        .max(20, { error: "Le numéro est trop long." }),
-      postalCode: z
-        .string()
-        .trim()
-        .regex(/^\d{4}$/, {
-          error: "Code postal belge invalide (4 chiffres).",
-        }),
-      city: z
-        .string()
-        .trim()
-        .min(2, { error: "Veuillez indiquer la localité." })
-        .max(80, { error: "Le nom de localité est trop long." }),
-    }),
-
-    // Étape 4 — les coordonnées
-    email: z.email({ error: "Adresse e-mail invalide." }),
-    phone: z
-      .union([
-        z.literal(""),
-        z
-          .string()
-          .trim()
-          .regex(belgianPhone, { error: "Numéro de téléphone invalide." }),
-      ])
-      .optional(),
-    message: z
-      .string()
-      .trim()
-      .max(1000, {
-        error: "Le message est trop long (1000 caractères maximum).",
-      })
-      .optional(),
-    // `z.boolean().refine(...)` plutôt que `z.literal(true)` : le type reste
-    // `boolean`, ce qui permet une valeur par défaut `false` côté formulaire.
-    consent: z.boolean().refine((value) => value, {
-      error: "Veuillez accepter le traitement de vos données.",
-    }),
-    honeypot: z.string().optional(),
+    // Étapes 2 à 4 — assurés, preneur et coordonnées, communs aux devis
+    ...insuredFields,
+    holder: holderSchema,
+    ...contactFields,
   })
   // Règles croisées, une par préoccupation. Chacune est gardée par
   // `whenFieldsValid` sur les seuls champs qu'elle lit : elle se déclenche
@@ -200,36 +130,7 @@ export const assistanceVoyageSchema = z
     },
     { when: whenFieldsValid("insureVehicle", "vehicleFirstRegistration") },
   )
-  .superRefine(
-    (values, ctx) => {
-      // Une carte d'assuré invalide saute cette règle : sans conséquence,
-      // le nombre d'assurés est alors d'au moins un.
-      const insuredCount = values.additionalInsured.length
-
-      if (values.hasAdditionalInsured && insuredCount === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["additionalInsured"],
-          message: "Ajoutez au moins une personne, ou répondez « Non ».",
-        })
-      }
-
-      if (!values.insureHolder && insuredCount === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["insureHolder"],
-          message: "Il faut au moins une personne assurée.",
-        })
-      }
-    },
-    {
-      when: whenFieldsValid(
-        "insureHolder",
-        "hasAdditionalInsured",
-        "additionalInsured",
-      ),
-    },
-  )
+  .superRefine(refineInsured, { when: whenFieldsValid(...insuredRuleKeys) })
 
 export type AssistanceVoyageValues = z.infer<typeof assistanceVoyageSchema>
 
@@ -241,22 +142,7 @@ export const assistanceVoyageDefaultValues: AssistanceVoyageValues = {
   tripValue: "",
   insureVehicle: null as unknown as boolean,
   vehicleFirstRegistration: "",
-  insureHolder: null as unknown as boolean,
-  hasAdditionalInsured: null as unknown as boolean,
-  additionalInsured: [],
-  holder: {
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    gender: "" as Gender,
-    street: "",
-    streetNumber: "",
-    postalCode: "",
-    city: "",
-  },
-  email: "",
-  phone: "",
-  message: "",
-  consent: false,
-  honeypot: "",
+  ...insuredDefaultValues,
+  holder: holderDefaultValues,
+  ...contactDefaultValues,
 }

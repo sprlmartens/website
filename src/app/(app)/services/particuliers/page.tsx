@@ -18,7 +18,15 @@ const coverages = [
   { icon: Car, name: "Auto / moto", note: "assurer vos véhicules" },
   { icon: House, name: "Habitation", note: "incendie, vol, dégâts des eaux" },
   { icon: Users, name: "Famille", note: "responsabilité civile vie privée" },
-  { icon: HeartPulse, name: "Santé", note: "hospitalisation et soins" },
+  {
+    icon: HeartPulse,
+    name: "Santé",
+    note: "hospitalisation et soins",
+    quote: {
+      href: "/devis/sante-hospitalisation",
+      label: "Demander un devis",
+    },
+  },
   {
     icon: LifeBuoy,
     name: "Assistance",

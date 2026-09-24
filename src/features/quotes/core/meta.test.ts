@@ -29,6 +29,9 @@ describe("isQuoteSlug", () => {
 describe("quoteFormSlugs", () => {
   it("contient exactement les vrais slugs", () => {
     expect(quoteFormSlugs).toEqual(Object.keys(quoteFormsMeta))
-    expect(quoteFormSlugs).toEqual(["assistance-voyage"])
+    expect(quoteFormSlugs).toEqual([
+      "assistance-voyage",
+      "sante-hospitalisation",
+    ])
   })
 })

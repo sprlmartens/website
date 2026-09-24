@@ -76,7 +76,7 @@ export default function Header() {
           )}
         </nav>
 
-        <div className="flex items-center gap-6">
+        <div className="ml-auto flex items-center gap-6">
           <Button asChild>
             <Link href="/devis">Demander un devis</Link>
           </Button>

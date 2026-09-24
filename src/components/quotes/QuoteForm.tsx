@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState, useTransition } from "react"
+import { useCallback, useEffect, useRef, useState, useTransition } from "react"
 import {
   FormProvider,
   useForm,
@@ -144,12 +144,26 @@ export function QuoteForm<T extends FieldValues>({
     )
   }
 
+  // Le message de succès remplace un formulaire bien plus haut : sans ce
+  // recadrage, la page resterait défilée à hauteur de l'ancien bouton
+  // « Envoyer » et le visiteur ne verrait que le pied de page.
+  useEffect(() => {
+    if (!submittedEmail) {
+      return
+    }
+    containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    headingRef.current?.focus({ preventScroll: true })
+  }, [submittedEmail])
+
   if (submittedEmail) {
     return (
-      <QuoteSuccess
-        email={submittedEmail}
-        acknowledgementSent={acknowledgementSent}
-      />
+      <div ref={containerRef} className="scroll-mt-32 md:scroll-mt-36">
+        <QuoteSuccess
+          headingRef={headingRef}
+          email={submittedEmail}
+          acknowledgementSent={acknowledgementSent}
+        />
+      </div>
     )
   }
 

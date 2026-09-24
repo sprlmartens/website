@@ -1,3 +1,4 @@
+import type { Ref } from "react"
 import Link from "next/link"
 import { CheckIcon, PhoneCall } from "lucide-react"
 
@@ -6,9 +7,11 @@ import { Button } from "@/components/ui/button"
 export function QuoteSuccess({
   email,
   acknowledgementSent,
+  headingRef,
 }: {
   email: string
   acknowledgementSent: boolean
+  headingRef?: Ref<HTMLHeadingElement>
 }) {
   return (
     <div className="mx-auto max-w-xl text-center">
@@ -18,7 +21,11 @@ export function QuoteSuccess({
       >
         <CheckIcon className="size-6 text-primary" />
       </span>
-      <h2 className="mt-6 font-display text-3xl font-medium text-foreground">
+      <h2
+        ref={headingRef}
+        tabIndex={-1}
+        className="mt-6 font-display text-3xl font-medium text-foreground outline-none"
+      >
         Votre demande est bien partie.
       </h2>
       <p className="mt-4 text-base leading-relaxed text-muted-foreground">

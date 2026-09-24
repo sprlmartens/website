@@ -45,7 +45,9 @@ export function BooleanField({
     <Field data-invalid={!!error}>
       <FieldLabel>{label}</FieldLabel>
       <FieldContent>
-        {description ? <FieldDescription>{description}</FieldDescription> : null}
+        {description ? (
+          <FieldDescription>{description}</FieldDescription>
+        ) : null}
         <Controller
           control={control}
           name={name}
@@ -62,6 +64,7 @@ export function BooleanField({
                 const boolValue = value === "true"
                 field.onChange(boolValue)
                 onChanged?.(boolValue)
+                field.onBlur()
               }}
               aria-label={label}
               aria-invalid={!!error}

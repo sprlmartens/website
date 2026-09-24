@@ -3,7 +3,7 @@
 import {
   genderLabels,
   genders,
-} from "@/features/quotes/assistance-voyage/schema"
+} from "@/features/quotes/shared/schema"
 
 import { OptionCardGroup } from "./OptionCardGroup"
 

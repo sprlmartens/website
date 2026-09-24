@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
 
+import { MAX_ADDITIONAL_INSURED } from "@/features/quotes/shared/schema"
 import {
   assistanceVoyageDefaultValues,
   assistanceVoyageSchema,
@@ -126,7 +127,7 @@ describe("assistanceVoyageSchema", () => {
     expect(errorPaths(values)).toContain("additionalInsured")
   })
 
-  it("refuse plus de quatre assurés supplémentaires", () => {
+  it("refuse plus d'assurés supplémentaires que le plafond", () => {
     const person = {
       firstName: "Louis",
       lastName: "Dupont",
@@ -136,7 +137,7 @@ describe("assistanceVoyageSchema", () => {
     const values = {
       ...validValues(),
       hasAdditionalInsured: true,
-      additionalInsured: [person, person, person, person, person],
+      additionalInsured: Array(MAX_ADDITIONAL_INSURED + 1).fill(person),
     }
     expect(errorPaths(values)).toContain("additionalInsured")
   })
