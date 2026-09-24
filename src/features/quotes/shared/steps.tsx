@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, type ReactNode } from "react"
+import type { ReactNode } from "react"
 import {
   Controller,
   useFieldArray,
@@ -9,6 +9,7 @@ import {
 } from "react-hook-form"
 import { Plus, Trash2 } from "lucide-react"
 
+import { AddressFields } from "@/components/quotes/fields/AddressFields"
 import { BooleanField } from "@/components/quotes/fields/BooleanField"
 import { PersonFields } from "@/components/quotes/fields/PersonFields"
 import { TextField } from "@/components/quotes/fields/TextField"
@@ -30,8 +31,7 @@ import {
   emptyPerson,
   type SharedQuoteValues,
 } from "./schema"
-
-type PendingFocus = { kind: "card"; index: number } | { kind: "add" }
+import { useListFocus } from "./use-list-focus"
 
 export function InsuredStep({
   holderDescription,
@@ -54,33 +54,16 @@ export function InsuredStep({
   const listError = getFieldError(errors, "additionalInsured")
   const canAddPerson = fields.length < MAX_ADDITIONAL_INSURED
 
-  const cardRefs = useRef<Array<HTMLFieldSetElement | null>>([])
-  const addButtonRef = useRef<HTMLButtonElement>(null)
-  const pendingFocus = useRef<PendingFocus | null>(null)
-
-  useEffect(() => {
-    const target = pendingFocus.current
-    if (target === null) {
-      return
-    }
-    pendingFocus.current = null
-
-    if (target.kind === "card") {
-      cardRefs.current[target.index]
-        ?.querySelector<HTMLElement>("input")
-        ?.focus()
-    } else {
-      addButtonRef.current?.focus()
-    }
-  }, [fields])
+  const { cardRefs, addButtonRef, focusCardNext, focusAddButtonNext } =
+    useListFocus(fields)
 
   function handleAppend() {
-    pendingFocus.current = { kind: "card", index: fields.length }
+    focusCardNext(fields.length)
     append(emptyPerson)
   }
 
   function handleRemove(index: number) {
-    pendingFocus.current = { kind: "add" }
+    focusAddButtonNext()
     remove(index)
   }
 
@@ -168,31 +151,7 @@ export function HolderStep({ children }: { children?: ReactNode }) {
 
       <FieldSet>
         <FieldLegend>Adresse légale</FieldLegend>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1fr]">
-          <TextField
-            name="holder.street"
-            label="Rue"
-            autoComplete="address-line1"
-          />
-          <TextField
-            name="holder.streetNumber"
-            label="N° / Boîte"
-            autoComplete="address-line2"
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_2fr]">
-          <TextField
-            name="holder.postalCode"
-            label="Code postal"
-            inputMode="numeric"
-            autoComplete="postal-code"
-          />
-          <TextField
-            name="holder.city"
-            label="Localité"
-            autoComplete="address-level2"
-          />
-        </div>
+        <AddressFields prefix="holder" autoCompleteScope />
       </FieldSet>
     </div>
   )

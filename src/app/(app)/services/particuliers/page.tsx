@@ -15,7 +15,12 @@ import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbSchema } from "@/lib/structured-data"
 
 const coverages = [
-  { icon: Car, name: "Auto / moto", note: "assurer vos véhicules" },
+  {
+    icon: Car,
+    name: "Auto / moto",
+    note: "assurer vos véhicules",
+    quote: { href: "/devis/auto-moto", label: "Demander un devis" },
+  },
   { icon: House, name: "Habitation", note: "incendie, vol, dégâts des eaux" },
   { icon: Users, name: "Famille", note: "responsabilité civile vie privée" },
   {

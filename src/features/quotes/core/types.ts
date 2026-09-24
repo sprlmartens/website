@@ -38,10 +38,16 @@ export type QuoteFormDefinition<T extends FieldValues> = {
   recipientEmail: (values: T) => string
 }
 
+/** Rubrique de `/services` sous laquelle le produit est rangé sur le hub `/devis`. */
+export type QuoteCategory = "particuliers" | "professionnels" | "placements-epargne"
+
 /** Métadonnées sérialisables : traversent la frontière RSC sans encombre. */
 export type QuoteFormMeta = {
   slug: string
+  category: QuoteCategory
   eyebrow: string
+  /** Accroche courte affichée sur la carte du hub `/devis`. */
+  note: string
   title: string
   intro: string
   metaTitle: string

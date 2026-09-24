@@ -25,8 +25,7 @@ export const paymentFrequencyLabels: Record<PaymentFrequency, string> = {
 export const maritalStatuses = [
   "single",
   "married",
-  "legal-cohabitant",
-  "de-facto-cohabitant",
+  "cohabitant",
   "divorced",
   "separated",
   "widowed",
@@ -35,8 +34,7 @@ export type MaritalStatus = (typeof maritalStatuses)[number]
 export const maritalStatusLabels: Record<MaritalStatus, string> = {
   single: "Célibataire",
   married: "Marié(e)",
-  "legal-cohabitant": "Cohabitant(e) légal(e)",
-  "de-facto-cohabitant": "Cohabitant(e) de fait",
+  cohabitant: "Cohabitant(e)",
   divorced: "Divorcé(e)",
   separated: "Séparé(e)",
   widowed: "Veuf / Veuve",

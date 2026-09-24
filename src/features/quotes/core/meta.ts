@@ -8,9 +8,27 @@ import type { QuoteFormMeta } from "./types"
  * `generateStaticParams`, `generateMetadata` et le sitemap.
  */
 export const quoteFormsMeta = {
+  "auto-moto": {
+    slug: "auto-moto",
+    category: "particuliers",
+    eyebrow: "Auto / moto",
+    note: "RC, mini-omnium, omnium, protection juridique",
+    title: "Prenez la route l'esprit tranquille.",
+    intro:
+      "Quelques minutes suffisent. Nous comparons pour vous les formules auto et moto de nos partenaires, de la RC à l'omnium, sans engagement.",
+    metaTitle: "Devis assurance auto et moto — Martens Assurances",
+    metaDescription:
+      "Demandez gratuitement un devis d'assurance auto ou moto : RC, mini-omnium, omnium, protection juridique et assurance conducteur, comparés entre nos partenaires.",
+    image: {
+      src: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200&q=80&fm=jpg",
+      alt: "Conducteur au volant de sa voiture, en ville au crépuscule",
+    },
+  },
   "assistance-voyage": {
     slug: "assistance-voyage",
+    category: "particuliers",
     eyebrow: "Assistance voyage",
+    note: "Assistance médicale, rapatriement, véhicule",
     title: "Partez couvert, où que vous alliez.",
     intro:
       "Quelques minutes suffisent. Nous revenons vers vous avec une proposition adaptée à votre voyage, sans engagement.",
@@ -24,7 +42,9 @@ export const quoteFormsMeta = {
   },
   "sante-hospitalisation": {
     slug: "sante-hospitalisation",
+    category: "particuliers",
     eyebrow: "Santé & hospitalisation",
+    note: "Hospitalisation, soins courants et dentaires",
     title: "Votre santé, sans mauvaise surprise.",
     intro:
       "Quelques minutes suffisent. Nous comparons pour vous les couvertures hospitalisation, soins courants et dentaires de nos partenaires, sans engagement.",
@@ -38,7 +58,9 @@ export const quoteFormsMeta = {
   },
   "epargne-pension": {
     slug: "epargne-pension",
+    category: "placements-epargne",
     eyebrow: "Épargne-pension",
+    note: "Un capital pour votre retraite, avec avantage fiscal",
     title: "Préparez votre pension, à votre rythme.",
     intro:
       "Quelques minutes suffisent. Nous comparons pour vous les contrats d'épargne-pension de nos partenaires, avec leur avantage fiscal, sans engagement.",

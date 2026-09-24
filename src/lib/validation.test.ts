@@ -5,6 +5,7 @@ import {
   formatEuroAmount,
   parseEuroAmount,
   parseFrenchDate,
+  pastDate,
   whenFieldsValid,
 } from "@/lib/validation"
 
@@ -31,6 +32,28 @@ describe("parseFrenchDate", () => {
 
   it("accepte le 29 février d'une année bissextile", () => {
     expect(parseFrenchDate("29/02/2020")).not.toBeNull()
+  })
+})
+
+describe("pastDate", () => {
+  const schema = pastDate()
+
+  it("accepte une date passée", () => {
+    expect(schema.safeParse("15/03/2010").success).toBe(true)
+  })
+
+  it("refuse une date dans le futur", () => {
+    const nextYear = new Date().getUTCFullYear() + 1
+    expect(schema.safeParse(`01/01/${nextYear}`).success).toBe(false)
+  })
+
+  it("refuse une date plus ancienne que 120 ans", () => {
+    expect(schema.safeParse("01/01/1850").success).toBe(false)
+  })
+
+  it("refuse un format incorrect", () => {
+    expect(schema.safeParse("2010-03-15").success).toBe(false)
+    expect(schema.safeParse("").success).toBe(false)
   })
 })
 

@@ -4,6 +4,7 @@ import { useFormContext, useWatch } from "react-hook-form"
 
 import { BooleanField } from "@/components/quotes/fields/BooleanField"
 import { OptionCardGroup } from "@/components/quotes/fields/OptionCardGroup"
+import { SelectField } from "@/components/quotes/fields/SelectField"
 import { TextField } from "@/components/quotes/fields/TextField"
 import type { QuoteStep } from "@/features/quotes/core/types"
 import {
@@ -86,14 +87,14 @@ function SavingsStep() {
 function HolderStep() {
   return (
     <SharedHolderStep>
-      <OptionCardGroup
+      <SelectField
         name="holder.maritalStatus"
         label="État civil"
+        placeholder="Sélectionnez votre état civil"
         options={maritalStatuses.map((value) => ({
           value,
           label: maritalStatusLabels[value],
         }))}
-        columns={2}
       />
     </SharedHolderStep>
   )

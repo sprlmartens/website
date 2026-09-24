@@ -16,7 +16,7 @@ function validValues(): EpargnePensionValues {
       lastName: "Dupont",
       birthDate: "15/03/1985",
       gender: "F",
-      maritalStatus: "legal-cohabitant",
+      maritalStatus: "cohabitant",
       street: "Rue de la Station",
       streetNumber: "12A",
       postalCode: "4000",
@@ -49,7 +49,7 @@ describe("epargnePensionSummary", () => {
   it("place l'état civil après le genre, avant l'adresse", () => {
     const rows = flatten(validValues())
     const gender = rows.indexOf("Genre: Féminin")
-    const status = rows.indexOf("État civil: Cohabitant(e) légal(e)")
+    const status = rows.indexOf("État civil: Cohabitant(e)")
     const address = rows.indexOf("Adresse: Rue de la Station 12A")
     expect(gender).toBeGreaterThanOrEqual(0)
     expect(status).toBe(gender + 1)

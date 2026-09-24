@@ -5,7 +5,7 @@ export const belgianPhone = /^(\+32|0)[1-9](\s?\d){7,8}$/
 
 const FRENCH_DATE = /^(\d{2})\/(\d{2})\/(\d{4})$/
 
-/** Âge maximal admis pour une date de naissance. */
+/** Ancienneté maximale admise pour une date passée (naissance, permis…). */
 const MAX_AGE_YEARS = 120
 
 /**
@@ -60,10 +60,10 @@ export function frenchDate(error = "Date invalide (JJ/MM/AAAA).") {
 }
 
 /**
- * Date de naissance : format valide, dans le passé, et pas plus ancienne que
+ * Date passée : format valide, pas dans le futur, et pas plus ancienne que
  * 120 ans. Un seul `refine` pour n'afficher qu'un seul message.
  */
-export function birthDate(error = "Date de naissance invalide (JJ/MM/AAAA).") {
+export function pastDate(error = "Date invalide (JJ/MM/AAAA).") {
   return z
     .string()
     .trim()
@@ -85,6 +85,11 @@ export function birthDate(error = "Date de naissance invalide (JJ/MM/AAAA).") {
       },
       { error },
     )
+}
+
+/** Date de naissance : une date passée, avec son propre message. */
+export function birthDate(error = "Date de naissance invalide (JJ/MM/AAAA).") {
+  return pastDate(error)
 }
 
 /**

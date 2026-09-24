@@ -1,8 +1,5 @@
 # Formulaire pour auto / moto
 
-1 Adresse complète du conducteur principal
-2 Date de naissance
-
 - Date d’obtention du permis de conduire
 - Marque et modèle du véhicule
 - Puissance (kW)

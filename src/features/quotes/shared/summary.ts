@@ -25,16 +25,24 @@ export function holderSection(
       { label: "Date de naissance", value: values.holder.birthDate },
       { label: "Genre", value: genderLabels[values.holder.gender] },
       ...identityRows,
-      {
-        label: "Adresse",
-        value: `${values.holder.street} ${values.holder.streetNumber}`,
-      },
-      {
-        label: "Code postal et localité",
-        value: `${values.holder.postalCode} ${values.holder.city}`,
-      },
+      ...addressRows(values.holder),
     ],
   }
+}
+
+type Address = Pick<
+  SharedQuoteValues["holder"],
+  "street" | "streetNumber" | "postalCode" | "city"
+>
+
+export function addressRows(address: Address): SummaryRow[] {
+  return [
+    { label: "Adresse", value: `${address.street} ${address.streetNumber}` },
+    {
+      label: "Code postal et localité",
+      value: `${address.postalCode} ${address.city}`,
+    },
+  ]
 }
 
 export function insuredSection(values: SharedQuoteValues): SummarySection {

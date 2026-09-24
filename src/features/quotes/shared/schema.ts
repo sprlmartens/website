@@ -15,12 +15,12 @@ export const personSchema = z.object({
   firstName: z
     .string()
     .trim()
-    .min(1, { error: "Veuillez indiquer votre prénom." })
+    .min(1, { error: "Veuillez indiquer un prénom." })
     .max(50, { error: "Le prénom est trop long." }),
   lastName: z
     .string()
     .trim()
-    .min(1, { error: "Veuillez indiquer votre nom." })
+    .min(1, { error: "Veuillez indiquer un nom." })
     .max(50, { error: "Le nom est trop long." }),
   birthDate: birthDate(),
   gender: z.enum(genders, { error: "Veuillez sélectionner un genre." }),

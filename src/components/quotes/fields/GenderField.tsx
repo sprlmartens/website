@@ -5,7 +5,7 @@ import {
   genders,
 } from "@/features/quotes/shared/schema"
 
-import { OptionCardGroup } from "./OptionCardGroup"
+import { SelectField } from "./SelectField"
 
 const options = genders.map((gender) => ({
   value: gender,
@@ -14,6 +14,11 @@ const options = genders.map((gender) => ({
 
 export function GenderField({ name }: { name: string }) {
   return (
-    <OptionCardGroup name={name} label="Genre" options={options} columns={2} />
+    <SelectField
+      name={name}
+      label="Genre"
+      placeholder="Sélectionnez un genre"
+      options={options}
+    />
   )
 }

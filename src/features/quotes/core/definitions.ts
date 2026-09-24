@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { autoMotoDefinition } from "@/features/quotes/auto-moto/definition"
 import { assistanceVoyageDefinition } from "@/features/quotes/assistance-voyage/definition"
 import { epargnePensionDefinition } from "@/features/quotes/epargne-pension/definition"
 import { santeHospitalisationDefinition } from "@/features/quotes/sante-hospitalisation/definition"
@@ -13,6 +14,7 @@ import type { QuoteFormDefinition } from "./types"
  * l'action ne les manipule qu'après `safeParse`, donc de façon sûre.
  */
 export const quoteDefinitions: Record<QuoteSlug, QuoteFormDefinition<any>> = {
+  "auto-moto": autoMotoDefinition,
   "assistance-voyage": assistanceVoyageDefinition,
   "sante-hospitalisation": santeHospitalisationDefinition,
   "epargne-pension": epargnePensionDefinition,
