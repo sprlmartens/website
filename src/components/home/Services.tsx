@@ -1,3 +1,8 @@
+import Image from "next/image"
+
+const AXA_AUTO_URL =
+  "https://www.axa.be/fr/axa-digital-services?dsfns=customers.be.axa.retail.mobility.contract.new.auto&origin=axabe&utm_source=IBP&utm_medium=Banner&utm_content=eAuto&utm_campaign=eAuto&lang=FR&NEON=0876250191"
+
 function ServiceRow({
   name,
   note,
@@ -72,6 +77,24 @@ export default function Services() {
             />
             <ServiceRow name="Pension" note="préparer demain dès aujourd'hui" />
           </ul>
+        </div>
+
+        {/* Broker partner banner (728x90) */}
+        <div className="mt-16 flex flex-col items-center gap-2">
+          <a
+            href={AXA_AUTO_URL}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="block max-w-full"
+          >
+            <Image
+              src="/axa-auto-partner.jpg"
+              alt="AXA : souscrivez une assurance auto en ligne"
+              width={728}
+              height={90}
+              className="h-auto w-182 max-w-full"
+            />
+          </a>
         </div>
       </div>
 

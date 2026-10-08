@@ -16,7 +16,11 @@ export const postType = defineType({
       type: "slug",
       options: {
         source: "title",
+        maxLength: 96,
       },
+      // Sans slug, l'article est exclu de /blog et du sitemap
+      // (filtre `defined(slug.current)` dans les requêtes).
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "pinned",
@@ -61,6 +65,8 @@ export const postType = defineType({
     defineField({
       name: "publishedAt",
       type: "datetime",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "body",
