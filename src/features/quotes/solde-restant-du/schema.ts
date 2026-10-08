@@ -25,6 +25,13 @@ export const MAX_LOAN_DURATION = 40
 export const MIN_COVERAGE = 1
 export const MAX_COVERAGE = 100
 
+/** Une seule personne assurée : le crédit est couvert en totalité. */
+export const SOLE_INSURED_COVERAGE = 100
+
+/** Deux personnes assurées : bornes de la somme de leurs quotités. */
+export const MIN_TOTAL_COVERAGE = 100
+export const MAX_TOTAL_COVERAGE = 200
+
 export const HEALTH_NOTES_MAX = 1000
 
 /** Pourcentage entier saisi en texte : un champ vide ne devient pas `NaN`. */
@@ -111,6 +118,40 @@ export const soldeRestantDuSchema = z
       }
     },
     { when: whenFieldsValid("hasSecondInsured", "secondInsured") },
+  )
+  // Règle croisée sur les quotités : seule la réunion des deux la détermine.
+  .superRefine(
+    (values, ctx) => {
+      if (!values.hasSecondInsured) {
+        if (Number(values.holderCoverage) !== SOLE_INSURED_COVERAGE) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["holderCoverage"],
+            message: `Avec une seule personne assurée, la quotité est obligatoirement de ${SOLE_INSURED_COVERAGE} %.`,
+          })
+        }
+        return
+      }
+
+      if (!values.secondInsured) return
+
+      const total =
+        Number(values.holderCoverage) + Number(values.secondInsured.coverage)
+      if (total < MIN_TOTAL_COVERAGE || total > MAX_TOTAL_COVERAGE) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["secondInsured", "coverage"],
+          message: `La somme des deux quotités doit être comprise entre ${MIN_TOTAL_COVERAGE} et ${MAX_TOTAL_COVERAGE} % (actuellement ${total} %).`,
+        })
+      }
+    },
+    {
+      when: whenFieldsValid(
+        "hasSecondInsured",
+        "holderCoverage",
+        "secondInsured",
+      ),
+    },
   )
 
 export type SoldeRestantDuValues = z.infer<typeof soldeRestantDuSchema>

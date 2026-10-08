@@ -11,9 +11,24 @@ import { FieldLegend, FieldSet } from "@/components/ui/field"
 import type { QuoteStep } from "@/features/quotes/core/types"
 import { ContactStep, HolderStep } from "@/features/quotes/shared/steps"
 
-import { emptySecondInsured, type SoldeRestantDuValues } from "./schema"
+import {
+  emptySecondInsured,
+  MAX_COVERAGE,
+  MAX_TOTAL_COVERAGE,
+  MIN_COVERAGE,
+  MIN_TOTAL_COVERAGE,
+  SOLE_INSURED_COVERAGE,
+  type SoldeRestantDuValues,
+} from "./schema"
 
-const coverageDescription = "De 1 à 100 %."
+const holderCoverageDescription = (hasSecondInsured: boolean | undefined) =>
+  hasSecondInsured
+    ? `La somme des deux quotités doit être comprise entre ${MIN_TOTAL_COVERAGE} et ${MAX_TOTAL_COVERAGE} %.`
+    : hasSecondInsured === false
+      ? `${SOLE_INSURED_COVERAGE} % obligatoire pour une seule personne assurée.`
+      : `De ${MIN_COVERAGE} à ${MAX_COVERAGE} %.`
+
+const secondCoverageDescription = `La somme des deux quotités doit être comprise entre ${MIN_TOTAL_COVERAGE} et ${MAX_TOTAL_COVERAGE} %.`
 
 const healthNotesDescription =
   "Ces informations restent confidentielles et servent uniquement à établir votre proposition."
@@ -55,7 +70,7 @@ function InsuredStep() {
         <TextField
           name="holderCoverage"
           label="Part du crédit à assurer (%)"
-          description={coverageDescription}
+          description={holderCoverageDescription(hasSecondInsured)}
           placeholder="100"
           inputMode="numeric"
         />
@@ -74,6 +89,12 @@ function InsuredStep() {
           // Sans ce nettoyage, des réponses abandonnées partiraient dans
           // l'e-mail.
           setValue("secondInsured", value ? emptySecondInsured : undefined)
+          // Une seule personne assurée : la quotité est imposée.
+          if (!value) {
+            setValue("holderCoverage", String(SOLE_INSURED_COVERAGE), {
+              shouldValidate: true,
+            })
+          }
         }}
       />
 
@@ -84,8 +105,8 @@ function InsuredStep() {
           <TextField
             name="secondInsured.coverage"
             label="Part du crédit à assurer (%)"
-            description={coverageDescription}
-            placeholder="100"
+            description={secondCoverageDescription}
+            placeholder="50"
             inputMode="numeric"
           />
           <TextareaField

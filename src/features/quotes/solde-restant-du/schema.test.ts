@@ -155,6 +155,44 @@ describe("soldeRestantDuSchema", () => {
   })
 })
 
+describe("quotités des personnes assurées", () => {
+  it.each(["1", "50", "99"])(
+    "impose 100 % à une seule personne assurée (refuse %s %%)",
+    (holderCoverage) => {
+      const values = { ...validValues(), holderCoverage }
+      expect(errorPaths(values)).toEqual(["holderCoverage"])
+    }
+  )
+
+  it.each([
+    ["50", "50"],
+    ["100", "100"],
+    ["60", "40"],
+    ["100", "1"],
+  ])("accepte deux quotités de %s %% et %s %%", (holder, second) => {
+    const values = withSecondInsured()
+    values.holderCoverage = holder
+    values.secondInsured!.coverage = second
+    expect(soldeRestantDuSchema.safeParse(values).success).toBe(true)
+  })
+
+  it.each([
+    ["40", "50"],
+    ["1", "98"],
+  ])("refuse une somme inférieure à 100 % (%s + %s)", (holder, second) => {
+    const values = withSecondInsured()
+    values.holderCoverage = holder
+    values.secondInsured!.coverage = second
+    expect(errorPaths(values)).toEqual(["secondInsured.coverage"])
+  })
+
+  it("n'ajoute pas d'erreur de somme à une quotité illisible", () => {
+    const values = withSecondInsured()
+    values.secondInsured!.coverage = ""
+    expect(errorPaths(values)).toEqual(["secondInsured.coverage"])
+  })
+})
+
 describe("validation étape par étape", () => {
   it("ne présélectionne aucune réponse", () => {
     expect(errorPaths(soldeRestantDuDefaultValues)).toEqual(
